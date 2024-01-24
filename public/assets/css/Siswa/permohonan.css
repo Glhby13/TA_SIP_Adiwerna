@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+.nav-item .nav-link.active2 {
+    color: #FFA901;
+}
+
+.judul {
+    text-align: center;
+    font-family: Poppins;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    margin-top: 100px;
+}
+
+.teks {
+    font-size: 18px;
+    font-family: Poppins;
+    font-weight: 800;
+}
+
+.row.mb-4 {
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: Normal;
+}

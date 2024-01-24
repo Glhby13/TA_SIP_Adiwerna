@@ -1,0 +1,32 @@
+.logo-navbar {
+    margin-right: 10px;
+}
+
+.navbar-brand {
+    font-family: Poppins;
+}
+
+.nav-link {
+    font-family: Poppins;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.logo-home {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.judulfooter {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.maps-image-size {
+    max-width: 250px;
+    max-height: 200px;
+    border-radius: 10px;
+}

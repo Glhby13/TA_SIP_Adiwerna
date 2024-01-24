@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+.card-header {
+    background-color:#f8fafc;
+    
+}
+
+.text-lg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins; 
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.login-head-logo {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+}
+
+.btn-primary {
+    background-color: #2a356c !important;
+    border: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

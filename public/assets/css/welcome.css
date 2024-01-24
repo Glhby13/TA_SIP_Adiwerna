@@ -1,0 +1,274 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+.logo-navbar {
+    margin-right: 10px;
+}
+
+/* .isi {
+    width: 100%;
+} */
+
+.navbar-expand-lg {
+    background-color: #2a356c;
+}
+
+
+.navbar-brand {
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: white;
+    margin-left: 5px;
+}
+
+.logo {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.navbar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 24px;
+}
+
+.jumbotron {
+    /* margin-top: 75px; */
+    padding: 8px 64px;
+    font-family: Poppins;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    background-image: url("/assets/img/bgjumbotron.jpg");
+    background-color: grey;
+    background-blend-mode: multiply;
+    position: relative;
+    background-size: cover;
+    color: white;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.jumbotron .lead {
+    margin-top: 20px;
+    font-weight: light;
+    font-size: 15px;
+}
+
+.jumbotron .display-4 {
+    font-weight: 800;
+    font-size: 48px;
+    line-height: normal;
+}
+
+.jumbotron .btn-outline-light {
+    background-color: #2a356c;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: end;
+}
+
+.icon-class {
+    background-color: white;
+    padding: 4px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0020b8;
+    margin-bottom: 16px;
+    margin-left: 12px;
+}
+
+.judulcard {
+    text-align: center;
+    font-family: Poppins;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #2a356c;
+    margin-top: 24px;
+}
+
+.card {
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+}
+
+.footer {
+    background-color: #2a356c;
+    padding: 16px 42px;
+}
+
+.footer .list-unstyled {
+    color: white;
+}
+
+.cpr {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: #17223b;
+    margin-bottom: 0px;
+}
+
+.footer .logo {
+    justify-content: center;
+    align-items: center;
+    justify-content: start;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 36px;
+    height: 100%;
+}
+
+.contact {
+    color: #ffff;
+    font-family: Poppins;
+}
+
+.contact .judul {
+    font-weight: 700;
+    font-size: 24px;
+    font-style: normal;
+}
+
+.icon-contact {
+    font-size: 14px;
+    display: flex;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.icon-contact .contact-text {
+    display: flex;
+    margin-left: 12px;
+}
+
+.logo-image-size {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.judulfooter {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.maps-image-size {
+    max-width: 250px;
+    max-height: 200px;
+    border-radius: 10px;
+}
+
+.icon-size {
+    max-width: 20px;
+    max-height: 20px;
+}
+
+@media (max-width: 767px) {
+    .jumbotron {
+        padding: 40px 24px;
+        background-position-x: 60%;
+        height: min-content;
+    }
+
+    .navbar {
+        padding: 8px 8px;
+    }
+
+    .navbar-brand {
+        font-size: 10px;
+    }
+
+    .jumbotron .display-4 {
+        font-size: 40px;
+        margin-top: 24px;
+    }
+
+    .jumbotron .lead {
+        margin-top: 20px;
+        font-weight: light;
+        font-size: 16px;
+    }
+
+    .icon-class {
+        width: 40px;
+        height: 40px;
+    }
+
+    .judulcard {
+        font-size: 24px;
+    }
+
+    .card {
+        justify-content: center;
+        display: flex;
+    }
+
+    .footer .logo {
+        gap: 12px;
+    }
+
+    .logo-image-size {
+        max-width: 50px;
+        max-height: 50px;
+    }
+
+    .maps-image-size {
+        max-width: 100px;
+        max-height: 50px;
+    }
+
+    .contact .judul {
+        font-weight: 700;
+        font-size: 12px;
+        font-style: normal;
+        margin-bottom: 0px;
+    }
+
+    .icon-contact {
+        font-size: 14px;
+        display: flex;
+        margin-bottom: 6px;
+        align-items: center;
+    }
+
+    .icon-contact .contact-text {
+        display: flex;
+        margin-left: 12px;
+        font-size: 8px;
+    }
+
+    .icon-size {
+        max-width: 14px;
+        max-height: 14px;
+    }
+
+    .maps-image-size {
+        max-width: 90px;
+        max-height: 70px;
+    }
+}
+.nav-item-divider {
+    border-right: 1px solid #a3a3a3; /* Warna dan ketebalan garis dapat disesuaikan */
+    margin-right: 10px; /* Jarak antara garis dan elemen berikutnya */
+    padding-right: 10px; /* Jarak antara garis dan teks */
+}
