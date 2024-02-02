@@ -9,14 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="assets/css/welcome.css">
-    <link rel="stylesheet" type="text/css" href="dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/welcome.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css') }}">
+    <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>
     <!-- Custom styles for this template -->
     <link href="{{ asset('assets/css/Admin/vendor/sb-admin-2.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css') }}">
+    <script src="{{ asset('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js') }}"></script>
 
 </head>
 
@@ -71,7 +71,7 @@
     <nav class="navbar fixed-top justify-content-between navbar-expand-lg" style="height: 100%; max-height: 76px;">
         <div class="logo-home">
             <a class="navbar-brand-two d-inline-block ml-1" href="#">
-                <img src="assets/img/logosmk.png" alt="Logo" width="40" height="40" class="logo-navbar" />
+                <img src="{{ asset('assets/img/logosmk.png') }}" alt="Logo" width="40" height="40" class="logo-navbar" />
             </a>
             <div class="navbar-brand2">
                 <a href="{{ route('welcome') }}" style="text-decoration: none;">
@@ -95,11 +95,11 @@
                         <a class="nav-link active2" href="{{ route('siswa.permohonan') }}"> Permohonan Prakerin </a>
                     </li>
                     <li class="nav-item" style="padding-top: 1%">
-                        <a class="nav-link active3 @if(Auth::user()->status != 'Sedang Prakerin') disabled @endif" 
+                        <a class="nav-link active3 @if(Auth::user()->status == 'Belum Mendaftar' || Auth::user()->status == 'Sudah Mendaftar') disabled @endif" 
                            href="{{ route('siswa.jurnal') }}"> Pengisian Jurnal </a>
                     </li>
                     <li class="nav-item nav-item-divider" style="padding-top: 1%">
-                        <a class="nav-link active4 @if(Auth::user()->status != 'Sedang Prakerin') disabled @endif" 
+                        <a class="nav-link active4 @if(Auth::user()->status == 'Belum Mendaftar' || Auth::user()->status == 'Sudah Mendaftar') disabled @endif" 
                            href="{{ route('siswa.laporan') }}"> Pengumpulan Laporan </a>
                     </li>
                     <li class="nav-item" style="padding-bottom: 1%">
@@ -211,6 +211,7 @@
     @yield('permohonan')
     @yield('jurnal')
     @yield('jurnaldata')
+    @yield('jurnaldataedit')
     @yield('laporan')
     @yield('pengaturan')
     {{-- <div class="isi">
@@ -225,7 +226,7 @@
     <div class="footer">
         <div class="logo">
             <div class="logo-footer">
-                <img src="assets/img/logosmk.png" alt="Logo" class="logo-image-size" />
+                <img src="{{ asset('assets/img/logosmk.png') }}" alt="Logo" class="logo-image-size" />
             </div>
             <div style="width: 50%; height: 100%; margin-right: auto;">
                 <div class="contact">
@@ -284,7 +285,7 @@
             </div>
             <div class="maps">
                 <a href="https://maps.app.goo.gl/qY8YSmcHdRYQUUFr7">
-                    <img src="assets/img/maps_sekolah.png" alt="Foto" class="maps-image-size" />
+                    <img src="{{ asset('assets/img/maps_sekolah.png') }}" alt="Foto" class="maps-image-size" />
                 </a>
             </div>
         </div>

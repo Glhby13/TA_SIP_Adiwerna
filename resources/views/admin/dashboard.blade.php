@@ -118,7 +118,7 @@
                         </div> --}}
                         <p class="keterangan">Jumlah Permohonan Prakerin</p>
                         <div class="circle3">
-                            <p class="data">{{ $jumlahBimbingan }}</p>
+                            <p class="data">{{ $jumlahPermohonan }}</p>
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Carbon\Carbon;
 
 class Permohonan extends Model
 {
@@ -16,6 +17,8 @@ class Permohonan extends Model
         'email_tempat_prakerin',
         'telp_tempat_prakerin',
         'balasan',
+        'tanggal_mulai',
+        'tanggal_selesai',
         'status',
     ];
 

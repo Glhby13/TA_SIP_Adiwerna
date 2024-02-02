@@ -13,6 +13,7 @@ use App\Imports\SiswaImport;
 use App\Imports\GuruImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 
 class AdminController extends Controller
@@ -59,10 +60,14 @@ class AdminController extends Controller
         // Menghitung jumlah bimbingan
         $jumlahBimbingan = Bimbingan::count();
 
+        // Menghitung jumlah permohonan
+        $jumlahPermohonan = Permohonan::count();
+
         return view('admin.dashboard',[
             'jumlahGuruPembimbing' => $jumlahGuruPembimbing,
             'jumlahSiswa' => $jumlahSiswa,
             'jumlahBimbingan' => $jumlahBimbingan,
+            'jumlahPermohonan' => $jumlahPermohonan,
         ]);
     }
 
@@ -95,17 +100,18 @@ class AdminController extends Controller
             'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
         ];
 
+        // dd($dataPermohonan);
+
         // Ambil data bimbingan beserta relasinya
 
         // NIS pemohonan yang ada di sini adalah 'belongs to' tabel user. jadi ini miliknya dia (perbandingan dengan 
         // controller permohonan pada siswacontroller)
 
-        $dataPemohon = Permohonan::with('siswa')->get();
+        // $dataPemohon = Permohonan::with('siswa')->get();
 
         return view('admin.permohonan', [
             'dataPermohonan' => $dataPermohonan,
             'jurusanMapping' => $jurusanMapping,
-            'dataPemohon' => $dataPemohon,
         ]);
     }
 
@@ -152,7 +158,97 @@ class AdminController extends Controller
     
         return redirect()->back()->with('error', 'Permohonan berhasil dihapus.');
     }
+
+    public function permohonaneditview($id)
+    {
+        // Mendapatkan satu data permohonan berdasarkan ID
+        $dataPermohonan = Permohonan::find($id);
     
+        // Mapping jurusan
+        $jurusanMapping = [
+            'DPIB' => 'Desain Pemodelan dan Informasi Bangunan',
+            'TE' => 'Teknik Elektronika',
+            'TJKT' => 'Teknik Jaringan Komputer dan Telekomunikasi',
+            'TK' => 'Teknik Ketenagalistrikan',
+            'TM' => 'Teknik Mesin',
+            'TO' => 'Teknik Otomotif',
+            'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
+        ];
+    
+        return view('admin.permohonanedit', [
+            'dataPermohonan' => $dataPermohonan,
+            'jurusanMapping' => $jurusanMapping,
+        ]);
+    }
+    
+    public function permohonanedit($id, Request $request)
+    {
+        // Validasi input
+        $validatedData = $request->validate([
+            'tempat_prakerin' => 'string|nullable',
+            'alamat_tempat_prakerin' => 'string|nullable',
+            'email_tempat_prakerin' => 'string|nullable',
+            'telp_tempat_prakerin' => 'string|nullable',
+            'tanggal_mulai' => 'nullable|date_format:d-m-Y',
+            'tanggal_selesai' => 'nullable|date_format:d-m-Y',
+        ]);
+
+        // Konversi format tanggal mulai
+        $validatedData['tanggal_mulai'] = $validatedData['tanggal_mulai']
+            ? Carbon::createFromFormat('d-m-Y', $validatedData['tanggal_mulai'])->toDateString()
+            : null;
+
+        // Konversi format tanggal selesai
+        $validatedData['tanggal_selesai'] = $validatedData['tanggal_selesai']
+            ? Carbon::createFromFormat('d-m-Y', $validatedData['tanggal_selesai'])->toDateString()
+            : null;
+
+        // Temukan data permohonan berdasarkan ID
+        $dataPermohonan = Permohonan::find($id);
+
+        // Cek apakah data permohonan ditemukan
+        if (!$dataPermohonan) {
+            // Handle jika data permohonan tidak ditemukan, misalnya redirect atau tampilkan pesan error
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+
+        // Update data permohonan dengan data baru
+        $dataPermohonan->update($validatedData);
+
+        // Simpan perubahan
+        $dataPermohonan->save();
+
+        // Tampilkan pesan sukses
+        session()->flash('success', 'Data berhasil diperbarui.');
+
+        // Redirect kembali ke halaman edit
+        return redirect()->route('admin.permohonaneditview', $dataPermohonan->id);
+    }
+
+    
+    public function suratpermohonan($id)
+    {
+        // Mendapatkan satu data permohonan berdasarkan ID
+        $dataPermohonan = Permohonan::find($id);
+    
+        // Mapping jurusan
+        $jurusanMapping = [
+            'DPIB' => 'Desain Pemodelan dan Informasi Bangunan',
+            'TE' => 'Teknik Elektronika',
+            'TJKT' => 'Teknik Jaringan Komputer dan Telekomunikasi',
+            'TK' => 'Teknik Ketenagalistrikan',
+            'TM' => 'Teknik Mesin',
+            'TO' => 'Teknik Otomotif',
+            'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
+        ];
+    
+        return view('admin.pdf.suratpermohonan', [
+            'dataPermohonan' => $dataPermohonan,
+            'jurusanMapping' => $jurusanMapping,
+        ]);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function datasiswa()
     {
@@ -901,7 +997,7 @@ class AdminController extends Controller
                 Bimbingan::create([
                     'NIP' => $nip,
                     'NIS' => $nis,
-                    'status' => 'Belum Diperiksa',
+                    'status' => 'Belum Mengumpulkan',
                 ]);
 
                 // Update status siswa pada tabel user menjadi "Sedang Prakerin"

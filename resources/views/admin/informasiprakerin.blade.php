@@ -221,17 +221,21 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" style="color: #000000;">Jurusan</label>
-                                <select class="form-control" name="jurusan" id="jurusan" required>
+                                <select class="form-control" name="jurusan" id="jurusan">
                                     <option value="" selected disabled>-- Pilih Jurusan --</option>
-                                    @foreach ($jurusanMapping as $key => $jurusan)
-                                        <option value="{{ $key }}">{{ $jurusan }}</option>
-                                    @endforeach
+                                    @if (Auth::user()->jurusan)
+                                        <option value="{{ Auth::user()->jurusan }}">{{ $jurusanMapping[Auth::user()->jurusan] }}</option>
+                                    @else
+                                        @foreach ($jurusanMapping as $key => $jurusan)
+                                            <option value="{{ $key }}">{{ $jurusan }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                             <div class="mb-3" style="color: #000000;">
                                 <label class="form-label">Persyaratan</label>
                                 <textarea name="persyaratan" id="persyaratan" required
-                                    class="border rounded-0 form-control summernote"></textarea>
+                                    class="border rounded-0 form-control summernote" placeholder="Gunakan tanda koma (,) untuk memisahkan tiap persyaratan"></textarea>
                             </div>
                             <div class="mb-3" style="color: #000000;">
                                 <label class="form-label">Email</label>

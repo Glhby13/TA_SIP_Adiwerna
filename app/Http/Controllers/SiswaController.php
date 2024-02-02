@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 
 
@@ -22,11 +24,25 @@ class SiswaController extends Controller
 {
     public function index()
     {
+        // Ambil data siswa yang sedang login
         $siswa = User::where('email', Auth::user()->email)->first();
-        $permohonan = Permohonan::where('NIS', $siswa->NIS)->first();
+    
+        // Ambil permohonan yang terkait dengan siswa
+        $permohonan = $siswa->permohonan;
+    
+        // Ambil bimbingan yang terkait dengan siswa
+        $bimbingan = $siswa->bimbingansiswa;
+    
+        // Ambil guru yang terkait dengan bimbingan siswa (jika bimbingan tidak null)
+        $guru = $bimbingan ? $bimbingan->guru : null;
+    
+        // dd($permohonan);
+    
         return view('siswa.dashboard', [
             'siswa' => $siswa,
             'permohonan' => $permohonan,
+            'bimbingan' => $bimbingan,
+            'guru' => $guru,
         ]);
     }
     
@@ -169,6 +185,58 @@ class SiswaController extends Controller
         ]);
     }
 
+    public function jurnaldataeditview($id)
+    {
+        // dd($id);
+        // Mendapatkan siswa yang sedang login
+        $siswa = User::where('email', Auth::user()->email)->first();
+        // Ambil data jurnal berdasarkan ID yang dikirimkan
+        $jurnal = Jurnalharian::find($id);
+    
+        // Lakukan pengecekan apakah data jurnal ditemukan atau tidak
+        if (!$jurnal) {
+            // Jika tidak ditemukan, mungkin hendak ditangani dengan redirect atau pesan kesalahan
+            // Misalnya:
+            return redirect()->route('siswa.jurnaldata')->with('error', 'Data jurnal tidak ditemukan');
+        }
+        // dd($jurnal);
+        // Kirim data jurnal ke view
+        return view('siswa.jurnaldataedit', [
+            'siswa' => $siswa,
+            'jurnal' => $jurnal,
+        ]);
+    }
+    
+    public function jurnaldataedit($id, Request $request)
+    {
+        try {
+            // Validasi input jika diperlukan
+            $request->validate([
+                'deskripsi' => 'required',
+            ]);
+    
+            // Update data jurnal berdasarkan ID
+            $jurnal = Jurnalharian::findOrFail($id);
+            $jurnal->deskripsi = $request->input('deskripsi');
+            $jurnal->save();
+    
+            // Redirect atau berikan response sesuai kebutuhan Anda
+            return redirect()->back()->with('success', 'Jurnal berhasil diubah');
+        } catch (ModelNotFoundException $e) {
+            // Handler jika data tidak ditemukan
+            return redirect()->back()->with('error', 'Jurnal tidak ditemukan');
+        } catch (\Exception $e) {
+            // Handler untuk error umum
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function jurnaldelete($id){
+        // Hapus data secara permanen dari database
+        Jurnalharian::where('id', $id)->forceDelete();
+    
+        return redirect()->back()->with('success', 'Data jurnal berhasil dihapus permanen.');
+    }
 
     public function laporan() 
     {
@@ -183,6 +251,44 @@ class SiswaController extends Controller
             'bimbinganSiswa' => $bimbinganSiswa,
         ]);
     }
+
+    public function submitlaporan(Request $request) 
+    {
+        // Validasi request
+        $request->validate([
+            'laporan' => 'required|url', // Sesuaikan dengan aturan validasi yang diinginkan
+        ]);
+    
+        // Ambil data siswa yang sedang login
+        $siswa = User::where('email', Auth::user()->email)->first();
+    
+        // Ambil bimbingan siswa berdasarkan NIS
+        $bimbinganSiswa = $siswa->bimbingansiswa;
+    
+        // Cek apakah sudah ada data bimbingan siswa
+        if ($bimbinganSiswa) {
+            // Update kolom laporan dengan data dari request
+            $bimbinganSiswa->update([
+                'laporan' => $request->laporan,
+            ]);
+    
+            // Periksa action yang diambil dari tombol submit/update
+            if ($request->action == 'submit') {
+                // Tombol Submit: Set status menjadi 'Sudah Mengumpulkan'
+                $bimbinganSiswa->update(['status' => 'Sudah Mengumpulkan']);
+            } elseif ($request->action == 'update') {
+                // Tombol Update: Set status menjadi 'Sudah Revisi'
+                $bimbinganSiswa->update(['status' => 'Sudah Revisi']);
+            }
+    
+            // Tambahkan pesan sukses atau sesuaikan dengan kebutuhan
+            return redirect()->back()->with('success', 'Laporan berhasil diunggah!');
+        } else {
+            // Tambahkan pesan error atau sesuaikan dengan kebutuhan
+            return redirect()->back()->with('error', 'Data bimbingan siswa tidak ditemukan.');
+        }
+    }
+    
 
     public function pengaturan() 
     {

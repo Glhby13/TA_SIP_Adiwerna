@@ -1,6 +1,10 @@
 @extends('admin.layout')
 @section('permohonanedit')
 
+<!-- Tambahkan script Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.js"></script>
+
     <style>
         .alert-floating {
             position: fixed;
@@ -27,27 +31,65 @@
         });
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Temukan tombol "Reset" berdasarkan ID
-            var resetButton2 = document.getElementById("resetButton2");
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Temukan tombol "Reset" berdasarkan ID
+        var resetButton2 = document.getElementById("resetButton2");
 
-            // Temukan semua input fields berdasarkan ID
-            var tempatprakerinInput = document.getElementById("tempat_prakerin");
-            var alamattempatprakerinInput = document.getElementById("alamat_tempat_prakerin");
-            var emailtempatprakerinInput = document.getElementById("email_tempat_prakerin");
-            var telptempatprakerinInput = document.getElementById("telp_tempat_prakerin");
+        // Temukan semua input fields berdasarkan ID
+        var tempatprakerinInput = document.getElementById("tempat_prakerin");
+        var alamattempatprakerinInput = document.getElementById("alamat_tempat_prakerin");
+        var emailtempatprakerinInput = document.getElementById("email_tempat_prakerin");
+        var telptempatprakerinInput = document.getElementById("telp_tempat_prakerin");
+        var mulaiInput = document.getElementById("tanggal_mulai");
+        var selesaiInput = document.getElementById("tanggal_selesai");
 
-            // Tambahkan event listener ke tombol "Reset"
-            resetButton2.addEventListener("click", function() {
-                // Reset nilai semua input fields
-                tempatprakerinInput.value = "{{ $dataPermohonan->tempat_prakerin }}";
-                alamattempatprakerinInput.value = "{{ $dataPermohonan->alamat_tempat_prakerin }}";
-                emailtempatprakerinInput.value = "{{ $dataPermohonan->email_tempat_prakerin }}";
-                telptempatprakerinInput.value = "{{ $dataPermohonan->telp_tempat_prakerin }}";
-            });
+        // Tambahkan event listener ke tombol "Reset"
+        resetButton2.addEventListener("click", function() {
+            // Reset nilai semua input fields
+            tempatprakerinInput.value = "{{ $dataPermohonan->tempat_prakerin }}";
+            alamattempatprakerinInput.value = "{{ $dataPermohonan->alamat_tempat_prakerin }}";
+            emailtempatprakerinInput.value = "{{ $dataPermohonan->email_tempat_prakerin }}";
+            telptempatprakerinInput.value = "{{ $dataPermohonan->telp_tempat_prakerin }}";
+            mulaiInput.value = "{{ $dataPermohonan->tanggal_mulai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_mulai)->format('d-m-Y') : '' }}";
+            selesaiInput.value = "{{ $dataPermohonan->tanggal_selesai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_selesai)->format('d-m-Y') : '' }}";
         });
-    </script>
+    });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Temukan elemen input tanggal
+        var mulaiInput = document.getElementById("tanggal_mulai");
+        var selesaiInput = document.getElementById("tanggal_selesai");
+
+        // Inisialisasi Flatpickr untuk input tanggal mulai
+        flatpickr(mulaiInput, {
+            dateFormat: "d-m-Y",
+            placeholder: "dd-mm-yyyy",
+            onClose: function (selectedDates, dateStr, instance) {
+                // Setelah memilih tanggal mulai, batasi tanggal selesai
+                if (selectedDates.length > 0) {
+                    flatpickr(selesaiInput, {
+                        dateFormat: "d-m-Y",
+                        placeholder: "dd-mm-yyyy",
+                        minDate: selectedDates[0],
+                    });
+                }
+            },
+        });
+
+        // Inisialisasi Flatpickr untuk input tanggal selesai
+        flatpickr(selesaiInput, {
+            dateFormat: "d-m-Y",
+            placeholder: "dd-mm-yyyy",
+            // Tambahkan opsi untuk membatasi tanggal selesai jika tanggal mulai sudah diisi
+            minDate: mulaiInput.value ? mulaiInput.value : null,
+        });
+    });
+</script>
+
 
     <body>
         <div class="Judul mb-4">
@@ -114,6 +156,17 @@
                                 <input type="text" class="form-control" name="telp_tempat_prakerin" id="telp_tempat_prakerin"
                                     value="{{ $dataPermohonan->telp_tempat_prakerin }}" pattern="[0-9]+" title="Hanya masukkan angka">
                             </div>
+                            <div class="row mb-4">
+                                <label for="date" class="form-label">Tanggal Mulai</label>
+                                <input class="form-control" id="tanggal_mulai" name="tanggal_mulai" type="text" style="font-size: 14px; max-width:97%; margin-left:1.5%; background-color:unset;" 
+                                placeholder="dd-mm-yyyy" value="{{ $dataPermohonan->tanggal_mulai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_mulai)->format('d-m-Y') : '' }}">
+                            </div>
+                            <div class="row mb-4">
+                                <label for="date" class="form-label">Tanggal Selesai</label>
+                                <input class="form-control" id="tanggal_selesai" name="tanggal_selesai" type="text" style="font-size: 14px; max-width:97%; margin-left:1.5%; background-color:unset;" 
+                                placeholder="dd-mm-yyyy" value="{{ $dataPermohonan->tanggal_selesai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_selesai)->format('d-m-Y') : '' }}">
+                            </div>
+                            
                             <div class="btnedit" style="justify-content: end; display: flex">
                                 <button type="button" class="btn" id="resetButton2"
                                     style="background-color: #EF4F4F; color: #ffffff">Reset</button>

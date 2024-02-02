@@ -122,7 +122,9 @@
                                     </svg>
                                 </div>
                                 <div class="col-11" style="padding: 16px 16px;">
-                                    20 Januari 2024 - 18 Juli 2024
+                                    {{ isset($permohonan->tanggal_mulai) ? App\Helpers\MyHelpers::getIndonesianDate($permohonan->tanggal_mulai) : 'Belum dijadwalkan' }}
+                                     - 
+                                     {{ isset($permohonan->tanggal_selesai) ? App\Helpers\MyHelpers::getIndonesianDate($permohonan->tanggal_selesai) : 'Belum dijadwalkan' }}
                                 </div>
                             </div>
                         </div>
@@ -141,7 +143,8 @@
                                     </svg>
                                 </div>
                                 <div class="col-11" style="padding: 16px 16px;">
-                                    Guru Pembimbing
+                                    Guru Pembimbing: <br> 
+                                    {{ $guru ? $guru->name : 'Belum dijadwalkan' }}
                                 </div>
                             </div>
                         </div>
@@ -160,7 +163,8 @@
                                     </svg>
                                 </div>
                                 <div class="col-11" style="padding: 16px 16px;">
-                                    Tempat Pelaksaan Prakerin
+                                    Tempat Pelaksaan Prakerin: <br> 
+                                    {{ $permohonan ? $permohonan->tempat_prakerin: 'Belum mengajukan permohonan' }}
                                 </div>
                             </div>
                         </div>
@@ -180,13 +184,12 @@
                                     </svg>
                                 </div>
                                 <div class="col-11" style="padding: 16px 16px;">
-                                    Status Prakerin: {{ $siswa->status }} <br> 
-                                    Status Permohonan: 
-                                    @if ($permohonan && $permohonan->status)
-                                        {{ $permohonan->status }}
-                                    @else
-                                        Belum ada permohonan
-                                    @endif
+                                    Status Prakerin: <br> 
+                                    {{ $siswa->status }} <br> <br> 
+                                    Status Permohonan: <br> 
+                                    {{ $permohonan ? $permohonan->status: 'Belum mengajukan' }} <br> <br> 
+                                    Status Laporan: <br> 
+                                    {{ $bimbingan ? $bimbingan->status: 'Belum ada laporan' }} <br> 
                                 </div>                                
                             </div>
                         </div>
@@ -257,7 +260,16 @@
                         </p>
                     </div>
                 </div>
-
+                @if ($siswa->status === 'Selesai Prakerin')
+                <div class="card" style="margin-top: 12px; padding: 16px 16px">
+                    <p class="card-text text-center mt-1">
+                        Nilai Prakerin
+                    </p>
+                    <p class="card-text text-center mt-1">
+                        {{ $bimbingan->nilai }}
+                    </p>
+                </div>
+            @endif
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('NIS')->unique(); //siswa
             $table->string('laporan')->nullable();//siswa
             $table->integer('nilai')->nullable();
-            $table->enum('status',['Belum Diperiksa', 'Revisi', 'Sudah Revisi', 'ACC'])->nullable();
+            $table->enum('status',['Belum Mengumpulkan', 'Sudah Mengumpulkan', 'Revisi', 'Sudah Revisi', 'ACC'])->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

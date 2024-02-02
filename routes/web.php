@@ -36,7 +36,11 @@ Route::middleware(['auth', 'useraccess:siswa', 'preventBackButton', 'disableCach
     Route::get('/pengisian-jurnal', [SiswaController::class, 'jurnal'])->name('siswa.jurnal');
     Route::post('/pengisian-jurnal', [SiswaController::class, 'submitJurnal'])->name('submit.jurnal');
     Route::get('/data-jurnal', [SiswaController::class, 'jurnaldata'])->name('siswa.jurnaldata');
+    Route::get('/edit-jurnal/{id}', [SiswaController::class, 'jurnaldataeditview'])->name('siswa.jurnaldataeditview');
+    Route::post('/edit-jurnal/{id}', [SiswaController::class, 'jurnaldataedit'])->name('siswa.jurnaldataedit');
+    Route::delete('/hapus-jurnal/{id}', [SiswaController::class, 'jurnaldelete'])->name('siswa.jurnaldelete');
     Route::get('/pengumpulan-laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan');
+    Route::post('/pengumpulan-laporan', [SiswaController::class, 'submitlaporan'])->name('submit.laporan');
     Route::get('/edit-profil', [SiswaController::class, 'pengaturan'])->name('siswa.pengaturan');
     Route::post('/edit-profil', [SiswaController::class, 'update'])->name('edit.profile');
     Route::get('/edit-password', [SiswaController::class, 'showchangepassword'])->name('show.changepassword');
@@ -47,14 +51,23 @@ Route::middleware(['auth', 'useraccess:siswa', 'preventBackButton', 'disableCach
 Route::middleware(['auth', 'useraccess:guru', 'preventBackButton', 'disableCaching' ])->group(function(){
     Route::get('/guru', [GuruController::class, 'index'])->name('guru.dashboard');
     Route::get('/siswa-bimbingan', [GuruController::class, 'siswabimbingan'])->name('guru.siswabimbingan');
+    Route::get('/jurnal-siswa/{NIS}', [GuruController::class, 'jurnaldata'])->name('guru.jurnaldata');
+    Route::get('/penarikan', [GuruController::class, 'penarikan'])->name('guru.penarikan');
+    Route::get('/surat-penarikan/{id}', [GuruController::class, 'suratpenarikan'])->name('guru.suratpenarikan');
+    Route::get('/pengumpulan-laporan-siswa', [GuruController::class, 'pengumpulanlaporan'])->name('guru.pengumpulanlaporan');
+    Route::post('/status-laporan/{id}', [GuruController::class, 'statuslaporan'])->name('status.laporan');
     Route::get('/nilai-laporan', [GuruController::class, 'nilailaporan'])->name('guru.nilailaporan');
+    Route::post('/nilai/{id}', [GuruController::class, 'setnilailaporan'])->name('nilai.laporan');
 });
 
 Route::middleware(['auth', 'useraccess:admin', 'preventBackButton', 'disableCaching' ])->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/permohonan', [AdminController::class, 'permohonan'])->name('admin.permohonan');
+    Route::get('/permohonan/edit/{id}', [AdminController::class, 'permohonaneditview'])->name('admin.permohonaneditview');
+    Route::post('/permohonan/edit/{id}', [AdminController::class, 'permohonanedit'])->name('admin.permohonanedit');
     Route::post('/status-permohonan/{id}', [AdminController::class, 'statuspermohonan'])->name('status.permohonan');
     Route::post('/hapus-permohonan/{id}', [AdminController::class, 'hapuspermohonan'])->name('hapus.permohonan');
+    Route::get('/surat-permohonan/{id}', [AdminController::class, 'suratpermohonan'])->name('admin.suratpermohonan');
 
     Route::get('/data-siswa', [AdminController::class, 'datasiswa'])->name('admin.datasiswa');
     Route::post('/data-siswa', [AdminController::class, 'tambahdatasiswa'])->name('admin.tambahdatasiswa');

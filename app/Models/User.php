@@ -86,6 +86,11 @@ class User extends Authenticatable
         return $this->hasMany(Bimbingan::class, 'NIP', 'NIP');
     }
 
+    public function bimbingansiswa()
+    {
+        return $this->hasOne(Bimbingan::class, 'NIS', 'NIS');
+    }
+
     public function permohonan()
     {
         return $this->hasOne(Permohonan::class, 'NIS', 'NIS');

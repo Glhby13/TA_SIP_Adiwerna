@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('telp_tempat_prakerin')->nullable();//siswa
             $table->string('balasan')->nullable();
             $table->enum('status',['Mengajukan', 'Diterima', 'Ditolak'])->nullable();
+            $table->date('tanggal_mulai')->nullable();//siswa
+            $table->date('tanggal_selesai')->nullable();//siswa
             $table->softDeletes();
             $table->timestamps();
         });

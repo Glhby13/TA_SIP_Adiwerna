@@ -11,7 +11,9 @@
             top: 11vh;
             right: 7vh;
         }
+
     </style>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Temukan notifikasi
@@ -61,17 +63,6 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>NIS</th>
-                                <th>Nama</th>
-                                <th>Jurusan</th>
-                                <th>Tempat Prakerin</th>
-                                <th>Balasan</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             @foreach ($dataPermohonan as $data)
                             <tr>
@@ -83,16 +74,24 @@
                                     <a href="{{ $data['balasan'] ?? '#' }}" target="_blank">{{ $data['balasan'] ?? '-' }}</a>
                                 </td>
                                 <td><?= $data['status'] ?></td>
-                                <td style="width: 90px;">
+                                <td style="min-width: 140px; max-width: 140px; width: 140px;">
                                     <div class="editdata">
+                                        <button id="cetak" type="button" class="btn edit-button" style="color: #000000">
+                                            <a href="{{ route('admin.suratpermohonan', $data->id) }}"><i 
+                                                class="fa-solid fa-print" style="color: #000000"></i></a>
+                                        </button>
+                                        <button id="edit" type="button" class="btn edit-button" style="color: #000000">
+                                            <a href="{{ route('admin.permohonaneditview', $data->id) }}"><i
+                                                class="far fa-edit" style="color: #000000"></i></a>
+                                        </button>
                                         <button type="button" class="btn" style="color: #000000" data-toggle="modal"
                                         data-target="#modalStatus{{ $data->id }}">
-                                            <i  class="far fa-edit"></i>
+                                            <i class="fa-solid fa-arrows-rotate"></i>
                                         </button>
-                                        <button type="button" class="btn" style="color: #000000" data-toggle="modal"
+                                        {{-- <button type="button" class="btn" style="color: #000000" data-toggle="modal"
                                         data-target="#modalHapus{{ $data->id }}">
                                             <i class="far fa-trash-alt"></i>
-                                        </button>
+                                        </button> --}}
 
                                         <div class="modal fade"  id="modalStatus{{ $data->id }}" role="dialog" tabindex="-1"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -106,12 +105,16 @@
                                                         Ubah status permohonan prakerin siswa</p>
                                                     <div class="modalfoot mt-3 mb-3"
                                                         style="display:flex; justify-content: center; align-items:center;">
-                                                        <button type="submit" class="btn mr-2" name="btnMengajukan"
-                                                        style="background-color: #EF4F4F; color: #ffffff; font-size: 16px; 
+                                                        <button type="submit" class="btn ml-2" name="btnMengajukan"
+                                                        style="background-color: #efaa4f; color: #ffffff; font-size: 16px; 
                                                         font-family: Poppins;">Mengajukan</button>
                                                     <button type="submit" class="btn ml-2" name="btnDiterima"
                                                         style="background-color: #44B158; color: #ffffff; font-size: 16px; 
                                                         font-family: Poppins;">Diterima</button>
+                                                    <button type="button" class="btn ml-2" style="background-color: #ff0000; 
+                                                        color: #ffffff; font-size: 16px; 
+                                                        font-family: Poppins;" data-toggle="modal"data-target="#modalHapus{{ $data->id }}">Ditolak
+                                                    </button>
                                                     </div>
                                                     </form>
                                                 </div>
@@ -140,7 +143,7 @@
                                                     <div class="modalfoot mt-3 mb-3"
                                                         style="display:flex; justify-content: center; align-items:center;">
                                                         <button type="button" class="btn mr-2" data-dismiss="modal"
-                                                            style="background-color: #EF4F4F; color: #ffffff; font-size: 16px;">Tidak</button>
+                                                            style="background-color: #EF4F4F; color: #ffffff; font-size: 16px; font-family: Poppins;">Tidak</button>
                                                         <button type="submit" class="btn ml-2"
                                                             style="background-color: #44B158; color: #ffffff; font-size: 16px; font-family: Poppins;">Ya,
                                                             Hapus Saja!</button>

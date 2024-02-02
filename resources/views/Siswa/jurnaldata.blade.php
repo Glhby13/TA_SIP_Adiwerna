@@ -161,7 +161,7 @@
                                 <td style="width: 90px;">
                                     <div class="editdata">
                                         <button id="edit" type="button" class="btn edit-button">
-                                            <a href="{{ route('admin.datasiswaeditview', $data->id) }}"><i
+                                            <a href="{{ route('siswa.jurnaldataeditview', $data->id) }}"><i
                                                     class="far fa-edit" style="color: #000000"></i></a>
                                         </button>
                                         <button id="delete" type="button" class="btn delete-button" style="color: #000000" data-toggle="modal"
@@ -184,8 +184,9 @@
                                                                 d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
                                                         </svg>
                                                     </div>
-                                                    <form method="POST" action="{{ route('admin.datasiswasoftdelete', $data->id) }}">
+                                                    <form method="POST" action="{{ route('siswa.jurnaldelete', $data->id) }}">
                                                         @csrf
+                                                        @method('DELETE')
                                                     <p style="display: flex; align-items:center; justify-content:center; text-align:center; font-weight:600; font-size:20px">
                                                         Apakah Anda yakin ingin menghapus data?</p>
                                                     <div class="modalfoot mt-3 mb-3"

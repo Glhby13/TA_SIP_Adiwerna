@@ -24,62 +24,27 @@
                                 <th>NIS</th>
                                 <th>Nama</th>
                                 <th>Tempat Prakerin</th>
-                                <th>No. Telp</th>
+                                <th>Jumlah Hari Jurnal</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-
+                        
                         <tbody>
+                            @foreach ($dataBimbingans as $data)
                             <tr>
-                                <td>121</td>
-                                <td>Putri Almaas Auliasari</td>
-                                <td>PT EPSON</td>
-                                <td>085456544569</td>
-                                <td style="display: flex; justify-content: center; align-item:center;">
-                                    <i class="far fa-edit"></i>
-                                    <i class="far fa-trash-alt ml-3"></i>
+                                <td>{{ $data['siswa']->NIS }}</td>
+                                <td>{{ $data['siswa']->name }}</td>
+                                <td>{{ $data['permohonan']->tempat_prakerin }}</td>
+                                <td>{{ $data['jurnalCount'] }}</td>
+                                <td>
+                                    <a href="{{ route('guru.jurnaldata', $data['siswa']->NIS) }}">
+                                        <button type="button" class="btn" style="background-color: #fe5a48; color: #ffffff; font-size: 16px;">
+                                            Lihat
+                                        </button>
+                                    </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>122</td>
-                                <td>Galih Bayu Prakoso</td>
-                                <td>PT CISCO</td>
-                                <td>086912364589</td>
-                                <td style="display: flex; justify-content: center; align-item:center;">
-                                    <i class="far fa-edit"></i>
-                                    <i class="far fa-trash-alt ml-3"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>123</td>
-                                <td>Kirani Juli Andini</td>
-                                <td>PT ANIMASI MULTIMEDIA</td>
-                                <td>086712364589</td>
-                                <td style="display: flex; justify-content: center; align-item:center;">
-                                    <i class="far fa-edit"></i>
-                                    <i class="far fa-trash-alt ml-3"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>124</td>
-                                <td>Aleeya Auzara Himmatana</td>
-                                <td>CV ALANA JAYA</td>
-                                <td>082345617569</td>
-                                <td style="display: flex; justify-content: center; align-item:center;">
-                                    <i class="far fa-edit"></i>
-                                    <i class="far fa-trash-alt ml-3"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>125</td>
-                                <td>Putri Almira Ainurrizqi</td>
-                                <td>CV ROEMAH KOMPUTER</td>
-                                <td>082145783245</td>
-                                <td style="display: flex; justify-content: center; align-item:center;">
-                                    <i class="far fa-edit"></i>
-                                    <i class="far fa-trash-alt ml-3"></i>
-                                </td>
-                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

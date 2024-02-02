@@ -38,7 +38,16 @@
             display: none !important;
             cursor: unset !important;
         }
-        
+
+    .terpilih {
+    display: flex; /* Membuat elemen menjadi flex container */
+    align-items: center; /* Mengatur seluruh item dalam satu baris secara vertikal di tengah */
+    }
+
+    /* Opsi tambahan jika ingin menambahkan ruang di antara tombol */
+    #restoreButton {
+        margin-right: 10px;
+    }
 </style>
 
 <script>

@@ -7,6 +7,7 @@
     <title>Guru Pembimbing</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css') }}">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -34,6 +35,8 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/vendor/datatables-demo.js') }}"></script>
 
+    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css') }}">
+
 </head>
 
 <body>
@@ -50,7 +53,7 @@
             <div class="sidebar">
                 <a class="sidebar-brand" href="{{ route('admin.dashboard') }}">
                     <div class="sidebar-brand-icon" style="justify-content: center; display: flex;">
-                        <img src="assets/img/logosmk.png" width="90"height="90" alt="Logo" />
+                        <img src="{{ asset('assets/img/logosmk.png') }}" width="90"height="90" alt="Logo" />
                     </div>
                     <div class="sidebar-brand-text">SMKN 1 Adiwerna</div>
                 </a>
@@ -67,27 +70,12 @@
                     <span>Dashboard</span></a>
             </li>
 
-            {{-- <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div> --}}
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('guru.siswabimbingan') }}">
                     <i class="fas fa-users"></i>
                     <span>Siswa Bimbingan</span>
                 </a>
-                {{-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div> --}}
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
@@ -101,19 +89,11 @@
                     data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('admin.datasiswa') }}">Surat Monitoring</a>
-                        <a class="collapse-item" href="{{ route('admin.dataguru') }}">Surat Penarikan</a>
+                        <a class="collapse-item" href="{{ route('guru.penarikan') }}">Surat Penarikan</a>
                         
                     </div>
                 </div>
             </li>
-
-            {{-- <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div> --}}
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -125,26 +105,12 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('admin.datasiswa') }}">Pengumpulan Laporan</a>
-                        <a class="collapse-item" href="{{ route('admin.dataguru') }}">Nilai Laporan</a>
+                        <a class="collapse-item" href="{{ route('guru.pengumpulanlaporan') }}">Pengumpulan Laporan</a>
+                        <a class="collapse-item" href="{{ route('guru.nilailaporan') }}">Nilai Laporan</a>
                         
                     </div>
                 </div>
             </li>
-
-            {{-- <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li> --}}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -206,7 +172,10 @@
                                         data-initial="{{ Auth::user()->name[0] }}">
                                     </figure>
                                 @endif
-                                <span class="ml-3 mr-2 d-none d-lg-inline text-gray-600 small">{{ isset($guru->name) ? $guru->name : '' }}</span>
+                                <span class="ml-3 mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{ isset($guru) ? $guru->name : '' }}
+                                </span>
+                                
 
 
                             </a>
@@ -243,6 +212,9 @@
 
                     @yield('dashboard')
                     @yield('siswabimbingan')
+                    @yield('jurnaldata')
+                    @yield('penarikan')
+                    @yield('pengumpulanlaporan')
                     @yield('nilailaporan')
                     
 
