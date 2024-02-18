@@ -91,8 +91,6 @@ body {
     outline: 0 !important;
 }
 
-
-
 .Judul {
     font-family: Poppins;
     font-size: 28px;
@@ -131,33 +129,33 @@ body {
 }
 
 .circle2 {
-  display: flex;
-  justify-content: center;
-  width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-  height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-  border: 5px solid #E57272; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
-  border-radius: 50%;
-  margin: 0 auto; /* Mengatur ke tengah secara horizontal */
+    display: flex;
+    justify-content: center;
+    width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    border: 5px solid #e57272; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
+    border-radius: 50%;
+    margin: 0 auto; /* Mengatur ke tengah secara horizontal */
 }
 
 .circle3 {
-  display: flex;
-  justify-content: center;
-  width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-  height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-  border: 5px solid #44B158; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
-  border-radius: 50%;
-  margin: 0 auto; /* Mengatur ke tengah secara horizontal */
+    display: flex;
+    justify-content: center;
+    width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    border: 5px solid #44b158; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
+    border-radius: 50%;
+    margin: 0 auto; /* Mengatur ke tengah secara horizontal */
 }
 
 .circle4 {
-  display: flex;
-  justify-content: center;
-  width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-  height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-  border: 5px solid #317DA8; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
-  border-radius: 50%;
-  margin: 0 auto; /* Mengatur ke tengah secara horizontal */
+    display: flex;
+    justify-content: center;
+    width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    border: 5px solid #317da8; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
+    border-radius: 50%;
+    margin: 0 auto; /* Mengatur ke tengah secara horizontal */
 }
 
 .data {
@@ -4960,18 +4958,18 @@ input[type="button"].btn-block {
 }
 
 .card2 {
-  background-color: #F4DDDD;
-  border-radius: 15px;
+    background-color: #f4dddd;
+    border-radius: 15px;
 }
 
 .card3 {
-  background-color: #D0EFA9;
-  border-radius: 15px;
+    background-color: #d0efa9;
+    border-radius: 15px;
 }
 
 .card4 {
-  background-color: #C7D6F5;
-  border-radius: 15px;
+    background-color: #c7d6f5;
+    border-radius: 15px;
 }
 
 .card-title {
@@ -11841,13 +11839,15 @@ form.user .btn-user {
 }
 
 footer.sticky-footer {
-    padding: 2rem 0;
+    padding: 1rem 0;
     flex-shrink: 0;
+    background-color: #224abe;
 }
 
 footer.sticky-footer .copyright {
     line-height: 1;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    color: white;
 }
 
 body.sidebar-toggled footer.sticky-footer {
@@ -11870,7 +11870,7 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .font-weight-bold {
-    font-weight: 700!important;
+    font-weight: 700 !important;
 }
 
 .avatar[data-initial]::before {
@@ -11879,6 +11879,6 @@ body.sidebar-toggled footer.sticky-footer {
     left: 50%;
     position: absolute;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     z-index: 1;
 }

@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('informasiprakerin')
+@section('kegiatanprakerin')
 
 <style>
     .alert-floating {
@@ -63,28 +63,16 @@
         var resetButton = document.getElementById("resetButton");
 
         // Temukan semua input fields berdasarkan ID
-        var namaperusahaanInput = document.getElementById("namaperusahaan");
+        var namakegiatanInput = document.getElementById("namakegiatan");
         var gambarInput = document.getElementById("gambar");
         var deskripsiInput = document.getElementById("deskripsi");
-        var posisiInput = document.getElementById("posisi");
-        var jurusanInput = document.getElementById("jurusan");
-        var persyaratanInput = document.getElementById("persyaratan");
-        var telpInput = document.getElementById("telp");
-        var emailInput = document.getElementById("email");
-        var alamatInput = document.getElementById("alamat");
 
         // Tambahkan event listener ke tombol "Reset"
         resetButton.addEventListener("click", function() {
             // Reset nilai semua input fields
-            namaperusahaanInput.value = "";
+            namakegiatanInput.value = "";
             gambarInput.value = "";
             deskripsiInput.value = "";
-            posisiInput.value = "";
-            jurusanInput.selectedIndex = 0;
-            persyaratanInput.value = "";
-            telpInput.value = "";
-            emailInput.value = "";
-            alamatInput.value = "";
         });
     });
 </script>
@@ -174,7 +162,7 @@
 </script>
 
     <body>
-        <div class="Judul">Informasi Prakerin</div>
+        <div class="Judul">Kegiatan Prakerin</div>
         <button type="button" class="btn btn-primary mt-2 mb-4" data-toggle="modal" data-target="#modalTambah">
             <i class="fas fa-plus mr-2 ml-1"></i>
             Tambah Data
@@ -196,15 +184,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <p class="modal-title" id="staticBackdropLabel"
-                            style="color: #000000; font-size: 20px; font-weight: 700;">Tambah Informasi Prakerin</p>
+                            style="color: #000000; font-size: 20px; font-weight: 700;">Tambah Kegiatan Prakerin</p>
                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form method="POST" action="{{ route('admin.tambahinformasiprakerin') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.tambahkegiatanprakerin') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label" style="color: #000000;">Nama Perusahan</label>
-                                <input type="text" class="form-control" name="namaperusahaan" id="namaperusahaan" required>
+                                <label class="form-label" style="color: #000000;">Nama Kegiatan</label>
+                                <input type="text" class="form-control" name="namakegiatan" id="namakegiatan" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" style="color: #000000;">Gambar</label>
@@ -214,42 +202,6 @@
                                 <label class="form-label" style="color: #000000;">Deskripsi</label>
                                 <textarea name="deskripsi" id="deskripsi" required
                                     class="border rounded-0 form-control summernote" rows="6"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" style="color: #000000;">Posisi</label>
-                                <input type="text" class="form-control" name="posisi" id="posisi" required
-                                    placeholder="Gunakan tanda koma (,) untuk memisahkan tiap posisi">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" style="color: #000000;">Jurusan</label>
-                                <select class="form-control" name="jurusan" id="jurusan">
-                                    <option value="" selected disabled>-- Pilih Jurusan --</option>
-                                    @if (Auth::user()->jurusan)
-                                        <option value="{{ Auth::user()->jurusan }}">{{ $jurusanMapping[Auth::user()->jurusan] }}</option>
-                                    @else
-                                        @foreach ($jurusanMapping as $key => $jurusan)
-                                            <option value="{{ $key }}">{{ $jurusan }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                            <div class="mb-3" style="color: #000000;">
-                                <label class="form-label">Persyaratan</label>
-                                <textarea name="persyaratan" id="persyaratan" required
-                                    class="border rounded-0 form-control summernote" placeholder="Gunakan tanda koma (,) untuk memisahkan tiap persyaratan"></textarea>
-                            </div>
-                            <div class="mb-3" style="color: #000000;">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" required>
-                            </div>
-                            <div class="mb-3" style="color: #000000;">
-                                <label class="form-label">No. Telp</label>
-                                <input type="text" class="form-control" name="telp" id="telp" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" style="color: #000000;">Alamat Perusahaan</label>
-                                <textarea name="alamat" id="alamat" required
-                                    class="border rounded-0 form-control summernote"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -263,7 +215,7 @@
             </div>
         </div>
         <!-- Akhir Modal -->
-        <a href="{{ route('admin.trashinfoprakview') }}"><button type="button" class="btn mt-2 mb-4 ml-2"
+        <a href="{{ route('admin.trashkegiatanprakerinview') }}"><button type="button" class="btn mt-2 mb-4 ml-2"
             style="background-color: #fe5a48; color: #ffffff; font-size: 16px;">
             <i class="fas fa-trash mr-2 ml-1"></i>
             Trash</button></a>
@@ -272,7 +224,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <p class="sub-judul m-0">
-                    List Informasi Prakerin
+                    List Kegiatan Prakerin
                 </p>
             </div>
             <div class="card-body">
@@ -286,20 +238,14 @@
                                         <label class="form-check-label" for="select-all"></label>
                                     </div>
                                 </th>
-                                <th style="width: 150px;">Nama Perusahaan</th>
+                                <th style="width: 150px;">Nama Kegiatan</th>
                                 <th>Deskripsi</th>
-                                <th>Posisi</th>
-                                <th>Jurusan</th>
-                                <th>Persyaratan</th>
-                                <th>Email</th>
-                                <th>No. Telepon</th>
-                                <th>Alamat</th>
                                 <th style="min-width: 100px;">Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($informasiTempatPrakerin as $data)
+                            @foreach ($kegiatanprakerin as $data)
                             <tr>
                                 <td class="text-center">
                                     <div class="form-check" style="padding-left: 0; margin-left: 30px;">
@@ -308,18 +254,12 @@
                                         <label class="form-check-label" for="selectitem"></label>
                                     </div>
                                 </td>
-                                <td>{{ $data->nama_perusahaan }}</td>
+                                <td>{{ $data->nama_kegiatan }}</td>
                                 <td>{{ $data->deskripsi }}</td>
-                                <td>{{ $data->posisi }}</td>
-                                <td>{{ $jurusanMapping[$data->jurusan] }}</td>
-                                <td>{{ $data->persyaratan }}</td>
-                                <td>{{ $data->email }}</td>
-                                <td>{{ $data->telp }}</td>
-                                <td>{{ $data->alamat }}</td>
                                 <td>
                                     <div class="action">
                                         <button id="edit" type="button" class="btn edit-button">
-                                            <a href="{{ route('admin.editinfoprakview', $data->id) }}"><i class="far fa-edit"
+                                            <a href="{{ route('admin.editkegiatanprakerinview', $data->id) }}"><i class="far fa-edit"
                                                     style="color: #000000"></i></a>
                                         </button>
                                         <button id="delete" type="button" class="btn delete-button" style="color: #000000"
@@ -341,7 +281,7 @@
                                                         </svg>
                                                     </div>
                                                     <form method="POST"
-                                                        action="{{ route('admin.infopraksoftdelete', $data->id) }}">
+                                                        action="{{ route('admin.kegiatanprakerinsoftdelete', $data->id) }}">
                                                         @csrf
                                                         <p
                                                             style="display: flex; align-items:center; justify-content:center; text-align:center; font-weight:600; font-size:20px">
@@ -366,10 +306,10 @@
                     </table>
                 </div>
                 <div class="terpilih">
-                    <form id="deleteForm" method="POST" action="{{ route('admin.softdeleteselectedinfoprak') }}">
+                    <form id="deleteForm" method="POST" action="{{ route('admin.softdeleteselectedkegiatanprakerin') }}">
                         @csrf
                         <input type="hidden" name="action" value="delete">
-                        @foreach($informasiTempatPrakerin as $data)
+                        @foreach($kegiatanprakerin as $data)
                             <input type="hidden" name="selectedIds[]" class="selectitem" value="{{ $data->id }}">
                         @endforeach
                         <button id="deleteButton" type="submit" class="btn mt-3 ml-2" style="background-color: #EF4F4F; 
@@ -386,7 +326,7 @@
     <script>
         $('#dataTable').DataTable({
             "columnDefs": [
-                { "orderable": false, "targets": [0, 9] }
+                { "orderable": false, "targets": [0, 3] }
             ]
         });
     </script>

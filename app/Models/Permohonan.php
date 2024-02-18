@@ -16,6 +16,7 @@ class Permohonan extends Model
         'alamat_tempat_prakerin',
         'email_tempat_prakerin',
         'telp_tempat_prakerin',
+        'durasi',
         'balasan',
         'tanggal_mulai',
         'tanggal_selesai',

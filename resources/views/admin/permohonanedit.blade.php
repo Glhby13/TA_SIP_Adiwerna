@@ -1,9 +1,9 @@
 @extends('admin.layout')
 @section('permohonanedit')
 
-<!-- Tambahkan script Flatpickr -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.js"></script>
+    <!-- Tambahkan script Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.js"></script>
 
     <style>
         .alert-floating {
@@ -14,6 +14,7 @@
             /* Biarkan lebar menyesuaikan isi notifikasi */
             top: 11vh;
             right: 7vh;
+            z-index: 1050;
         }
     </style>
     <script>
@@ -31,64 +32,80 @@
         });
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Temukan tombol "Reset" berdasarkan ID
-        var resetButton2 = document.getElementById("resetButton2");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Temukan tombol "Reset" berdasarkan ID
+            var resetButton2 = document.getElementById("resetButton2");
 
-        // Temukan semua input fields berdasarkan ID
-        var tempatprakerinInput = document.getElementById("tempat_prakerin");
-        var alamattempatprakerinInput = document.getElementById("alamat_tempat_prakerin");
-        var emailtempatprakerinInput = document.getElementById("email_tempat_prakerin");
-        var telptempatprakerinInput = document.getElementById("telp_tempat_prakerin");
-        var mulaiInput = document.getElementById("tanggal_mulai");
-        var selesaiInput = document.getElementById("tanggal_selesai");
+            // Temukan semua input fields berdasarkan ID
+            var tempatprakerinInput = document.getElementById("tempat_prakerin");
+            var alamattempatprakerinInput = document.getElementById("alamat_tempat_prakerin");
+            var emailtempatprakerinInput = document.getElementById("email_tempat_prakerin");
+            var telptempatprakerinInput = document.getElementById("telp_tempat_prakerin");
+            var durasiInput = document.getElementById("durasi");
+            var mulaiInput = document.getElementById("tanggal_mulai");
+            var selesaiInput = document.getElementById("tanggal_selesai");
 
-        // Tambahkan event listener ke tombol "Reset"
-        resetButton2.addEventListener("click", function() {
-            // Reset nilai semua input fields
-            tempatprakerinInput.value = "{{ $dataPermohonan->tempat_prakerin }}";
-            alamattempatprakerinInput.value = "{{ $dataPermohonan->alamat_tempat_prakerin }}";
-            emailtempatprakerinInput.value = "{{ $dataPermohonan->email_tempat_prakerin }}";
-            telptempatprakerinInput.value = "{{ $dataPermohonan->telp_tempat_prakerin }}";
-            mulaiInput.value = "{{ $dataPermohonan->tanggal_mulai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_mulai)->format('d-m-Y') : '' }}";
-            selesaiInput.value = "{{ $dataPermohonan->tanggal_selesai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_selesai)->format('d-m-Y') : '' }}";
+            // Tambahkan event listener ke tombol "Reset"
+            resetButton2.addEventListener("click", function() {
+                // Reset nilai semua input fields
+                tempatprakerinInput.value = "{{ $dataPermohonan->tempat_prakerin }}";
+                alamattempatprakerinInput.value = "{{ $dataPermohonan->alamat_tempat_prakerin }}";
+                emailtempatprakerinInput.value = "{{ $dataPermohonan->email_tempat_prakerin }}";
+                telptempatprakerinInput.value = "{{ $dataPermohonan->telp_tempat_prakerin }}";
+                durasiInput.value = "{{ $dataPermohonan->durasi }}"
+                mulaiInput.value =
+                    "{{ $dataPermohonan->tanggal_mulai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_mulai)->format('d-m-Y') : '' }}";
+                selesaiInput.value =
+                    "{{ $dataPermohonan->tanggal_selesai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_selesai)->format('d-m-Y') : '' }}";
+            });
         });
-    });
-</script>
+    </script>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Temukan elemen input tanggal
-        var mulaiInput = document.getElementById("tanggal_mulai");
-        var selesaiInput = document.getElementById("tanggal_selesai");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Temukan elemen input tanggal
+            var mulaiInput = document.getElementById("tanggal_mulai");
+            var selesaiInput = document.getElementById("tanggal_selesai");
+            var durasiSelect = document.getElementById("durasi");
 
-        // Inisialisasi Flatpickr untuk input tanggal mulai
-        flatpickr(mulaiInput, {
-            dateFormat: "d-m-Y",
-            placeholder: "dd-mm-yyyy",
-            onClose: function (selectedDates, dateStr, instance) {
-                // Setelah memilih tanggal mulai, batasi tanggal selesai
-                if (selectedDates.length > 0) {
-                    flatpickr(selesaiInput, {
-                        dateFormat: "d-m-Y",
-                        placeholder: "dd-mm-yyyy",
-                        minDate: selectedDates[0],
-                    });
+            // Inisialisasi Flatpickr untuk input tanggal mulai
+            var mulaiPicker = flatpickr(mulaiInput, {
+                dateFormat: "d-m-Y",
+                placeholder: "dd-mm-yyyy",
+                onClose: function(selectedDates, dateStr, instance) {
+                    // Setelah memilih tanggal mulai, batasi tanggal selesai
+                    if (selectedDates.length > 0) {
+                        var durasi = durasiSelect.value;
+                        if (durasi) {
+                            var tanggalMulai = selectedDates[0];
+                            var tanggalSelesai = new Date(tanggalMulai);
+                            tanggalSelesai.setMonth(tanggalMulai.getMonth() + parseInt(durasi));
+                            selesaiPicker.setDate(tanggalSelesai);
+                        }
+                    }
+                },
+            });
+
+            // Inisialisasi Flatpickr untuk input tanggal selesai
+            var selesaiPicker = flatpickr(selesaiInput, {
+                dateFormat: "d-m-Y",
+                placeholder: "dd-mm-yyyy",
+            });
+
+            // Tambahkan event listener untuk mengubah tanggal selesai saat durasi berubah
+            durasiSelect.addEventListener("change", function() {
+                var durasi = this.value;
+                if (durasi && mulaiPicker.selectedDates.length > 0) {
+                    var tanggalMulai = mulaiPicker.selectedDates[0];
+                    var tanggalSelesai = new Date(tanggalMulai);
+                    tanggalSelesai.setMonth(tanggalMulai.getMonth() + parseInt(durasi));
+                    selesaiPicker.setDate(tanggalSelesai);
                 }
-            },
+            });
         });
-
-        // Inisialisasi Flatpickr untuk input tanggal selesai
-        flatpickr(selesaiInput, {
-            dateFormat: "d-m-Y",
-            placeholder: "dd-mm-yyyy",
-            // Tambahkan opsi untuk membatasi tanggal selesai jika tanggal mulai sudah diisi
-            minDate: mulaiInput.value ? mulaiInput.value : null,
-        });
-    });
-</script>
+    </script>
 
 
     <body>
@@ -132,7 +149,8 @@
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">Jurusan</label>
                                 <input type="text" class="form-control" name="jurusan" id="jurusan"
-                                    value="{{ isset($dataPermohonan->siswa->jurusan) ? $jurusanMapping[$dataPermohonan->siswa->jurusan] : '' }}" readonly>
+                                    value="{{ isset($dataPermohonan->siswa->jurusan) ? $jurusanMapping[$dataPermohonan->siswa->jurusan] : '' }}"
+                                    readonly>
                             </div>
                         </div>
                         <div class="col-6" style="padding-left:100px">
@@ -143,30 +161,45 @@
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label">Alamat Tempat Prakerin</label>
-                                <input type="text" class="form-control" name="alamat_tempat_prakerin" id="alamat_tempat_prakerin"
-                                    value="{{ $dataPermohonan->alamat_tempat_prakerin }}">
+                                <input type="text" class="form-control" name="alamat_tempat_prakerin"
+                                    id="alamat_tempat_prakerin" value="{{ $dataPermohonan->alamat_tempat_prakerin }}">
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label">Email Tempat Prakerin</label>
-                                <input type="text" class="form-control" name="email_tempat_prakerin" id="email_tempat_prakerin"
-                                    value="{{ $dataPermohonan->email_tempat_prakerin }}">
+                                <input type="text" class="form-control" name="email_tempat_prakerin"
+                                    id="email_tempat_prakerin" value="{{ $dataPermohonan->email_tempat_prakerin }}">
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label">No. Telp Tempat Prakerin</label>
-                                <input type="text" class="form-control" name="telp_tempat_prakerin" id="telp_tempat_prakerin"
-                                    value="{{ $dataPermohonan->telp_tempat_prakerin }}" pattern="[0-9]+" title="Hanya masukkan angka">
+                                <input type="text" class="form-control" name="telp_tempat_prakerin"
+                                    id="telp_tempat_prakerin" value="{{ $dataPermohonan->telp_tempat_prakerin }}">
+                            </div>
+                            <div class="row mb-4">
+                                <label for="durasi" class="form-label">Durasi</label>
+                                <select class="form-select form-control" style="font-size: 14px;" id="durasi"
+                                    name="durasi">
+                                    <option value="" disabled selected>- Pilih Durasi -</option>
+                                    @for ($i = 1; $i <= 6; $i++)
+                                        <option value="{{ $i }}"
+                                            @if ($dataPermohonan->durasi == $i) selected @endif>
+                                            {{ $i }} bulan
+                                        </option>
+                                    @endfor
+                                </select>
                             </div>
                             <div class="row mb-4">
                                 <label for="date" class="form-label">Tanggal Mulai</label>
-                                <input class="form-control" id="tanggal_mulai" name="tanggal_mulai" type="text" style="font-size: 14px; max-width:97%; margin-left:1.5%; background-color:unset;" 
-                                placeholder="dd-mm-yyyy" value="{{ $dataPermohonan->tanggal_mulai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_mulai)->format('d-m-Y') : '' }}">
+                                <input class="form-control" id="tanggal_mulai" name="tanggal_mulai" type="text"
+                                    style="font-size: 14px; background-color:unset;" placeholder="dd-mm-yyyy"
+                                    value="{{ $dataPermohonan->tanggal_mulai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_mulai)->format('d-m-Y') : '' }}">
                             </div>
                             <div class="row mb-4">
                                 <label for="date" class="form-label">Tanggal Selesai</label>
-                                <input class="form-control" id="tanggal_selesai" name="tanggal_selesai" type="text" style="font-size: 14px; max-width:97%; margin-left:1.5%; background-color:unset;" 
-                                placeholder="dd-mm-yyyy" value="{{ $dataPermohonan->tanggal_selesai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_selesai)->format('d-m-Y') : '' }}">
+                                <input class="form-control" id="tanggal_selesai" name="tanggal_selesai" type="text"
+                                    style="font-size: 14px;  background-color:unset;" placeholder="dd-mm-yyyy"
+                                    value="{{ $dataPermohonan->tanggal_selesai ? \Carbon\Carbon::parse($dataPermohonan->tanggal_selesai)->format('d-m-Y') : '' }}">
                             </div>
-                            
+
                             <div class="btnedit" style="justify-content: end; display: flex">
                                 <button type="button" class="btn" id="resetButton2"
                                     style="background-color: #EF4F4F; color: #ffffff">Reset</button>

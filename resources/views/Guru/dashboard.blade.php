@@ -1,43 +1,43 @@
 @extends('guru.layout')
 @section('dashboard')
 
-<script>
-    $(document).ready(function() {
-        // Mendapatkan URL halaman sebelumnya
-        var previousPage = document.referrer;
+    <script>
+        $(document).ready(function() {
+            // Mendapatkan URL halaman sebelumnya
+            var previousPage = document.referrer;
 
-        // Mendapatkan elemen notifikasi dan tombol tutup berdasarkan ID
-        var notification = $("#notification");
-        var closeButton = notification.find(".btn-close");
-        var notificationStatus = "open"; // Default status "open"
+            // Mendapatkan elemen notifikasi dan tombol tutup berdasarkan ID
+            var notification = $("#notification");
+            var closeButton = notification.find(".btn-close");
+            var notificationStatus = "open"; // Default status "open"
 
-        // Mengecek apakah halaman sebelumnya adalah halaman login
-        if (previousPage.includes("login")) {
-            // Jika halaman sebelumnya adalah halaman login, biarkan status "open"
-        } else {
-            // Jika halaman sebelumnya bukan halaman login, atur status "closed"
-            notificationStatus = "closed";
-        }
+            // Mengecek apakah halaman sebelumnya adalah halaman login
+            if (previousPage.includes("login")) {
+                // Jika halaman sebelumnya adalah halaman login, biarkan status "open"
+            } else {
+                // Jika halaman sebelumnya bukan halaman login, atur status "closed"
+                notificationStatus = "closed";
+            }
 
-        if (notificationStatus === "open") {
-            // Tampilkan notifikasi jika statusnya adalah "open"
-            notification.addClass("d-flex").show();
-        } else {
-            // Jika status notifikasi adalah "closed", maka sembunyikan notifikasi
-            notification.removeClass("d-flex").hide();
-            localStorage.setItem("notificationStatus", "closed");
-        }
+            if (notificationStatus === "open") {
+                // Tampilkan notifikasi jika statusnya adalah "open"
+                notification.addClass("d-flex").show();
+            } else {
+                // Jika status notifikasi adalah "closed", maka sembunyikan notifikasi
+                notification.removeClass("d-flex").hide();
+                localStorage.setItem("notificationStatus", "closed");
+            }
 
-        // Tambahkan event listener ke tombol tutup
-        closeButton.on("click", function() {
-            // Menghapus kelas .d-flex dan mengubah properti display menjadi "none"
-            notification.removeClass("d-flex").hide();
-            localStorage.setItem("notificationStatus", "closed");
+            // Tambahkan event listener ke tombol tutup
+            closeButton.on("click", function() {
+                // Menghapus kelas .d-flex dan mengubah properti display menjadi "none"
+                notification.removeClass("d-flex").hide();
+                localStorage.setItem("notificationStatus", "closed");
+            });
         });
-    });
-</script>
+    </script>
 
-    <div class="alert alert-success d-flex align-items-center" role="alert" id="notification">
+    {{-- <div class="alert alert-success d-flex align-items-center" role="alert" id="notification">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="ms-2 bi bi-check-circle"
             viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -49,6 +49,13 @@
         </div>
 
         <button class="btn btn-close" aria-label="Close" data-dismis="alert" style="margin-left: auto;"></button>
+    </div> --}}
+
+    <div class="card shadow mb-4 " style="background-color: #EEF5FF">
+        <div class="card-body mb-1">
+            <p style="line-height: 1"><b>SELAMAT DATANG, {{ isset($guru->name) ? $guru->name : '' }}!</b></p>
+            <p class="mb-1" style="line-height: 1;">Anda login sebagai Guru Pembimbing program keahlian {{ $jurusanmapping[$guru->jurusan] }}</p>
+        </div>
     </div>
 
     <div class="row">
@@ -70,7 +77,9 @@
                         </div> --}}
                         <p class="keterangan">Siswa Bimbingan</p>
                         <div class="circle1">
-                            <p class="data"><p class="data">{{ count($dataBimbingans) }}</p></p>
+                            <p class="data">
+                            <p class="data">{{ count($dataBimbingans) }}</p>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -93,9 +102,13 @@
                         </div> --}}
                     <p class="keterangan">Laporan Belum Diperiksa</p>
                     <div class="circle2">
-                        <p class="data">{{ count(array_filter($dataBimbingans, function($data) {
-                            return $data['bimbingan']['status'] === 'Belum Diperiksa';
-                        })) }}</p>
+                        <p class="data">
+                            {{ count(
+                                array_filter($dataBimbingans, function ($data) {
+                                    return $data['bimbingan']['status'] === 'Sudah Mengumpulkan';
+                                }),
+                            ) }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -117,9 +130,13 @@
                         </div> --}}
                     <p class="keterangan">Laporan Revisi</p>
                     <div class="circle3">
-                        <p class="data">{{ count(array_filter($dataBimbingans, function($data) {
-                            return $data['bimbingan']['status'] === 'Revisi';
-                        })) }}</p>
+                        <p class="data">
+                            {{ count(
+                                array_filter($dataBimbingans, function ($data) {
+                                    return $data['bimbingan']['status'] === 'Revisi';
+                                }),
+                            ) }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -141,9 +158,13 @@
                         </div> --}}
                     <p class="keterangan">Laporan ACC</p>
                     <div class="circle4">
-                        <p class="data">{{ count(array_filter($dataBimbingans, function($data) {
-                            return $data['bimbingan']['status'] === 'ACC';
-                        })) }}</p>
+                        <p class="data">
+                            {{ count(
+                                array_filter($dataBimbingans, function ($data) {
+                                    return $data['bimbingan']['status'] === 'ACC';
+                                }),
+                            ) }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -152,7 +173,7 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3" style="background-color: #F4DDDD">
+        <div class="card-header py-3" style="background-color: #e5e5e5">
             <p class="sub-judul m-0">
                 Data Bimbingan
             </p>
@@ -183,7 +204,15 @@
                                 <td>{{ $data['permohonan']->tempat_prakerin }}</td>
                                 <td>{{ $data['permohonan']->alamat_tempat_prakerin }}</td>
                                 <td>{{ $data['permohonan']->telp_tempat_prakerin }}</td>
-                                <td>{{ $data['bimbingan']->status }}</td>
+                                <td>
+                                    @if ($data['bimbingan']->status === 'Sudah Mengumpulkan')
+                                        Belum Diperiksa
+                                    @elseif ($data['bimbingan']->status === 'Belum Mengumpulkan')
+                                        Siswa belum mengumpulkan
+                                    @else
+                                        {{ $data['bimbingan']->status }}
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -197,7 +226,8 @@
     <script>
         $('#dataTable').DataTable({
             "columnDefs": [{
-                "orderable": false, "targets": [ ]
+                "orderable": false,
+                "targets": []
             }]
         });
     </script>

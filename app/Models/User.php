@@ -33,6 +33,7 @@ class User extends Authenticatable
         'kelas',
         'telp',
         'kuota_bimbingan',
+        'nilai',
         'status',
         'image',
     ];

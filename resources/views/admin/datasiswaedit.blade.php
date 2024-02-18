@@ -10,6 +10,7 @@
             /* Biarkan lebar menyesuaikan isi notifikasi */
             top: 11vh;
             right: 7vh;
+            z-index: 1050;
         }
     </style>
     <script>
@@ -40,6 +41,7 @@
             var telp2Input = document.getElementById("telp2");
             var email2Input = document.getElementById("email2");
             var status2Input = document.getElementById("status2");
+            var nilaiInput = document.getElementById("nilai");
             // var password_confirmationInput = document.getElementById("password_confirmation");
 
             // Tambahkan event listener ke tombol "Reset"
@@ -52,10 +54,72 @@
                 telp2Input.value = "{{ $siswa->telp }}";
                 email2Input.value = "{{ $siswa->email }}";
                 status2Input.value = "{{ $siswa->status }}";
+                nilaiInput.value = "{{ $siswa->nilai }}"
                 // password_confirmationInput.value = "";
             });
         });
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var jurusanInput = document.getElementById("jurusan2");
+        var kelasInput = document.getElementById("kelas2");
+
+        // Mendefinisikan daftar kelas untuk setiap jurusan
+        var kelasMapping = {
+            'DPIB': ['DPIB 1', 'DPIB 2', 'DPIB 3', 'DPIB 4'],
+            'TE': ['TE 1', 'TE 2', 'TE 3', 'TE 4'],
+            'TJKT': ['TJKT 1', 'TJKT 2', 'TJKT 3', 'TJKT 4'],
+            'TK': ['TK 1', 'TK 2', 'TK 3', 'TK 4'],
+            'TM': ['TM 1', 'TM 2', 'TM 3', 'TM 4'],
+            'TKRO': ['TKRO 1', 'TKRO 2', 'TKRO 3', 'TKRO 4'],
+            'TPFL': ['TPFL 1', 'TPFL 2', 'TPFL 3', 'TPFL 4'],
+            // ... dan seterusnya, sesuai dengan jurusan yang tersedia
+        };
+
+        // Fungsi untuk mengisi opsi kelas berdasarkan jurusan yang dipilih
+        function updateKelasOptions() {
+            var selectedJurusan = jurusanInput.value;
+            var kelasOptions = kelasMapping[selectedJurusan] || [];
+
+            // Hapus opsi lama
+            kelasInput.innerHTML = '';
+
+            // Tambahkan opsi "Pilih Kelas"
+            var placeholderOption = document.createElement("option");
+            placeholderOption.value = "";
+            placeholderOption.text = "{{ $siswa->kelas }}";
+            placeholderOption.selected = true;
+            placeholderOption.disabled = true;
+            kelasInput.add(placeholderOption);
+
+            // Tambahkan opsi baru
+            kelasOptions.forEach(function(kelas) {
+                var option = document.createElement("option");
+                option.value = kelas;
+                option.text = kelas;
+                kelasInput.add(option);
+            });
+
+            // Tambahkan opsi default berdasarkan data dari database
+            // var defaultOption = document.createElement("option");
+            // defaultOption.value = "{{ $siswa->kelas }}";
+            // defaultOption.text = "{{ $siswa->kelas }}";
+            // defaultOption.selected = true;
+            // kelasInput.add(defaultOption);
+        }
+
+        // Tambahkan event listener ke input jurusan
+        jurusanInput.addEventListener("change", function() {
+            updateKelasOptions();
+        });
+
+        // Panggil fungsi untuk inisialisasi opsi kelas
+        updateKelasOptions();
+    });
+</script>
+
+
 
     <body>
         <div class="Judul mb-4">
@@ -84,10 +148,14 @@
                             </div>
                         @endif
                         <div class="col-6" style="padding-right: 100px">
+
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">NIS</label>
-                                <input type="text" class="form-control" name="NIS" id="NIS2"
-                                    value="{{ $siswa->NIS }}">
+                                @if ($siswa->bimbingansiswa) {{-- Check if guru has data in bimbingan table --}}
+                                    <input type="text" class="form-control" name="NIS" id="NIS2" value="{{ $siswa->NIS }}" readonly>
+                                @else
+                                    <input type="text" class="form-control" name="NIS" id="NIS2" value="{{ $siswa->NIS }}">
+                                @endif
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">Nama
@@ -97,23 +165,54 @@
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">Jurusan</label>
-                                <select class="form-control" name="jurusan" id="jurusan2">
-                                    <option value="" selected disabled>-- {{ $siswa->jurusan }} --</option>
-                                    @if (Auth::user()->jurusan)
-                                        <option value="{{ Auth::user()->jurusan }}">{{ $jurusanMapping[Auth::user()->jurusan] }}</option>
-                                    @else
-                                        @foreach ($jurusanMapping as $key => $jurusan)
-                                            <option value="{{ $key }}">{{ $jurusan }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+                                @if ($siswa->bimbingansiswa) {{-- Check if siswa has data in bimbingan table --}}
+                                    <select class="form-control" name="jurusan" id="jurusan2" readonly>
+                                        <option value="{{ $siswa->jurusan }}" selected disabled>
+                                            {{ $jurusanMapping[$siswa->jurusan] }}
+                                        </option>
+                                    </select>
+                                @else
+                                    <select class="form-control" name="jurusan" id="jurusan2">
+                                        @if ($siswa->jurusan)
+                                            <option value="{{ $siswa->jurusan }}" selected disabled>
+                                                {{ $jurusanMapping[$siswa->jurusan] }}
+                                            </option>
+                                        @endif
+                                        @if (Auth::user()->jurusan)
+                                            <option value="{{ Auth::user()->jurusan }}">
+                                                {{ $jurusanMapping[Auth::user()->jurusan] }}
+                                            </option>
+                                        @else
+                                            @foreach ($jurusanMapping as $key => $jurusan)
+                                                <option value="{{ $key }}">{{ $jurusan }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                @endif
                             </div>
+                            
                             <div class="row mb-4">
-                                <label class="form-label" style="color: #000000;">Kelas
-                                    Siswa</label>
-                                <input type="text" class="form-control" name="kelas" id="kelas2"
-                                    value="{{ $siswa->kelas }}">
+                                <label class="form-label" style="color: #000000;">Kelas Siswa</label>
+                                @if ($siswa->bimbingansiswa) {{-- Check if siswa has data in bimbingan table --}}
+                                    <input type="text" class="form-control" name="kelas" id="kelas2" value="{{ $siswa->kelas }}" readonly>
+                                @else
+                                    <select class="form-control" name="kelas" id="kelas2">
+                                        @foreach ($kelasMapping[$siswa->jurusan] as $kelas)
+                                            @if ($kelas == $siswa->kelas)
+                                                <option value="{{ $kelas }}" selected>
+                                                    {{ $kelas }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $kelas }}">
+                                                    {{ $kelas }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @endif
                             </div>
+                            
+                            
                         </div>
                         <div class="col-6" style="padding-left:100px">
                             <div class="row mb-4">
@@ -128,13 +227,15 @@
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label">Status</label>
-                                <select class="form-control" name="status" id="status2">
-                                    <option value="" selected disabled>-- {{ $siswa->status }} --</option>
-                                    <option value="Belum Mendaftar">Belum Mendaftar</option>
-                                    <option value="Sudah Mendaftar">Sudah Mendaftar</option>
-                                    <option value="Sedang Prakerin">Sedang Prakerin</option>
-                                    <option value="Selesai Prakerin">Selesai Prakerin</option>
-                                </select>
+                                <input class="form-control" name="status" id="status2" type="text" value="{{ $siswa->status }}" readonly>
+                            </div>
+                            <div class="row mb-4">
+                                <label class="form-label">Nilai</label>
+                                @if ($siswa->status == 'Selesai Prakerin')
+                                    <input class="form-control" pattern="[0-9]+" name="nilai" id="nilai" type="text" value="{{ $siswa->nilai }}">
+                                @else
+                                    <input class="form-control" name="nilai" id="nilai" type="text" value="{{ $siswa->nilai }}" readonly>
+                                @endif
                             </div>
                             <div class="btnedit" style="justify-content: end; display: flex">
                                 <button type="button" class="btn" id="resetButton2"

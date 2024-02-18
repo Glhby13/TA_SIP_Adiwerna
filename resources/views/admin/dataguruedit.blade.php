@@ -10,6 +10,7 @@
             /* Biarkan lebar menyesuaikan isi notifikasi */
             top: 11vh;
             right: 7vh;
+            z-index: 1050;
         }
     </style>
     <script>
@@ -82,9 +83,12 @@
                         <div class="col-6" style="padding-right: 100px">
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">NIP</label>
-                                <input type="text" class="form-control" name="NIP" id="NIP2"
-                                    value="{{ $guru->NIP }}">
-                            </div>
+                                @if ($bimbingan->isEmpty()) {{-- Check if guru has no data in bimbingan table --}}
+                                    <input type="text" class="form-control" name="NIP" id="NIP2" value="{{ $guru->NIP }}">
+                                @else
+                                    <input type="text" class="form-control" name="NIP" id="NIP2" value="{{ $guru->NIP }}" readonly>
+                                @endif
+                            </div>                                                  
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">Nama
                                     Guru Pembimbing</label>

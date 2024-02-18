@@ -39,6 +39,7 @@
             var alamatPrakerinInput = document.getElementById("alamatPrakerin");
             var emailPrakerinInput = document.getElementById("emailPrakerin");
             var noTelpPrakerinInput = document.getElementById("noTelpPrakerin");
+            var durasiInput = document.getElementById("durasi");
 
             // Tambahkan event listener ke tombol "Reset"
             resetButton.addEventListener("click", function() {
@@ -48,6 +49,7 @@
                 alamatPrakerinInput.style.height = "100%";
                 emailPrakerinInput.value = "";
                 noTelpPrakerinInput.value = "";
+                durasiInput.value = "";
             });
         });
     </script>
@@ -61,7 +63,7 @@
             document.addEventListener("click", function(event) {
                 if (event.target !== alertFloating) {
                     alertFloating.style.display =
-                    'none'; // Sembunyikan notifikasi jika diklik di luar notifikasi
+                        'none'; // Sembunyikan notifikasi jika diklik di luar notifikasi
                 }
             });
         });
@@ -102,7 +104,7 @@
                                         'TJKT' => 'Teknik Jaringan Komputer dan Telekomunikasi',
                                         'TK' => 'Teknik Ketenagalistrikan',
                                         'TM' => 'Teknik Mesin',
-                                        'TO' => 'Teknik Otomotif',
+                                        'TKRO' => 'Teknik Kendaraan Ringan dan Otomotif',
                                         'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
                                         default => '',
                                     }
@@ -113,53 +115,76 @@
                     <div class="row mb-4">
                         <label for="Tempatprakerin" class="form-label">Tempat Prakerin</label>
                         <div class="text-field">
-                            <input class="form-control" style="font-size: 14px;" type="text" value="{{ old('tempatPrakerin') }}"
-                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->tempat_prakerin : '-' }}"
+                            <input class="form-control" style="font-size: 14px;" type="text"
+                                value="{{ old('tempatPrakerin') }}"
+                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->tempat_prakerin : 'masukkan nama perusahaan' }}"
                                 id="tempatPrakerin" name="tempatPrakerin"
                                 {{ $siswa->status !== 'Belum Mendaftar' && $siswa->status !== null ? 'readonly' : '' }}>
                         </div>
                     </div>
                     @error('tempatPrakerin')
-                    <div style="color: red; font-size: 12px">{{ $message }}</div>
+                        <div style="color: red; font-size: 12px">{{ $message }}</div>
                     @enderror
-                </div>
-                <div class="col-6" style="padding-left: 70px; padding-top: 51px; padding-right: 200px">
                     <div class="row mb-4">
                         <label for="Alamat" class="form-label">Alamat Tempat Prakerin</label>
                         <div class="text-field">
-                            <textarea  class="form-control" style="font-size: 14px;" type="text" value="{{ old('alamatPrakerin') }}"
-                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->alamat_tempat_prakerin : '-' }}"
+                            <textarea class="form-control" style="font-size: 14px;" type="text" value="{{ old('alamatPrakerin') }}"
+                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->alamat_tempat_prakerin : 'masukkan alamat perusahaan' }}"
                                 id="alamatPrakerin" name="alamatPrakerin"
                                 {{ $siswa->status !== 'Belum Mendaftar' && $siswa->status !== null ? 'readonly' : '' }}></textarea>
                         </div>
                         @error('alamatPrakerin')
-                        <div style="color: red; font-size: 12px">{{ $message }}</div>
+                            <div style="color: red; font-size: 12px">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
+                <div class="col-6" style="padding-left: 70px; padding-top: 51px; padding-right: 200px">
                     <div class="row mb-4">
                         <label for="email" class="form-label">Email Tempat Prakerin</label>
                         <div class="text-field">
-                            <input class="form-control" style="font-size: 14px;" type="text" value="{{ old('emailPrakerin') }}"
-                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->email_tempat_prakerin : '-' }}"
+                            <input class="form-control" style="font-size: 14px;" type="text"
+                                value="{{ old('emailPrakerin') }}"
+                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->email_tempat_prakerin : 'perusahaan@domain.com' }}"
                                 id="emailPrakerin" name="emailPrakerin"
                                 {{ $siswa->status !== 'Belum Mendaftar' && $siswa->status !== null ? 'readonly' : '' }}>
                         </div>
                         @error('emailPrakerin')
-                        <div style="color: red; font-size: 12px">{{ $message }}</div>
+                            <div style="color: red; font-size: 12px">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="row mb-4">
                         <label for="nomorkontak" class="form-label">No. Telp Tempat Prakerin</label>
                         <div class="text-field">
-                            <input class="form-control" style="font-size: 14px;" type="text" value="{{ old('noTelpPrakerin') }}"
-                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->telp_tempat_prakerin : '-' }}"
+                            <input class="form-control" style="font-size: 14px;" type="text"
+                                value="{{ old('noTelpPrakerin') }}"
+                                placeholder="{{ $siswa->status !== 'Belum Mendaftar' ? $permohonan->telp_tempat_prakerin : 'masukkan no.telp perusahaan' }}"
                                 id="noTelpPrakerin" name="noTelpPrakerin"
                                 {{ $siswa->status !== 'Belum Mendaftar' && $siswa->status !== null ? 'readonly' : '' }}>
                         </div>
                         @error('noTelpPrakerin')
-                        <div style="color: red; font-size: 12px">{{ $message }}</div>
+                            <div style="color: red; font-size: 12px">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="row mb-4">
+                        <label for="durasi" class="form-label">Durasi</label>
+                        <div class="text-field">
+                            <select class="form-select" style="font-size: 14px;" id="durasi" name="durasi"
+                                @if ($siswa->status !== 'Belum Mendaftar') disabled @endif>
+                                <option value="" disabled selected>- Pilih Durasi -</option>
+                                @for ($i = 1; $i <= 6; $i++)
+                                    <option value="{{ $i }}" @if (old('durasi') == $i || ($siswa->status !== 'Belum Mendaftar' && $permohonan->durasi == $i)) selected @endif>
+                                        {{ $i }} bulan
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        @error('durasi')
+                            <div style="color: red; font-size: 12px">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+
                     <div class="btnpermohonan" style="justify-content: end; display: flex">
                         @if ($siswa->status === 'Belum Mendaftar' || $siswa->status === null)
                             <button type="button" class="btn" id="resetButton"
@@ -169,32 +194,32 @@
                         @endif
                     </div>
         </form>
-                    @if ($siswa->status !== 'Belum Mendaftar')
-                    <form action="{{ route('balasan.permohonan') }}" method="POST">
-                        @csrf
-                        <div class="row mb-4">
-                            <label for="balasanPrakerin" class="form-label">Balasan Tempat Prakerin</label>
-                            <div class="text-field">
-                                <input class="form-control" style="font-size: 14px;" type="text"
-                                    placeholder="{{ $permohonan->balasan ?? '-' }}"
-                                    id="balasanPrakerin" name="balasanPrakerin"
-                                    {{ $permohonan->balasan ? 'readonly' : '' }}>
-                            </div>
-                        </div>
-
-                        @if (!$permohonan->balasan)
-                        <div class="btnpermohonan" style="justify-content: end; display: flex">
-                            <button type="submit" class="btn" style="background-color: #44B158; color: #ffffff;">Submit</button>
-                        </div>
-                        @endif
-                    </form>
-                    @endif
+        @if ($siswa->status !== 'Belum Mendaftar')
+            <form action="{{ route('balasan.permohonan') }}" method="POST">
+                @csrf
+                <div class="row mb-4">
+                    <label for="balasanPrakerin" class="form-label">Balasan Tempat Prakerin</label>
+                    <div class="text-field">
+                        <input class="form-control" style="font-size: 14px;" type="text"
+                            placeholder="{{ $permohonan->balasan ?? 'Masukkan link drive' }}" id="balasanPrakerin" name="balasanPrakerin"
+                            {{ $permohonan->balasan ? 'readonly' : '' }}>
+                    </div>
                 </div>
-                @if (session('success'))
-                    <div class="alert alert-success alert-floating">
-                        {{ session('success') }}
+
+                @if (!$permohonan->balasan)
+                    <div class="btnpermohonan" style="justify-content: end; display: flex">
+                        <button type="submit" class="btn"
+                            style="background-color: #44B158; color: #ffffff;">Submit</button>
                     </div>
                 @endif
+            </form>
+        @endif
+    </div>
+    @if (session('success'))
+        <div class="alert alert-success alert-floating">
+            {{ session('success') }}
+        </div>
+    @endif
     </div>
     </div>
 

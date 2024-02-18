@@ -15,7 +15,7 @@
 
     {{-- navigation bar --}}
     <nav class="navbar fixed-top justify-content-between navbar-expand-lg">
-        <a href="/">
+        <a href="/" style="text-decoration: none;">
             <button type="button" class="d-flex btn btn-outline-light"><i
                     class="fa-solid fa-chevron-left"></i></button>
         </a>
@@ -151,6 +151,25 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // ... (kode yang sudah ada)
+    
+            // Fungsi untuk mereset notificationStatus ke "open" pada localStorage
+            function resetNotificationStatus() {
+                localStorage.setItem("notificationStatus", "open");
+            }
+    
+            // Event listener untuk menambahkan fungsi resetNotificationStatus saat tombol login ditekan
+            $(document).ready(function () {
+                $('#login-button').on('click', function () {
+                    resetNotificationStatus();
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -71,7 +71,7 @@
                     @if ($info->image)
                         <img src="data:image/jpeg;base64,{{ $info->image }}" style="width: 100%; height: 100%; object-fit: cover;" alt="...">
                     @else
-                        <img src="{{ asset('storage/images/no_image.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;" alt="No Image">
+                        <img src="{{ asset('assets/img/no_image.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;" alt="No Image">
                     @endif
                 </div>
             </div>            
@@ -79,7 +79,7 @@
                 <a class="name mt-2" href="{{ route('detailinfo', $info->id) }}" style="text-decoration: none; color: #000000;">{{ $info->nama_perusahaan }}</a>
                 {{-- <a class="name mt-2" href="{{ route('detailinfo') }}" style="text-decoration: none; color: #000000;">{{ $info->nama_perusahaan }}</a> --}}
                 <br>
-                <p class="keterangan mt-4">{{ $info->deskripsi }}</p>
+                <p class="keterangan mt-4">{{ Illuminate\Support\Str::limit($info->deskripsi, 100) }}</p>
             </div>
         </div>
         @endforeach

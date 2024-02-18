@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('permohonans', function (Blueprint $table) {
             $table->id();
             $table->string('NIS')->unique()->nullable()->length(20); //siswa
-            $table->string('tempat_prakerin')->nullable();//siswa
-            $table->string('alamat_tempat_prakerin')->nullable();//siswa
-            $table->string('email_tempat_prakerin')->nullable();//siswa
-            $table->string('telp_tempat_prakerin')->nullable();//siswa
+            $table->string('tempat_prakerin')->nullable(); //siswa
+            $table->string('alamat_tempat_prakerin')->nullable(); //siswa
+            $table->string('email_tempat_prakerin')->nullable(); //siswa
+            $table->string('telp_tempat_prakerin')->nullable(); //siswa
+            $table->integer('durasi')->nullable(); //siswa
             $table->string('balasan')->nullable();
-            $table->enum('status',['Mengajukan', 'Diterima', 'Ditolak'])->nullable();
-            $table->date('tanggal_mulai')->nullable();//siswa
-            $table->date('tanggal_selesai')->nullable();//siswa
+            $table->enum('status', ['Mengajukan', 'Diterima', 'Ditolak'])->nullable();
+            $table->date('tanggal_mulai')->nullable(); //siswa
+            $table->date('tanggal_selesai')->nullable(); //siswa
             $table->softDeletes();
             $table->timestamps();
         });

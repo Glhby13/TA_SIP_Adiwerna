@@ -35,15 +35,16 @@
                                     <td>{{ $data['permohonan']->tempat_prakerin }}</td>
                                     <td>{{ $data['permohonan']->telp_tempat_prakerin }}</td>
                                     <td style="display: flex; justify-content: center; align-item:center;">
-                                        <a href="{{ route('guru.suratpenarikan', $data['bimbingan']->id) }}"><button type="button" class="btn" style="color: #000000;">
-                                            <i class="far fa-file-pdf"></i></button></a>
+                                        <a href="{{ route('guru.suratpenarikan', $data['bimbingan']->id) }}"><button
+                                                type="button" class="btn" style="color: #000000;">
+                                                <i class="fa-solid fa-print" style="color: #000000"></i></button></a>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="cetakitem">
+                {{-- <div class="cetakitem">
                     <button type="button" class="btn mt-3"
                         style="background-color: #4f4e4c; color: #ffffff; font-size: 16px;" data-toggle="modal"
                         data-target="#modalCetakitem">Print Item</button>
@@ -74,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </body>

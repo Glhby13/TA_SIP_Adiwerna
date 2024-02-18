@@ -24,7 +24,7 @@
             margin-left: 4em;
             margin-right: 3em;
         } */
-    </style> 
+    </style>
 </head>
 {{-- onload="window.print()" --}}
 
@@ -64,9 +64,9 @@
             <tr>
                 <td width="15">Nomor</td>
                 <td width="10"> :</td>
-                <td width="203">423.4 /..... / 2023</td>
+                <td width="203"> ...... /...... / ...... </td>
                 <td rowspan="5" width="30"></td>
-                <td>Adiwerna,  <?php echo date('d') . ' ' . App\Helpers\MyHelpers::getIndonesianMonth(date('F')) . date(' Y'); ?></td>
+                <td>Adiwerna, <?php echo date('d') . ' ' . App\Helpers\MyHelpers::getIndonesianMonth(date('F')) . date(' Y'); ?></td>
                 <td rowspan="5" width="20"></td>
             </tr>
             <tr>
@@ -91,7 +91,8 @@
                     <b>{{ $dataPermohonan->tempat_prakerin }}</b>
                     <br>{{ $dataPermohonan->alamat_tempat_prakerin }}<br>
                     di _
-                    <br><center>Tempat</center>
+                    <br>
+                    <center>Tempat</center>
                 </td>
             </tr>
             <tr>
@@ -107,9 +108,11 @@
                             yang tertuang dalam Kurikulum Merdeka, maka kami mengajukan
                             permohonan kepada Pimpinan Instansi/Industri/Perusahaan
                             <b>{{ $dataPermohonan->tempat_prakerin }}</b> untuk menerima siswa kami
-                            Program Keahlian {{ isset($dataPermohonan->siswa->jurusan) ? $jurusanMapping[$dataPermohonan->siswa->jurusan] : '' }} ({{ $dataPermohonan->siswa->jurusan }})
+                            Program Keahlian
+                            {{ isset($dataPermohonan->siswa->jurusan) ? $jurusanMapping[$dataPermohonan->siswa->jurusan] : '' }}
+                            ({{ $dataPermohonan->siswa->jurusan }})
                             melaksanakan Prakerin untuk tahun pelajaran 2023/2024 dan kami
-                            jadwalkan pelaksanaannya mulai tanggal 
+                            jadwalkan pelaksanaannya mulai tanggal
                             <b>
                                 {{ isset($dataPermohonan->tanggal_mulai) ? App\Helpers\MyHelpers::getIndonesianDate($dataPermohonan->tanggal_mulai) : '' }}
                             </b>
@@ -117,7 +120,7 @@
                             <b>
                                 {{ isset($dataPermohonan->tanggal_selesai) ? App\Helpers\MyHelpers::getIndonesianDate($dataPermohonan->tanggal_selesai) : '' }}
                             </b>
-                            atau selama ± 3 bulan.
+                            atau selama ± {{ $dataPermohonan->durasi }} bulan.
                         </p>
                         <p style="text-indent: 30px; margin-top: 5px; margin-bottom: 0px">Sebagai bahan pertimbangan,
                             bersama ini saya lampirkan dokumen pengajuan
@@ -190,7 +193,7 @@
             <tr>
                 <td width="20">Tanggal</td>
                 <td width="10"> :</td>
-                <td width="520">Adiwerna,  <?php echo date('d') . ' ' . App\Helpers\MyHelpers::getIndonesianMonth(date('F')) . date(' Y'); ?></td>
+                <td width="520">Adiwerna, <?php echo date('d') . ' ' . App\Helpers\MyHelpers::getIndonesianMonth(date('F')) . date(' Y'); ?></td>
             </tr>
             <tr>
                 <td height="40" colspan="3"></td>
@@ -200,10 +203,15 @@
                     <center>
                         <font size="3"><b>DAFTAR USULAN PESERTA PROGRAM PRAKTIK KERJA INDUSTRI DI</b></font><br>
                         <font size="3"><b>{{ $dataPermohonan->tempat_prakerin }}</b></font><br>
-                        <font size="3"><b>PROGRAM KEAHLIAN {{ isset($dataPermohonan->siswa->jurusan) ? $jurusanMapping[$dataPermohonan->siswa->jurusan] : '' }}</b></font><br>
+                        <font size="3"><b>PROGRAM KEAHLIAN
+                                {{ isset($dataPermohonan->siswa->jurusan) ? $jurusanMapping[$dataPermohonan->siswa->jurusan] : '' }}</b>
+                        </font><br>
                         <font size="3"><b>({{ $dataPermohonan->siswa->jurusan }}) SMKN 1 ADIWERNA</b></font><br>
-                        <font size="3"><b>Periode {{ isset($dataPermohonan->tanggal_mulai) ? App\Helpers\MyHelpers::getIndonesianDate($dataPermohonan->tanggal_mulai) : '' }} 
-                            s.d {{ isset($dataPermohonan->tanggal_mulai) ? App\Helpers\MyHelpers::getIndonesianDate($dataPermohonan->tanggal_selesai) : '' }}</b></font><br>
+                        <font size="3"><b>Periode
+                                {{ isset($dataPermohonan->tanggal_mulai) ? App\Helpers\MyHelpers::getIndonesianDate($dataPermohonan->tanggal_mulai) : '' }}
+                                s.d
+                                {{ isset($dataPermohonan->tanggal_mulai) ? App\Helpers\MyHelpers::getIndonesianDate($dataPermohonan->tanggal_selesai) : '' }}</b>
+                        </font><br>
                     </center>
                 </td>
             </tr>
@@ -299,9 +307,10 @@
                 <td colspan="3" width="200">
                     <p style="text-indent: 30px; text-align: justify; margin:0px; line-height: 1.5;">
                         Berdasarkan dengan surat permohonan Prakerin dari SMKN 1 Adiwerna sesuai dengan
-                        nomor ajuan 423.4 /....../ 2022 tanggal  <?php echo date('d') . ' ' . App\Helpers\MyHelpers::getIndonesianMonth(date('F')) . date(' Y'); ?>. Maka dengan ini kami
+                        nomor ajuan 423.4 /....../ 2022 tanggal <?php echo date('d') . ' ' . App\Helpers\MyHelpers::getIndonesianMonth(date('F')) . date(' Y'); ?>. Maka dengan ini kami
                         <b>MENERIMA / MENOLAK * </b>untuk melaksanakan kegiatan tersebut sesuai dengan syarat dan
-                        ketentuan yang berlaku di Perusahaan/Instansi <b>{{ $dataPermohonan->tempat_prakerin }}</b> yang beralamat
+                        ketentuan yang berlaku di Perusahaan/Instansi <b>{{ $dataPermohonan->tempat_prakerin }}</b>
+                        yang beralamat
                         di {{ $dataPermohonan->alamat_tempat_prakerin }}, selama …… bulan dan terhitung mulai
                         ........................ sampai ........................
                     </p>

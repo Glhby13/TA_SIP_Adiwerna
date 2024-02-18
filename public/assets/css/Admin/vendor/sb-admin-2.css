@@ -91,6 +91,8 @@ body {
     outline: 0 !important;
 }
 
+
+
 .Judul {
     font-family: Poppins;
     font-size: 28px;
@@ -135,7 +137,7 @@ body {
     justify-content: center;
     width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
     height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-    border: 5px solid #317DA8; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
+    border: 5px solid #317da8; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
     border-radius: 50%;
     margin: 0 auto; /* Mengatur ke tengah secara horizontal */
 }
@@ -145,7 +147,7 @@ body {
     justify-content: center;
     width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
     height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-    border: 5px solid #44B158; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
+    border: 5px solid #44b158; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
     border-radius: 50%;
     margin: 0 auto; /* Mengatur ke tengah secara horizontal */
 }
@@ -155,7 +157,7 @@ body {
     justify-content: center;
     width: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
     height: 90px; /* Sesuaikan dengan ukuran yang Anda inginkan */
-    border: 5px solid #E57272; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
+    border: 5px solid #e57272; /* Warna dan ketebalan garis sesuaikan dengan preferensi Anda */
     border-radius: 50%;
     margin: 0 auto; /* Mengatur ke tengah secara horizontal */
 }
@@ -4910,17 +4912,17 @@ input[type="button"].btn-block {
 }
 
 .card1 {
-    background-color: #C7D6F5;
+    background-color: #c7d6f5;
     border-radius: 15px;
 }
 
 .card2 {
-    background-color: #D0EFA9;
+    background-color: #d0efa9;
     border-radius: 15px;
 }
 
 .card3 {
-    background-color: #F4DDDD;
+    background-color: #f4dddd;
     border-radius: 15px;
 }
 
@@ -11147,6 +11149,7 @@ a:focus {
     }
     .sidebar.toggled .nav-item .nav-link[data-toggle="collapse"]::after {
         display: none;
+        transform: rotate(-90deg);
     }
     .sidebar.toggled .sidebar-brand .sidebar-brand-icon i {
         font-size: 2rem;
@@ -11838,8 +11841,6 @@ body.sidebar-toggled footer.sticky-footer {
     width: 100%;
 }
 
-
-
 .avatar {
     background: #d4d4d4;
     border-radius: 50%;
@@ -11856,7 +11857,7 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .font-weight-bold {
-    font-weight: 700!important;
+    font-weight: 700 !important;
 }
 
 .avatar[data-initial]::before {
@@ -11865,6 +11866,6 @@ body.sidebar-toggled footer.sticky-footer {
     left: 50%;
     position: absolute;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     z-index: 1;
 }

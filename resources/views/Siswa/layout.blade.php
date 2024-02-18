@@ -6,21 +6,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ asset('assets/img/logosmk.png') }}" type="image/x-icon">
     <title>SISTEM PRAKERIN SMKN 1 ADIWERNA</title>
+    <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{ asset('assets/css/welcome.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('dashboard.css') }}">
-    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('dashboard.css') }}"> --}}
+    <link rel="stylesheet"
+        href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css') }}">
     <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>
     <!-- Custom styles for this template -->
     <link href="{{ asset('assets/css/Admin/vendor/sb-admin-2.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css') }}">
     <script src="{{ asset('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js') }}"></script>
 
 </head>
 
 <style>
+    .logo-navbar {
+        margin-right: 10px;
+    }
+
+    .navbar-brand {
+        font-family: Poppins;
+    }
+
+    .nav-link {
+        font-family: Poppins;
+        font-size: 14px;
+        color: #ffffff;
+    }
+
+    .logo-home {
+        width: 100%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .judulfooter {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    .maps-image-size {
+        max-width: 250px;
+        max-height: 200px;
+        border-radius: 10px;
+    }
+
+    .footer {
+        background-color: #2a356c;
+        padding: 16px 42px;
+    }
+
+    .footer .list-unstyled {
+        color: white;
+    }
+
+    .cpr {
+        color: rgba(255, 255, 255, 0.6);
+        background-color: #17223b;
+        margin-bottom: 0px;
+    }
+
+    .footer .logo {
+        justify-content: center;
+        align-items: center;
+        justify-content: start;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 36px;
+        height: 100%;
+    }
+
+    .contact {
+        color: #ffff;
+        font-family: Poppins;
+    }
+
+    .contact .judul {
+        font-weight: 700;
+        font-size: 24px;
+        font-style: normal;
+    }
+
+    .icon-contact {
+        font-size: 14px;
+        display: flex;
+        margin-bottom: 12px;
+        align-items: center;
+    }
+
+    .icon-contact .contact-text {
+        display: flex;
+        margin-left: 12px;
+    }
+
+    .logo-image-size {
+        max-width: 150px;
+        max-height: 150px;
+    }
+
+    .icon-size {
+        max-width: 20px;
+        max-height: 20px;
+    }
+
     .button-style {
         display: inline-block;
         padding: 0px 5px;
@@ -71,7 +169,8 @@
     <nav class="navbar fixed-top justify-content-between navbar-expand-lg" style="height: 100%; max-height: 76px;">
         <div class="logo-home">
             <a class="navbar-brand-two d-inline-block ml-1" href="#">
-                <img src="{{ asset('assets/img/logosmk.png') }}" alt="Logo" width="40" height="40" class="logo-navbar" />
+                <img src="{{ asset('assets/img/logosmk.png') }}" alt="Logo" width="40" height="40"
+                    class="logo-navbar" />
             </a>
             <div class="navbar-brand2">
                 <a href="{{ route('welcome') }}" style="text-decoration: none;">
@@ -95,19 +194,19 @@
                         <a class="nav-link active2" href="{{ route('siswa.permohonan') }}"> Permohonan Prakerin </a>
                     </li>
                     <li class="nav-item" style="padding-top: 1%">
-                        <a class="nav-link active3 @if(Auth::user()->status == 'Belum Mendaftar' || Auth::user()->status == 'Sudah Mendaftar') disabled @endif" 
-                           href="{{ route('siswa.jurnal') }}"> Pengisian Jurnal </a>
+                        <a class="nav-link active3 @if (Auth::user()->status == 'Belum Mendaftar' || Auth::user()->status == 'Sudah Mendaftar') disabled @endif"
+                            href="{{ route('siswa.jurnal') }}"> Pengisian Jurnal </a>
                     </li>
                     <li class="nav-item nav-item-divider" style="padding-top: 1%">
-                        <a class="nav-link active4 @if(Auth::user()->status == 'Belum Mendaftar' || Auth::user()->status == 'Sudah Mendaftar') disabled @endif" 
-                           href="{{ route('siswa.laporan') }}"> Pengumpulan Laporan </a>
+                        <a class="nav-link active4 @if (Auth::user()->status == 'Belum Mendaftar' || Auth::user()->status == 'Sudah Mendaftar') disabled @endif"
+                            href="{{ route('siswa.laporan') }}"> Pengumpulan Laporan </a>
                     </li>
                     <li class="nav-item" style="padding-bottom: 1%">
                         <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             {{-- <img class="img-profile rounded-circle" src="{{ $siswa->name[0] }}"
                                 style="height: 2rem; width: 2rem; border-radius: 50% !important;"> --}}
-                                @if (Auth::user()->image)
+                            @if (Auth::user()->image)
                                 <figure class="img-profile rounded-circle avatar font-weight-bold"
                                     style="background-image: url(data:image/png;base64,{{ base64_encode(Auth::user()->image) }});
                                     object-fit: fill;
@@ -127,7 +226,7 @@
                                     data-initial="{{ Auth::user()->name[0] }}">
                                 </figure>
                             @endif
-                            
+
                             <span class="ml-3 mr-2 d-none d-lg-inline text-gray-600 small"
                                 style="margin-left: 5% !important; color: #ffffff !important; margin-right: 0% !important; font-size: 14px;">{{ isset($siswa->name) ? $siswa->name : '' }}</span>
                         </a>
@@ -135,11 +234,11 @@
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
                             <a class="dropdown-item" style="cursor: pointer;" href="/edit-profil">
-                                <i class="fa-solid fa-user-gear fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-user-gear fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Edit Profile
                             </a>
                             <a class="dropdown-item" style="cursor: pointer;" href="/edit-password">
-                                <i class="fa-solid fa-user-gear fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-user-gear fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Change Password
                             </a>
                             <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal"
@@ -185,7 +284,7 @@
             // Tampilkan dropdown "Logout" saat tombol "Admin" diklik
             userDropdown.on("click", function(e) {
                 e
-            .stopPropagation(); // Menghentikan event propagasi agar dropdown tidak menutup dengan sendirinya
+                    .stopPropagation(); // Menghentikan event propagasi agar dropdown tidak menutup dengan sendirinya
                 dropdownMenu.show();
             });
 
@@ -207,6 +306,20 @@
         });
     </script>
 
+<script>
+    // Fungsi untuk mereset notificationStatus ke "open" pada localStorage
+    function resetNotificationStatus() {
+        localStorage.setItem("notificationStatus", "open");
+    }
+
+    // Event listener untuk menambahkan fungsi resetNotificationStatus saat tombol Logout ditekan
+    $(document).ready(function () {
+        $('#logoutModal .btn-primary').on('click', function () {
+            resetNotificationStatus();
+        });
+    });
+</script>
+
     @yield('dashboard')
     @yield('permohonan')
     @yield('jurnal')
@@ -223,6 +336,7 @@
 </body>
 
 <footer>
+    {{-- Footer --}}
     <div class="footer">
         <div class="logo">
             <div class="logo-footer">
@@ -237,10 +351,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" width="20"
                                     height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
                                     <path
-                                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.
-                                        493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.
-                                        436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0
-                                        .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
+                                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
                                     <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                 </svg>
                                 <span class="contact-text">Jl. Raya II PO Box 24 Adiwerna Tegal, Indonesia</span>
@@ -250,11 +361,8 @@
                             <div class="icon-contact">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" width="20"
                                     height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
-                                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2
-                                        2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0
-                                        0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5
-                                        .64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1
-                                        1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                                    <path
+                                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
                                 </svg>
                                 <span class="contact-text">mail@smkn1adw.sch.id</span>
                             </div>
@@ -263,19 +371,8 @@
                             <div class="icon-contact">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" width="20"
                                     height="20" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
-                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.
-                                        484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17
-                                        .569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l
-                                        1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.67
-                                        8 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.
-                                        482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0
-                                         0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.6
-                                         12.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.6
-                                         78.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178
-                                         l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.
-                                         645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2
-                                         .877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0
-                                         1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                    <path
+                                        d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
                                 </svg>
                                 <span class="contact-text">Telp. (0283) 443768</span>
                             </div>
@@ -291,9 +388,9 @@
         </div>
     </div>
     <div class="cpr">
-        <div class="d-flex justify-content-center" style="background-color: rgba(0, 0, 0, 0.2);">
+        <div class="d-flex justify-content-center style="background-color: rgba(0, 0, 0, 0.2);>
             <div class="copyright">
-                © 2023 SMK NEGERI 1 ADIWERNA
+                © SMK NEGERI 1 ADIWERNA
             </div>
         </div>
     </div>

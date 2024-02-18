@@ -16,8 +16,9 @@
             /* Biarkan lebar menyesuaikan isi notifikasi */
             top: 11vh;
             right: 7vh;
+            z-index: 1050;
         }
-        
+
         .success-floating {
             position: fixed;
             transform: translate(-50%, -50%);
@@ -26,32 +27,33 @@
             top: 50%;
             left: 50%;
         }
-        
+
         #dataTable th:first-child {
-                position: relative;
-            }
-        
-            #dataTable th:first-child input {
-                position: absolute;
-                margin: 0;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        
-            #dataTable th:first-child::before,
-            #dataTable th:first-child::after {
-                display: none !important;
-                cursor: unset !important;
-            }
-            
-        .terpilih {
-        display: flex; /* Membuat elemen menjadi flex container */
-        align-items: center; /* Mengatur seluruh item dalam satu baris secara vertikal di tengah */
+            position: relative;
         }
-        
+
+        #dataTable th:first-child input {
+            position: absolute;
+            margin: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #dataTable th:first-child::before,
+        #dataTable th:first-child::after {
+            display: none !important;
+            cursor: unset !important;
+        }
+
+        .terpilih {
+            display: flex;
+            /* Membuat elemen menjadi flex container */
+            align-items: center;
+            /* Mengatur seluruh item dalam satu baris secara vertikal di tengah */
+        }
     </style>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Temukan notifikasi
@@ -88,7 +90,7 @@
                 nisInput.value = " ";
                 nameInput.value = " ";
                 jurusanInput.selectedIndex = 0;
-                kelasInput.value = " ";
+                kelasInput.selectedIndex = 0;
                 telpInput.value = " ";
                 emailInput.value = " ";
                 statusInput.selectedIndex = 0;
@@ -98,20 +100,20 @@
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var selectAllCheckbox = $('#select-all');
             var checkboxes = $('.form-check-input');
-            
+
             var dataTable = $('#dataTable');
 
-            selectAllCheckbox.change(function () {
+            selectAllCheckbox.change(function() {
                 checkboxes.prop('checked', $(this).prop('checked'));
                 toggleDeleteButton();
                 toggleEditDeleteButtons();
                 updateSelectedIds();
             });
 
-            checkboxes.change(function () {
+            checkboxes.change(function() {
                 toggleDeleteButton();
                 toggleEditDeleteButtons();
                 updateSelectedIds();
@@ -124,7 +126,7 @@
             }
 
             function toggleEditDeleteButtons() {
-                checkboxes.each(function () {
+                checkboxes.each(function() {
                     var isChecked = $(this).prop('checked');
                     var row = $(this).closest('tr');
                     row.find('.edit-button, .delete-button').prop('disabled', isChecked);
@@ -134,7 +136,7 @@
             function updateSelectedIds() {
                 var selectedIds = [];
 
-                checkboxes.each(function () {
+                checkboxes.each(function() {
                     if ($(this).prop('checked') && $(this).val() !== 'select-all') {
                         selectedIds.push($(this).val());
                     }
@@ -142,7 +144,7 @@
 
                 $('[name="selectedIds[]"]').remove();
 
-                selectedIds.forEach(function (id) {
+                selectedIds.forEach(function(id) {
                     var input = $('<input>').attr({
                         type: 'hidden',
                         name: 'selectedIds[]',
@@ -156,15 +158,15 @@
             $('.edit-button, .delete-button').prop('disabled', false);
 
             // Enable/disable edit and delete buttons based on checkbox status
-            checkboxes.change(function () {
+            checkboxes.change(function() {
                 toggleEditDeleteButtons();
                 updateSelectAllCheckbox();
             });
 
             // Menangani event draw.dt
-            dataTable.on('draw.dt', function () {
+            dataTable.on('draw.dt', function() {
                 checkboxes = $('.form-check-input'); // Perbarui checkboxes setelah tabel ditarik ulang
-                checkboxes.change(function () {
+                checkboxes.change(function() {
                     toggleDeleteButton();
                     toggleEditDeleteButtons();
                     updateSelectedIds();
@@ -180,6 +182,51 @@
         });
     </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var jurusanInput = document.getElementById("jurusan");
+        var kelasInput = document.getElementById("kelas");
+
+        // Mendefinisikan daftar kelas untuk setiap jurusan
+        var kelasMapping = {
+            'DPIB': ['DPIB 1', 'DPIB 2', 'DPIB 3', 'DPIB 4'],
+            'TE': ['TE 1', 'TE 2', 'TE 3', 'TE 4'],
+            'TJKT' : ['TJKT 1', 'TJKT 2', 'TJKT 3', 'TJKT 4'],
+            'TK' : ['TK 1', 'TK 2', 'TK 3', 'TK 4'],
+            'TM' : ['TM 1', 'TM 2', 'TM 3', 'TM 4'],
+            'TKRO' : ['TKRO 1', 'TKRO 2', 'TKRO 3', 'TKRO 4'],
+            'TPFL' : ['TPFL 1', 'TPFL 2', 'TPFL 3', 'TPFL 4'],
+            // ... dan seterusnya, sesuai dengan jurusan yang tersedia
+        };
+
+        // Fungsi untuk mengisi opsi kelas berdasarkan jurusan yang dipilih
+        function updateKelasOptions() {
+            var selectedJurusan = jurusanInput.value;
+            var kelasOptions = kelasMapping[selectedJurusan] || [];
+
+            // Hapus opsi lama
+            kelasInput.innerHTML = '<option value="" selected disabled>Pilih Kelas</option>';
+
+            // Tambahkan opsi baru
+            kelasOptions.forEach(function(kelas) {
+                var option = document.createElement("option");
+                option.value = kelas;
+                option.text = kelas;
+                kelasInput.add(option);
+            });
+        }
+
+        // Tambahkan event listener ke input jurusan
+        jurusanInput.addEventListener("change", function() {
+            updateKelasOptions();
+        });
+
+        // Panggil fungsi untuk inisialisasi opsi kelas
+        updateKelasOptions();
+    });
+</script>
+
+
 
 
     <body>
@@ -188,14 +235,14 @@
             <i class="fas fa-plus mr-2 ml-1"></i>
             Tambah Data
         </button>
-        <button type="button" class="btn btn-primary mt-2 mb-4" data-toggle="modal" data-target="#modalTambahFileSiswa">
+        <button type="button" class="btn btn-primary mt-2 mb-4 ml-2" data-toggle="modal" data-target="#modalTambahFileSiswa">
             <i class="fas fa-plus mr-2 ml-1"></i>
             Unggah File
         </button>
         <a href="{{ route('admin.trashsiswaview') }}"><button type="button" class="btn mt-2 mb-4 ml-2"
-            style="background-color: #fe5a48; color: #ffffff; font-size: 16px;">
-            <i class="fas fa-trash mr-2 ml-1"></i>
-            Trash</button></a>
+                style="background-color: #fe5a48; color: #ffffff; font-size: 16px;">
+                <i class="fas fa-trash mr-2 ml-1"></i>
+                Trash</button></a>
         @if (session('success'))
             <div class="alert alert-success alert-floating">
                 {{ session('success') }}
@@ -232,9 +279,10 @@
                             <div class="mb-3">
                                 <label class="form-label" style="color: #000000;">Jurusan</label>
                                 <select class="form-control" name="jurusan" id="jurusan">
-                                    <option value="" selected disabled>-- Pilih Jurusan --</option>
+                                    <option value="" selected disabled>Pilih Jurusan</option>
                                     @if (Auth::user()->jurusan)
-                                        <option value="{{ Auth::user()->jurusan }}">{{ $jurusanMapping[Auth::user()->jurusan] }}</option>
+                                        <option value="{{ Auth::user()->jurusan }}">
+                                            {{ $jurusanMapping[Auth::user()->jurusan] }}</option>
                                     @else
                                         @foreach ($jurusanMapping as $key => $jurusan)
                                             <option value="{{ $key }}">{{ $jurusan }}</option>
@@ -244,8 +292,12 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" style="color: #000000;">Kelas</label>
-                                <input type="text" class="form-control" name="kelas" id="kelas" required>
+                                <select class="form-control" name="kelas" id="kelas" required>
+                                    <option value="" selected disabled>Pilih Kelas</option>
+                                    <!-- Opsi kelas akan diisi menggunakan JavaScript -->
+                                </select>
                             </div>
+                            
                             <div class="mb-3" style="color: #000000;">
                                 <label class="form-label">No. Telp</label>
                                 <input type="text" class="form-control" name="telp" id="telp" required>
@@ -256,14 +308,13 @@
                             </div>
                             <div class="mb-3" style="color: #000000;">
                                 <label class="form-label">Status</label>
-                                <select class="form-control" name="status" id="status">
-                                    <option value="" selected disabled>-- Pilih Status --</option>
-                                    <option value="Belum Mendaftar">Belum Mendaftar</option>
-                                    <option value="Sudah Mendaftar">Sudah Mendaftar</option>
-                                    <option value="Sedang Prakerin">Sedang Prakerin</option>
-                                    <option value="Selesai Prakerin">Selesai Prakerin</option>
-                                </select>
+                                <input class="form-control" name="status" id="status" type="text"
+                                    value="Belum Mendaftar" readonly>
                             </div>
+                            {{-- <div class="row mb-4">
+                                <label class="form-label">Status</label>
+                                <input class="form-control" name="status" id="status" type="text" value="Belum Mendaftar" readonly>
+                            </div> --}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn" id="resetButton"
@@ -279,7 +330,8 @@
         <!-- Akhir Modal -->
 
         <!-- Modal Tambah File -->
-        <div class="modal fade" id="modalTambahFileSiswa" tabindex="-1" role="dialog" aria-labelledby="modalTambahFileLabel" aria-hidden="true">
+        <div class="modal fade" id="modalTambahFileSiswa" tabindex="-1" role="dialog"
+            aria-labelledby="modalTambahFileLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -291,11 +343,13 @@
                     </div>
                     <div class="modal-body">
                         <!-- Form untuk mengunggah file Excel -->
-                        <form action="{{ route('admin.tambahfiledatasiswa') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('admin.tambahfiledatasiswa') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="excelFile">Pilih File Excel:</label>
-                                <input type="file" class="form-control" id="excelFile" name="excelFileSiswa" accept=".xls,.xlsx" required>
+                                <input type="file" class="form-control" id="excelFile" name="excelFileSiswa"
+                                    accept=".xls,.xlsx" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Unggah</button>
                         </form>
@@ -318,7 +372,8 @@
                             <tr>
                                 <th class="text-center" orderable="false" style="cursor: unset">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="select-all" id="select-all">
+                                        <input class="form-check-input" type="checkbox" value="select-all"
+                                            id="select-all">
                                         <label class="form-check-label" for="select-all"></label>
                                     </div>
                                 </th>
@@ -329,6 +384,7 @@
                                 <th>No. Telp</th>
                                 <th>Email</th>
                                 <th>Status</th>
+                                <th>Nilai</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -337,7 +393,8 @@
                                 <tr>
                                     <td class="text-center">
                                         <div class="form-check" style="padding-left: 0; margin-left: 30px;">
-                                            <input class="form-check-input" type="checkbox" value="{{ $data->id }}" id="select-item-{{ $data->id }}">
+                                            <input class="form-check-input" type="checkbox" value="{{ $data->id }}"
+                                                id="select-item-{{ $data->id }}">
                                             <label class="form-check-label" for="selectitem"></label>
                                         </div>
                                     </td>
@@ -348,19 +405,21 @@
                                     <td style="width: 150px;"><?= $data['telp'] ?></td>
                                     <td style="width: 180px;"><?= $data['email'] ?></td>
                                     <td style="width: 140px;"><?= $data['status'] ?></td>
+                                    <td><?= $data['nilai'] ?></td>
                                     <td style="width: 90px;">
                                         <div class="editdata">
                                             <button id="edit" type="button" class="btn edit-button">
                                                 <a href="{{ route('admin.datasiswaeditview', $data->id) }}"><i
                                                         class="far fa-edit" style="color: #000000"></i></a>
                                             </button>
-                                            <button id="delete" type="button" class="btn delete-button" style="color: #000000" data-toggle="modal"
-                                            data-target="#modalHapus{{ $data->id }}">
+                                            <button id="delete" type="button" class="btn delete-button"
+                                                style="color: #000000" data-toggle="modal"
+                                                data-target="#modalHapus{{ $data->id }}">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
-    
-                                            <div class="modal fade"  id="modalHapus{{ $data->id }}" role="dialog" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                            <div class="modal fade" id="modalHapus{{ $data->id }}" role="dialog"
+                                                tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-body"
@@ -374,18 +433,21 @@
                                                                     d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
                                                             </svg>
                                                         </div>
-                                                        <form method="POST" action="{{ route('admin.datasiswasoftdelete', $data->id) }}">
+                                                        <form method="POST"
+                                                            action="{{ route('admin.datasiswasoftdelete', $data->id) }}">
                                                             @csrf
-                                                        <p style="display: flex; align-items:center; justify-content:center; text-align:center; font-weight:600; font-size:20px">
-                                                            Apakah Anda yakin ingin menghapus data?</p>
-                                                        <div class="modalfoot mt-3 mb-3"
-                                                            style="display:flex; justify-content: center; align-items:center;">
-                                                            <button type="button" class="btn mr-2" data-dismiss="modal"
-                                                                style="background-color: #EF4F4F; color: #ffffff; font-size: 16px; font-family: Poppins;">Tidak</button>
-                                                            <button type="submit" class="btn ml-2"
-                                                                style="background-color: #44B158; color: #ffffff; font-size: 16px; font-family: Poppins;">Ya,
-                                                                Hapus Saja!</button>
-                                                        </div>
+                                                            <p
+                                                                style="display: flex; align-items:center; justify-content:center; text-align:center; font-weight:600; font-size:20px">
+                                                                Apakah Anda yakin ingin menghapus data?</p>
+                                                            <div class="modalfoot mt-3 mb-3"
+                                                                style="display:flex; justify-content: center; align-items:center;">
+                                                                <button type="button" class="btn mr-2"
+                                                                    data-dismiss="modal"
+                                                                    style="background-color: #EF4F4F; color: #ffffff; font-size: 16px; font-family: Poppins;">Tidak</button>
+                                                                <button type="submit" class="btn ml-2"
+                                                                    style="background-color: #44B158; color: #ffffff; font-size: 16px; font-family: Poppins;">Ya,
+                                                                    Hapus Saja!</button>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -410,15 +472,18 @@
                         </tfoot> --}}
                     </table>
                 </div>
-                <div class="terpilih">                
+                <div class="terpilih">
                     <form id="deleteForm" method="POST" action="{{ route('admin.softdeleteSelectedSiswa') }}">
                         @csrf
                         <input type="hidden" name="action" value="delete">
-                        @foreach($siswa as $data)
-                            <input type="hidden" name="selectedIds[]" class="selected-item" value="{{ $data->id }}">
+                        @foreach ($siswa as $data)
+                            <input type="hidden" name="selectedIds[]" class="selected-item"
+                                value="{{ $data->id }}">
                         @endforeach
-                        <button id="deleteButton" type="submit" class="btn mt-3 ml-2" style="background-color: #EF4F4F; 
-                        color: #ffffff; font-size: 16px;" disabled>Delete Item</button>
+                        <button id="deleteButton" type="submit" class="btn mt-3 ml-2"
+                            style="background-color: #EF4F4F; 
+                        color: #ffffff; font-size: 16px;"
+                            disabled>Delete Item</button>
                     </form>
                 </div>
             </div>
@@ -431,7 +496,8 @@
     <script>
         $('#dataTable').DataTable({
             "columnDefs": [{
-                "orderable": false, "targets": [0, 8]
+                "orderable": false,
+                "targets": [0, 9]
             }]
         });
     </script>

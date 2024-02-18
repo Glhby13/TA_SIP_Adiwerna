@@ -3,18 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Bimbingan extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'bimbingans';
 
     protected $fillable = [
         'NIP',
         'NIS',
         'laporan',
-        'nilai',
         'status',
+        'jumlah_revisi',
+        'catatan_revisi',
     ];
 
     /**
@@ -32,5 +36,4 @@ class Bimbingan extends Model
     {
         return $this->belongsTo(User::class, 'NIS', 'NIS');
     }
-
 }

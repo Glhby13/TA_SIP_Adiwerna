@@ -45,43 +45,35 @@
     </script> --}}
 
     <script>
-        $(document).ready(function() {
-            // Mendapatkan URL halaman sebelumnya
-            var previousPage = document.referrer;
-
-            // Mendapatkan elemen notifikasi dan tombol tutup berdasarkan ID
+        $(document).ready(function () {
             var notification = $("#notification");
             var closeButton = notification.find(".btn-close");
-            var notificationStatus = "open"; // Default status "open"
-
-            // Mengecek apakah halaman sebelumnya adalah halaman login
-            if (previousPage.includes("login")) {
-                // Jika halaman sebelumnya adalah halaman login, biarkan status "open"
-            } else {
-                // Jika halaman sebelumnya bukan halaman login, atur status "closed"
-                notificationStatus = "closed";
-            }
-
+            var notificationStatus = localStorage.getItem("notificationStatus") || "open";
+    
             if (notificationStatus === "open") {
-                // Tampilkan notifikasi jika statusnya adalah "open"
                 notification.addClass("d-flex").show();
             } else {
-                // Jika status notifikasi adalah "closed", maka sembunyikan notifikasi
                 notification.removeClass("d-flex").hide();
-                localStorage.setItem("notificationStatus", "closed");
             }
-
-            // Tambahkan event listener ke tombol tutup
-            closeButton.on("click", function() {
-                // Menghapus kelas .d-flex dan mengubah properti display menjadi "none"
+    
+            closeButton.on("click", function () {
                 notification.removeClass("d-flex").hide();
                 localStorage.setItem("notificationStatus", "closed");
+            });
+    
+            // Event listener untuk menutup notifikasi saat pindah halaman
+            $(window).on("beforeunload", function () {
+                // Jika notifikasi masih terbuka, tutup dan atur status ke "closed"
+                if (notificationStatus === "open") {
+                    notification.removeClass("d-flex").hide();
+                    localStorage.setItem("notificationStatus", "closed");
+                }
             });
         });
     </script>
 
-     
-{{-- @if(session('notificationStatus') === 'open') --}}
+
+    {{-- @if (session('notificationStatus') === 'open') --}}
     <div class="cont-1 container-fluid" style="margin-top: 90px">
         <div class="alert alert-success d-flex align-items-center" role="alert" id="notification">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -93,11 +85,11 @@
             <div style="margin-left: 20px">
                 Selamat datang, {{ isset($siswa->name) ? $siswa->name : '' }} di Sistem Informasi Prakerin!
             </div>
-            
+
             <button class="btn btn-close" aria-label="Close" data-dismis="alert" style="margin-left: auto;"></button>
         </div>
     </div>
-{{-- @endif --}}
+    {{-- @endif --}}
     {{-- <script>
         // Set localStorage saat halaman dimuat
         localStorage.setItem("notificationStatus", "open");
@@ -121,10 +113,10 @@
                                             d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                                     </svg>
                                 </div>
-                                <div class="col-11" style="padding: 16px 16px;">
+                                <div class="col-11" style="padding: 16px 16px; font-weight:bold">
                                     {{ isset($permohonan->tanggal_mulai) ? App\Helpers\MyHelpers::getIndonesianDate($permohonan->tanggal_mulai) : 'Belum dijadwalkan' }}
-                                     - 
-                                     {{ isset($permohonan->tanggal_selesai) ? App\Helpers\MyHelpers::getIndonesianDate($permohonan->tanggal_selesai) : 'Belum dijadwalkan' }}
+                                    -
+                                    {{ isset($permohonan->tanggal_selesai) ? App\Helpers\MyHelpers::getIndonesianDate($permohonan->tanggal_selesai) : 'Belum dijadwalkan' }}
                                 </div>
                             </div>
                         </div>
@@ -143,8 +135,8 @@
                                     </svg>
                                 </div>
                                 <div class="col-11" style="padding: 16px 16px;">
-                                    Guru Pembimbing: <br> 
-                                    {{ $guru ? $guru->name : 'Belum dijadwalkan' }}
+                                    Guru Pembimbing: <br>
+                                    <b>{{ $guru ? $guru->name : 'Belum dijadwalkan' }}</b>
                                 </div>
                             </div>
                         </div>
@@ -163,8 +155,8 @@
                                     </svg>
                                 </div>
                                 <div class="col-11" style="padding: 16px 16px;">
-                                    Tempat Pelaksaan Prakerin: <br> 
-                                    {{ $permohonan ? $permohonan->tempat_prakerin: 'Belum mengajukan permohonan' }}
+                                    Tempat Pelaksaan Prakerin: <br>
+                                    <b>{{ $permohonan ? $permohonan->tempat_prakerin : 'Belum mengajukan permohonan' }}</b>
                                 </div>
                             </div>
                         </div>
@@ -184,13 +176,13 @@
                                     </svg>
                                 </div>
                                 <div class="col-11" style="padding: 16px 16px;">
-                                    Status Prakerin: <br> 
-                                    {{ $siswa->status }} <br> <br> 
-                                    Status Permohonan: <br> 
-                                    {{ $permohonan ? $permohonan->status: 'Belum mengajukan' }} <br> <br> 
-                                    Status Laporan: <br> 
-                                    {{ $bimbingan ? $bimbingan->status: 'Belum ada laporan' }} <br> 
-                                </div>                                
+                                    Status Prakerin: <br>
+                                    <b>{{ $siswa->status }}</b> <br> <br>
+                                    Status Permohonan: <br>
+                                    <b>{{ $permohonan ? $permohonan->status : 'Belum mengajukan' }}</b> <br> <br>
+                                    Status Laporan: <br>
+                                    <b>{{ $bimbingan ? $bimbingan->status : 'Belum ada laporan' }}</b> <br>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -234,7 +226,7 @@
                                         </figure>
                                     @endif
                                 </div>
-                                
+
                                 <div class="col-8" style="padding-top: 20px; padding-left: 0px;">
                                     {{ isset($siswa->name) ? $siswa->name : '' }}
                                     <br>{{ isset($siswa->name) ? $siswa->NIS : '' }}
@@ -244,32 +236,32 @@
                         </div>
                         <hr>
                         <p class="card-text text-center mt-1">
-                            {{ isset($siswa->jurusan) ? 
-                                (match($siswa->jurusan) {
+                            {{ isset($siswa->jurusan)
+                                ? match ($siswa->jurusan) {
                                     'DPIB' => 'Desain Pemodelan dan Informasi Bangunan',
                                     'TE' => 'Teknik Elektronika',
                                     'TJKT' => 'Teknik Jaringan Komputer dan Telekomunikasi',
                                     'TK' => 'Teknik Ketenagalistrikan',
                                     'TM' => 'Teknik Mesin',
-                                    'TO' => 'Teknik Otomotif',
+                                    'TKRO' => 'Teknik Kendaraan Ringan dan Otomotif',
                                     'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
-                                    default => ''
-                                }) : ''
-                            }}                            
+                                    default => '',
+                                }
+                                : '' }}
                             <br>SMK Negeri 1 Adiwerna
                         </p>
                     </div>
                 </div>
                 @if ($siswa->status === 'Selesai Prakerin')
-                <div class="card" style="margin-top: 12px; padding: 16px 16px">
-                    <p class="card-text text-center mt-1">
-                        Nilai Prakerin
-                    </p>
-                    <p class="card-text text-center mt-1">
-                        {{ $bimbingan->nilai }}
-                    </p>
-                </div>
-            @endif
+                    <div class="card" style="margin-top: 12px; padding: 16px 16px">
+                        <p class="card-text text-center mt-1">
+                            Nilai Prakerin
+                        </p>
+                        <p class="card-text text-center mt-1">
+                            {{ $siswa->nilai }}
+                        </p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -277,18 +269,16 @@
     <div class="judulcard mb-5 mt-5">
         Informasi
     </div>
-    <div class="card-group">
+    <div class="card-group" style="margin-bottom: 13vh">
         <div class="col-4">
             <div class="card ms-4 shadow">
                 <div class="card-body">
                     <p class="card-title">
                         Permohonan Prakerin
                     </p>
-                    <p align="justify" class="card-text mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.</p>
+                    <p align="justify" class="card-text mt-4">Siswa melakukan Pendaftaran Prakerin melalui menu Permohonan
+                        Prakerin dengan mengisi beberapa data untuk menunjang keberjalanan pendaftaran Prakerin.
+                    </p>
                 </div>
             </div>
         </div>
@@ -298,11 +288,9 @@
                     <p class="card-title">
                         Pengisian Jurnal
                     </p>
-                    <p align="justify" class="card-text mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.</p>
+                    <p align="justify" class="card-text mt-4">Siswa melakukan pengisian jurnal harian dengan mengisi
+                        tanggal kegiatan dan keterangan kegiatan yang dilakukan pada hari tersebut.
+                    </p>
                 </div>
             </div>
         </div>
@@ -312,11 +300,8 @@
                     <p class="card-title">
                         Pengumpulan Laporan
                     </p>
-                    <p align="justify" class="card-text mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo.</p>
+                    <p align="justify" class="card-text mt-4">Siswa melakukan pengumpulan Laporan Akhir Prakerin dalam
+                        bentuk link google drive untuk proses bimbingan dengan Guru Pembimbing.</p>
                 </div>
             </div>
         </div>

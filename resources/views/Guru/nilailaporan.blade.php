@@ -1,23 +1,86 @@
 @extends('guru.layout')
 @section('nilailaporan')
 
+<style>
+    .alert-floating {
+        position: fixed;
+        max-width: 100%;
+        /* Set maksimum lebar notifikasi sesuai lebar parent */
+        width: auto;
+        /* Biarkan lebar menyesuaikan isi notifikasi */
+        top: 11vh;
+        right: 7vh;
+        z-index: 1050;
+    }
+
+    .success-floating {
+        position: fixed;
+        transform: translate(-50%, -50%);
+        z-index: 1050;
+        width: 40vh;
+        top: 50%;
+        left: 50%;
+    }
+
+    th.no-sort {
+        pointer-events: none;
+        user-select: none;
+    }
+
+    th.no-sort::after {
+        content: none !important;
+    }
+    th.no-sort::before {
+        content: none !important;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Temukan notifikasi
+        var alertFloating = document.querySelector('.alert-floating');
+
+        // Tambahkan event listener untuk mendeteksi klik di luar notifikasi
+        document.addEventListener("click", function(event) {
+            if (event.target !== alertFloating) {
+                alertFloating.style.display =
+                    'none'; // Sembunyikan notifikasi jika diklik di luar notifikasi
+            }
+        });
+    });
+</script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Temukan tombol "Reset" berdasarkan ID
         var resetButton2 = document.getElementById("resetButton");
 
-        // Temukan semua input fields berdasarkan ID
+        // Temukan input field nilai berdasarkan ID
         var nilaiInput = document.getElementById("nilai");
+
+        // Simpan nilai awal dari siswa
+        var originalNilai = nilaiInput.value;
 
         // Tambahkan event listener ke tombol "Reset"
         resetButton2.addEventListener("click", function() {
-            // Reset nilai semua input fields
-            nilaiInput.value = " ";
+            // Set nilai input field kembali ke nilai awal
+            nilaiInput.value = originalNilai;
         });
     });
 </script>
 
     <body>
+
+        @if (session('success'))
+            <div class="alert alert-success alert-floating">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if($errors->has('catatan_revisi'))
+            <div class="alert alert-danger alert-floating">
+                {{ $errors->first('catatan_revisi') }}
+            </div>
+        @endif
         <div class="Judul mb-4">Nilai Laporan</div>
         <!-- Button trigger modal -->
 
@@ -56,7 +119,7 @@
                                                 {{ $data['bimbingan']->laporan }}
                                             </a>
                                         </td>
-                                        <td>{{ $data['bimbingan']->nilai }}</td>
+                                        <td>{{ $data['siswa']->nilai }}</td>
                                         <td>
                                             <div class="editdata">
                                                 <button type="button" class="btn ml-2" data-toggle="modal"data-target="#modalNilai{{ $data['bimbingan']->id }}">
@@ -120,7 +183,7 @@
                                                                     </div>
                                                                     <div class="mb-3" style="color: #000000;">
                                                                         <label class="form-label">Nilai Laporan</label>
-                                                                        <input type="text" class="form-control" pattern="[0-9]+" name="nilai" id="nilai" placeholder="{{ $data['bimbingan']->nilai }}" required>
+                                                                        <input type="text" class="form-control" name="nilai" pattern="[0-9]+"  id="nilai" value="{{ $data['siswa']->nilai }}" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">

@@ -4,9 +4,8 @@
     font-family: Poppins;
 }
 
-
 .nav-item .nav-link.active1 {
-    color: #FFA901;
+    color: #ffa901;
 }
 
 .judulcard {
@@ -29,22 +28,21 @@
     padding-bottom: 40px;
 }
 .card.ms-4 .card-body {
-    background-color: #FBD9D999; 
-    padding-left:40px; 
-    padding-right:40px; 
-    border-radius: 15px
+    background-color: #DBE6FF;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 15px;
 }
-
 
 .card-title {
     padding-top: 10px;
-    font-family: Poppins; 
-    font-weight: 700; 
+    font-family: Poppins;
+    font-weight: 700;
     font-size: 20px;
-    font-style: normal; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-text.mt-4 {

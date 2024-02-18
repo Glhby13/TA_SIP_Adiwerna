@@ -10,6 +10,7 @@
         /* Biarkan lebar menyesuaikan isi notifikasi */
         top: 11vh;
         right: 7vh;
+        z-index: 1050;
     }
     
     .success-floating {
@@ -67,6 +68,89 @@
                     'none'; // Sembunyikan notifikasi jika diklik di luar notifikasi
             }
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        var selectAllCheckbox = $('#select-all');
+        var checkboxes = $('.form-check-input');
+
+        var dataTable = $('#dataTable');
+
+        selectAllCheckbox.change(function() {
+            checkboxes.prop('checked', $(this).prop('checked'));
+            toggleDeleteButton();
+            toggleEditDeleteButtons();
+            updateSelectedIds();
+        });
+
+        checkboxes.change(function() {
+            toggleDeleteButton();
+            toggleEditDeleteButtons();
+            updateSelectedIds();
+            updateSelectAllCheckbox();
+        });
+
+        function toggleDeleteButton() {
+            var anyChecked = checkboxes.is(':checked');
+            $('#deleteButton').prop('disabled', !anyChecked);
+        }
+
+        function toggleEditDeleteButtons() {
+            checkboxes.each(function() {
+                var isChecked = $(this).prop('checked');
+                var row = $(this).closest('tr');
+                row.find('.edit-button, .delete-button').prop('disabled', isChecked);
+            });
+        }
+
+        function updateSelectedIds() {
+            var selectedIds = [];
+
+            checkboxes.each(function() {
+                if ($(this).prop('checked') && $(this).val() !== 'select-all') {
+                    selectedIds.push($(this).val());
+                }
+            });
+
+            $('[name="selectedIds[]"]').remove();
+
+            selectedIds.forEach(function(id) {
+                var input = $('<input>').attr({
+                    type: 'hidden',
+                    name: 'selectedIds[]',
+                    value: id
+                });
+                $('#deleteForm').append(input);
+            });
+        }
+
+        // Disable edit and delete buttons by default
+        $('.edit-button, .delete-button').prop('disabled', false);
+
+        // Enable/disable edit and delete buttons based on checkbox status
+        checkboxes.change(function() {
+            toggleEditDeleteButtons();
+            updateSelectAllCheckbox();
+        });
+
+        // Menangani event draw.dt
+        dataTable.on('draw.dt', function() {
+            checkboxes = $('.form-check-input'); // Perbarui checkboxes setelah tabel ditarik ulang
+            checkboxes.change(function() {
+                toggleDeleteButton();
+                toggleEditDeleteButtons();
+                updateSelectedIds();
+                updateSelectAllCheckbox();
+            });
+        });
+
+        // Update status "Select All" checkbox
+        function updateSelectAllCheckbox() {
+            var allChecked = checkboxes.length === checkboxes.filter(':checked').length;
+            selectAllCheckbox.prop('checked', allChecked);
+        }
     });
 </script>
 
@@ -151,40 +235,38 @@
         });
 
         // Handle submit form
-$('form').on('submit', function (event) {
-    // Periksa tombol yang ditekan
-    var submitButton = $(document.activeElement);
+        $('form').on('submit', function (event) {
+            // Periksa tombol yang ditekan
+            var submitButton = $(document.activeElement);
 
-    // Jika tombol "Save" ditekan
-    if (submitButton.hasClass('save-button')) {
-        var isAtLeastOneSiswaSelected = false; // Gunakan variabel untuk melacak apakah setidaknya satu siswa dipilih
+            // Jika tombol "Save" ditekan
+            if (submitButton.hasClass('save-button')) {
+                var isAtLeastOneSiswaSelected = false; // Gunakan variabel untuk melacak apakah setidaknya satu siswa dipilih
 
-        // Loop melalui semua form siswa
-        $('#siswaFormsContainer select[name^="NIS"]').each(function () {
-            // Ambil nilai NIS siswa yang dipilih pada form siswa tersebut
-            var selectedNIS = $(this).val();
+                // Loop melalui semua form siswa
+                $('#siswaFormsContainer select[name^="NIS"]').each(function () {
+                    // Ambil nilai NIS siswa yang dipilih pada form siswa tersebut
+                    var selectedNIS = $(this).val();
 
-            if (selectedNIS) {
-                isAtLeastOneSiswaSelected = true; // Set variabel menjadi true jika setidaknya satu siswa dipilih
-                return false; // Keluar dari loop karena sudah ada setidaknya satu siswa yang dipilih
+                    if (selectedNIS) {
+                        isAtLeastOneSiswaSelected = true; // Set variabel menjadi true jika setidaknya satu siswa dipilih
+                        return false; // Keluar dari loop karena sudah ada setidaknya satu siswa yang dipilih
+                    }
+                });
+
+                if (!isAtLeastOneSiswaSelected) {
+                    // Tampilkan pesan kesalahan jika tidak ada siswa yang dipilih
+                    if ($('#siswaFormsContainer .alert-danger').length === 0) {
+                        $('#siswaFormsContainer').append('<div class="alert alert-danger">*Pilih minimal satu siswa.</div>');
+                    }
+
+                    event.preventDefault(); // Mencegah formulir dikirim jika validasi gagal
+                } else {
+                    // Hapus pesan kesalahan jika setidaknya satu siswa dipilih
+                    $('#siswaFormsContainer .alert-danger').remove();
+                }
             }
         });
-
-        if (!isAtLeastOneSiswaSelected) {
-            // Tampilkan pesan kesalahan jika tidak ada siswa yang dipilih
-            if ($('#siswaFormsContainer .alert-danger').length === 0) {
-                $('#siswaFormsContainer').append('<div class="alert alert-danger">*Pilih minimal satu siswa.</div>');
-            }
-
-            event.preventDefault(); // Mencegah formulir dikirim jika validasi gagal
-        } else {
-            // Hapus pesan kesalahan jika setidaknya satu siswa dipilih
-            $('#siswaFormsContainer .alert-danger').remove();
-        }
-    }
-});
-
-
     });
 </script>
 
@@ -194,6 +276,10 @@ $('form').on('submit', function (event) {
     <i class="fas fa-plus mr-2 ml-1"></i>
     Tambah Data
 </button>
+<a href="{{ route('admin.trashdatapembagianbimbinganview') }}"><button type="button" class="btn mt-2 mb-4 ml-2"
+    style="background-color: #fe5a48; color: #ffffff; font-size: 16px;">
+    <i class="fas fa-trash mr-2 ml-1"></i>
+    Trash</button></a>
 
 {{-- <script>
     $(document).ready(function () {
@@ -331,10 +417,10 @@ $('form').on('submit', function (event) {
                             </div>
                         </th>
                         <th>Guru Pembimbing</th>
-                        <th>Jurusan Guru</th>
-                        <th>Siswa</th>
+                        <th style="width: 200px;">Jurusan Guru</th>
+                        <th style="width: 300px;">Siswa</th>
                         <th>NIS</th>
-                        <th>Status</th>
+                        <th style="width: 200px;">Status</th>
                         <th>Nilai</th>
                         <th style="min-width: 100px;">Action</th>
                     </tr>
@@ -352,7 +438,7 @@ $('form').on('submit', function (event) {
                         <td>{{ $bimbingan->siswa->name }}</td>
                         <td>{{ $bimbingan->NIS }}</td>
                         <td>{{ $bimbingan->status }}</td>
-                        <td>{{ $bimbingan->nilai }}</td>
+                        <td>{{ $bimbingan->siswa->nilai }}</td>
                         <td style="width: 90px;">
                             <div class="editdata">
                                 <button id="edit" type="button" class="btn edit-button">
@@ -379,7 +465,7 @@ $('form').on('submit', function (event) {
                                                         d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
                                                 </svg>
                                             </div>
-                                            <form method="POST" action="{{ route('admin.datapembagianbimbingandelete', $bimbingan->id) }}">
+                                            <form method="POST" action="{{ route('admin.datapembagianbimbingansoftdelete', $bimbingan->id) }}">
                                                 @csrf
                                             <p style="display: flex; align-items:center; justify-content:center; text-align:center; font-weight:600; font-size:20px">
                                                 Apakah Anda yakin ingin menghapus data?</p>
@@ -401,6 +487,20 @@ $('form').on('submit', function (event) {
                 @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="terpilih">
+            <form id="deleteForm" method="POST" action="{{ route('admin.softdeleteSelectedBimbingan') }}">
+                @csrf
+                <input type="hidden" name="action" value="delete">
+                @foreach ($guru as $data)
+                    <input type="hidden" name="selectedIds[]" class="selected-item"
+                        value="{{ $data->id }}">
+                @endforeach
+                <button id="deleteButton" type="submit" class="btn mt-3 ml-2"
+                    style="background-color: #EF4F4F; 
+                color: #ffffff; font-size: 16px;"
+                    disabled>Delete Item</button>
+            </form>
         </div>
     </div>
     

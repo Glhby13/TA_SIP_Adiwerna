@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('editinfoprak')
+@section('editkegiatanprakerin')
 
     <style>
         .alert-floating {
@@ -69,7 +69,7 @@
             var resetButton = document.getElementById("resetButton");
 
             // Temukan semua input fields berdasarkan ID
-            var namaInput = document.getElementById("nama_perusahaan");
+            var namaInput = document.getElementById("nama_kegiatan");
             var deskripsiInput = document.getElementById("deskripsi");
             var posisiInput = document.getElementById("posisi");
             var jurusanInput = document.getElementById("jurusan");
@@ -85,20 +85,14 @@
             var imagePreview = document.getElementById("image-preview-img");
 
             // Simpan URL gambar awal dari database (jika ada)
-            var initialImage = "{{ $informasiTempatPrakerin->image }}";
+            var initialImage = "{{ $kegiatanprakerin->image }}";
 
 
             // Tambahkan event listener ke tombol "Reset"
             resetButton.addEventListener("click", function() {
                 // Reset nilai semua input fields
-                namaInput.value = "{{ $informasiTempatPrakerin->nama_perusahaan }}";
-                deskripsiInput.value = "{{ $informasiTempatPrakerin->deskripsi }}";
-                posisiInput.value = "{{ $informasiTempatPrakerin->posisi }}";
-                jurusanInput.value = "{{ $informasiTempatPrakerin->jurusan }}";
-                persyaratanInput.value = "{{ $informasiTempatPrakerin->persyaratan }}";
-                emailInput.value = "{{ $informasiTempatPrakerin->email }}";
-                telpInput.value = "{{ $informasiTempatPrakerin->telp }}";
-                alamatInput.value = "{{ $informasiTempatPrakerin->alamat }}";
+                namaInput.value = "{{ $kegiatanprakerin->nama_kegiatan }}";
+                deskripsiInput.value = "{{ $kegiatanprakerin->deskripsi }}";
 
                 // Reset nilai input file gambar
                 imageInput.value = null;
@@ -118,9 +112,9 @@
 
     <body>
         <div class="Judul mb-4">
-            <a href="{{ route('admin.informasiprakerin') }}"><i style="padding-right: 2vh; color: #000000"
+            <a href="{{ route('admin.kegiatanprakerin') }}"><i style="padding-right: 2vh; color: #000000"
                     class="fas fa-chevron-left"></i></a>
-            Edit Informasi Prakerin
+            Edit Kegiatan Prakerin
         </div>
         @if (session('success'))
             <div class="alert alert-success alert-floating">
@@ -138,7 +132,7 @@
                     Edit Data
                 </p>
             </div>
-            <form method="POST" action="{{ route('admin.editinfoprak', $informasiTempatPrakerin->id) }}"
+            <form method="POST" action="{{ route('admin.editkegiatanprakerin', $kegiatanprakerin->id) }}"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="card-body mt-3 mb-3">
@@ -146,8 +140,8 @@
                         <div class="col-6" style="padding-right: 100px">
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">Nama Perusahan</label>
-                                <input type="text" class="form-control" name="nama_perusahaan" id="nama_perusahaan"
-                                    value="{{ $informasiTempatPrakerin->nama_perusahaan }}">
+                                <input type="text" class="form-control" name="nama_kegiatan" id="nama_kegiatan"
+                                    value="{{ $kegiatanprakerin->nama_kegiatan }}">
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;" for="image">Gambar
@@ -159,9 +153,9 @@
                                     <div style="height: 140px; max-width: 100%; overflow: hidden; position: relative;">
                                         <div id="image-preview"
                                             style="width: 100%; height: 100%; background-color: #ddd; display: flex; justify-content: center; align-items: center; color: #000; font-size: 24px; border-radius: 8px;">
-                                            @if ($informasiTempatPrakerin->image)
+                                            @if ($kegiatanprakerin->image)
                                                 <img id="image-preview-img"
-                                                    src="data:image/jpeg;base64,{{ $informasiTempatPrakerin->image }}"
+                                                    src="data:image/jpeg;base64,{{ $kegiatanprakerin->image }}"
                                                     style="width: 100%; height: 100%; object-fit: cover;" alt="...">
                                             @else
                                                 <img id="image-preview-img"
@@ -172,45 +166,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-4">
-                                <label class="form-label" style="color: #000000;">Deskripsi</label>
-                                <textarea name="deskripsi" id="deskripsi" class="border rounded-0 form-control summernote">{{ $informasiTempatPrakerin->deskripsi }}</textarea>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="form-label" style="color: #000000;">Posisi</label>
-                                <input type="text" class="form-control" name="posisi" id="posisi"
-                                    value="{{ $informasiTempatPrakerin->posisi }}">
-                            </div>
-                            <div class="row mb-4">
-                                <label class="form-label" style="color: #000000;">Jurusan</label>
-                                <select class="form-control" name="jurusan" id="jurusan">
-                                    <option value="" selected disabled>-- Pilih Jurusan --</option>
-                                    @foreach ($jurusanMapping as $key => $jurusan)
-                                        <option value="{{ $key }}"
-                                            @if ($informasiTempatPrakerin->jurusan == $key) selected @endif>{{ $jurusan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
                         </div>
                         <div class="col-6" style="padding-left:100px">
                             <div class="row mb-4">
-                                <label class="form-label">Persyaratan</label>
-                                <textarea name="persyaratan" id="persyaratan" class="border rounded-0 form-control summernote">{{ $informasiTempatPrakerin->persyaratan }}</textarea>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email"
-                                    value="{{ $informasiTempatPrakerin->email }}">
-                            </div>
-                            <div class="row mb-4">
-                                <label class="form-label">No. Telp</label>
-                                <input type="text" class="form-control" name="telp" id="telp"
-                                    value="{{ $informasiTempatPrakerin->telp }}">
-                            </div>
-                            <div class="row mb-4">
-                                <label class="form-label" style="color: #000000;">Alamat Perusahaan</label>
-                                <textarea name="alamat" id="alamat" class="form-control" rows="3">{{ $informasiTempatPrakerin->alamat }}</textarea>
+                                <label class="form-label" style="color: #000000;">Deskripsi</label>
+                                <textarea name="deskripsi" id="deskripsi" class="border rounded-0 form-control summernote" rows="10">{{ $kegiatanprakerin->deskripsi }}</textarea>
                             </div>
                             <div class="btnedit" style="justify-content: end; display: flex">
                                 <button type="button" class="btn" id="resetButton"
@@ -232,7 +192,7 @@
 
     <script>
         $('#summernote').summernote({
-            // placeholder: 'Deskripsi Perusahaan', 'Persyaratan',
+            // placeholder: 'Deskripsi kegiatan',
             tabsize: 2,
             height: 100
         });

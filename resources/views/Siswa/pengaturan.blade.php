@@ -136,7 +136,7 @@
                                         'TJKT' => 'Teknik Jaringan Komputer dan Telekomunikasi',
                                         'TK' => 'Teknik Ketenagalistrikan',
                                         'TM' => 'Teknik Mesin',
-                                        'TO' => 'Teknik Otomotif',
+                                        'TKRO' => 'Teknik Kendaraan Ringan dan Otomotif',
                                         'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
                                         default => '',
                                     }

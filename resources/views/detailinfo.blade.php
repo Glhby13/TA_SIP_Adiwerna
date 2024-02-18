@@ -69,7 +69,7 @@
                             @if ($informasiTempatPrakerin->image)
                                 <img src="data:image/jpeg;base64,{{ $informasiTempatPrakerin->image }}" style="width: 100%; height: 100%; object-fit: cover;" alt="...">
                             @else
-                                <img src="{{ asset('storage/images/no_image.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;" alt="No Image">
+                                <img src="{{ asset('assets/img/no_image.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;" alt="No Image">
                             @endif
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                                     @if ($informasi->image)
                                         <img src="data:image/jpeg;base64,{{ $informasi->image }}" style="width: 100%; height: 100%; object-fit: cover;" alt="...">
                                     @else
-                                        <img src="{{ asset('storage/images/no_image.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;" alt="No Image">
+                                        <img src="{{ asset('assets/img/no_image.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;" alt="No Image">
                                     @endif
                                 </div>
                             </div>

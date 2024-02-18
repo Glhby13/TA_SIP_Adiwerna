@@ -16,7 +16,7 @@ class DummyUsersSeeder extends Seeder
         $userData = [
             //guru
             [
-                'NIP'=>'111111',
+                'NIP'=>'guruTJKT1',
                 'name'=>'Putri',
                 'email'=>'putri@gmail.com',
                 'password'=>bcrypt('guru'),
@@ -26,7 +26,7 @@ class DummyUsersSeeder extends Seeder
                 'kuota_bimbingan' =>'2',
             ],
             [
-                'NIP'=>'222222',
+                'NIP'=>'guruDPIB1',
                 'name'=>'Almaas',
                 'email'=>'almaas@gmail.com',
                 'password'=>bcrypt('guru'),
@@ -38,7 +38,7 @@ class DummyUsersSeeder extends Seeder
 
             //siswa
             [
-                'NIS'=>'111111',
+                'NIS'=>'siswaTJKT1',
                 'name'=>'Kirani',
                 'email'=>'kirani@gmail.com',
                 'password'=>bcrypt('siswa'),
@@ -49,7 +49,7 @@ class DummyUsersSeeder extends Seeder
 
             ],
             [
-                'NIS'=>'222222',
+                'NIS'=>'siswaDPIB2',
                 'name'=>'Juli',
                 'email'=>'juli@gmail.com',
                 'password'=>bcrypt('siswa'),
@@ -59,31 +59,79 @@ class DummyUsersSeeder extends Seeder
                 'kelas'=>'DPIB 1',
             ],
             [
-                'NIS'=>'333333',
+                'NIS'=>'siswaTJKT2',
                 'name'=>'Andini',
                 'email'=>'andini@gmail.com',
                 'password'=>bcrypt('siswa'),
                 'role'=>'siswa',
                 'jurusan'=>'TJKT',
                 'telp'=>'082546398462',
-                'kelas'=>'TJKT 1',
+                'kelas'=>'TJKT 2',
             ],
 
             //admin
             [
-                'no_admin'=>'111111',
-                'name'=>'Galih',
-                'email'=>'galih@gmail.com',
+                'no_admin'=>'superadmin',
+                'name'=>'Super Admin',
+                'email'=>'admin@gmail.com',
                 'password'=>bcrypt('admin'),
                 'role'=>'admin',
             ],
             [
-                'no_admin'=>'222222',
-                'name'=>'Bayu',
-                'email'=>'bayu@gmail.com',
+                'no_admin'=>'adminDPIB',
+                'name'=>'Admin DPIB',
+                'email'=>'admindpib@gmail.com',
                 'password'=>bcrypt('admin'),
                 'role'=>'admin',
                 'jurusan'=>'DPIB',
+            ],
+            [
+                'no_admin'=>'adminTE',
+                'name'=>'Admin TE',
+                'email'=>'adminte@gmail.com',
+                'password'=>bcrypt('admin'),
+                'role'=>'admin',
+                'jurusan'=>'TE',
+            ],
+            [
+                'no_admin'=>'adminTJKT',
+                'name'=>'Admin TJKT',
+                'email'=>'admintjkt@gmail.com',
+                'password'=>bcrypt('admin'),
+                'role'=>'admin',
+                'jurusan'=>'TJKT',
+            ],
+            [
+                'no_admin'=>'adminTK',
+                'name'=>'Admin TK',
+                'email'=>'adminttk@gmail.com',
+                'password'=>bcrypt('admin'),
+                'role'=>'admin',
+                'jurusan'=>'TK',
+            ],
+            [
+                'no_admin'=>'adminTM',
+                'name'=>'Admin TM',
+                'email'=>'admintm@gmail.com',
+                'password'=>bcrypt('admin'),
+                'role'=>'admin',
+                'jurusan'=>'TM',
+            ],
+            [
+                'no_admin'=>'adminTKRO',
+                'name'=>'Admin TKRO',
+                'email'=>'admintkro@gmail.com',
+                'password'=>bcrypt('admin'),
+                'role'=>'admin',
+                'jurusan'=>'TKRO',
+            ],
+            [
+                'no_admin'=>'adminTPFL',
+                'name'=>'Admin TPFL',
+                'email'=>'admintpfl@gmail.com',
+                'password'=>bcrypt('admin'),
+                'role'=>'admin',
+                'jurusan'=>'TPFL',
             ],
         ];
         foreach($userData as $key => $val){

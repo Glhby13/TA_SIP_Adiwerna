@@ -34,7 +34,8 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/vendor/datatables-demo.js') }}"></script>
 
-    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css') }}">
 
 
 </head>
@@ -47,15 +48,17 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="min-height: 100vh">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"
+            style="min-height: 100vh">
 
             <!-- Sidebar - Brand -->
-            <div class="sidebar">
+            <div class="sidebar" id="sidebar">
                 <a class="sidebar-brand" href="{{ route('admin.dashboard') }}">
                     <div class="sidebar-brand-icon" style="justify-content: center; display: flex;">
-                        <img src="{{ url ('assets/img/logosmk.png') }}" width="90"height="90" alt="Logo" />
+                        <img src="{{ url('assets/img/logosmk.png') }}" id="sidebarBrandIcon" style="width: 90px;"
+                            alt="Logo" />
                     </div>
-                    <div class="sidebar-brand-text">SMKN 1 Adiwerna</div>
+                    <div class="sidebar-brand-text" id="sidebarBrandText">SMKN 1 Adiwerna</div>
                 </a>
             </div>
 
@@ -106,7 +109,8 @@
                         <a class="collapse-item" href="{{ route('admin.datasiswa') }}">Siswa</a>
                         <a class="collapse-item" href="{{ route('admin.dataguru') }}">Guru Pembimbing</a>
                         {{-- <a class="collapse-item" href="{{ route('admin.datatempatprakerin') }}">Data Tempat Prakerin</a> --}}
-                        <a class="collapse-item" href="{{ route('admin.datapembagianbimbingan') }}">Pembagian Bimbingan</a>
+                        <a class="collapse-item" href="{{ route('admin.datapembagianbimbingan') }}">Pembagian
+                            Bimbingan</a>
                     </div>
                 </div>
             </li>
@@ -118,26 +122,33 @@
             <div class="sidebar-heading">
                 Addons
             </div> --}}
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('admin.informasiprakerin') }}">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Informasi Prakerin</span>
-                </a>
-                {{-- <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div> --}}
-            </li>
+            @if (Auth::user()->jurusan === null)
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ route('admin.kegiatanprakerin') }}">
+                        <i class="fa-solid fa-person-circle-exclamation"></i>
+                        <span>Kegiatan Prakerin</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ route('admin.informasiprakerin') }}">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Informasi Prakerin</span>
+                    </a>
+                    {{-- <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Login Screens:</h6>
+                            <a class="collapse-item" href="login.html">Login</a>
+                            <a class="collapse-item" href="register.html">Register</a>
+                            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">Other Pages:</h6>
+                            <a class="collapse-item" href="404.html">404 Page</a>
+                            <a class="collapse-item" href="blank.html">Blank Page</a>
+                        </div>
+                    </div> --}}
+                </li>
+            @endif
 
             {{-- <!-- Nav Item - Charts -->
             <li class="nav-item">
@@ -203,7 +214,7 @@
                         <li class="nav-item dropdown ">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="img-profile rounded-circle" src="{{ url ('assets/img/user1.jpg') }}">
+                                <img class="img-profile rounded-circle" src="{{ url('assets/img/user1.jpg') }}">
                                 <span class="ml-3 mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
 
 
@@ -211,8 +222,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal"
-                                    data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -238,9 +248,14 @@
                     @yield('trashguru')
                     @yield('datatempatprakerin')
                     @yield('datapembagianbimbingan')
+                    @yield('trashbimbingan')
+                    @yield('kegiatanprakerin')
+                    @yield('editkegiatanprakerin')
+                    @yield('trashkegiatanprakerin')
                     @yield('informasiprakerin')
                     @yield('editinfoprak')
                     @yield('trashinfoprak')
+                    
 
                 </div>
                 <!-- /.container-fluid -->
@@ -283,7 +298,7 @@
 
 
 
-    
+
 
     <script>
         $(function() {
@@ -310,8 +325,41 @@
                 }
             });
         });
-        
     </script>
+
+    <script>
+        document.getElementById("sidebarToggle").addEventListener("click", function() {
+            document.getElementById("accordionSidebar").classList.toggle("toggled");
+            const sidebar = document.getElementById("sidebar");
+            const sidebarBrandIcon = document.getElementById("sidebarBrandIcon");
+            const sidebarBrandText = document.getElementById("sidebarBrandText");
+
+            // Toggle sidebar width
+            sidebar.classList.toggle("toggled");
+
+            // Adjust sidebar brand icon and text
+            if (sidebar.classList.contains("toggled")) {
+                sidebarBrandIcon.style.width = "50px"; // Adjust width when sidebar is collapsed
+                sidebarBrandText.style.visibility = "hidden"; // Hide text when sidebar is collapsed
+            } else {
+                sidebarBrandIcon.style.width = "90px"; // Default width
+                sidebarBrandText.style.visibility = "visible"; // Show text when sidebar is expanded
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById("sidebarToggleTop").addEventListener("click", function() {
+            const sidebar = document.getElementById("accordionSidebar");
+
+            if (sidebar.classList.contains("toggled")) {
+                sidebar.classList.remove("toggled"); // Jika sudah tertutup, buka sidebar
+            } else {
+                sidebar.classList.add("toggled"); // Jika sudah terbuka, tutup sidebar
+            }
+        });
+    </script>
+
 
     @yield('script')
 
@@ -319,8 +367,9 @@
 <footer class="sticky-footer">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
+            <span>Copyright &copy; 2024 SMK NEGERI 1 ADIWERNA</span>
         </div>
     </div>
 </footer>
+
 </html>

@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('trashinfoprak')
+@section('trashbimbingan')
 
 <style>
     .alert-floating {
@@ -183,9 +183,9 @@
 
     <body>
         <div class="Judul">
-            <a href="{{ route('admin.informasiprakerin') }}"><i style="padding-right: 2vh; color: #000000"
+            <a href="{{ route('admin.datapembagianbimbingan') }}"><i style="padding-right: 2vh; color: #000000"
                     class="fas fa-chevron-left"></i></a>
-            Trash Informasi Prakerin
+            Trash Data Pembagian Bimbingan
         </div>
 
         @if (session('success'))
@@ -230,39 +230,34 @@
                                         <label class="form-check-label" for="select-all"></label>
                                     </div>
                                 </th>
-                                <th style="width: 150px;">Nama Perusahaan</th>
-                                <th>Deskripsi</th>
-                                <th>Posisi</th>
-                                <th>Jurusan</th>
-                                <th>Persyaratan</th>
-                                <th>Email</th>
-                                <th>No. Telepon</th>
-                                <th>Alamat</th>
+                                <th>Guru Pembimbing</th>
+                                <th>Jurusan Guru</th>
+                                <th>Siswa</th>
+                                <th>NIS</th>
+                                <th>Status</th>
+                                <th>Nilai</th>
                                 <th style="min-width: 100px;">Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($deletedinfoprak as $data)
+                            @foreach($deleteddataBimbingan as $bimbingan)
                             <tr>
                                 <td class="text-center">
                                     <div class="form-check" style="padding-left: 0; margin-left: 30px;">
-                                        <input class="form-check-input" type="checkbox" value="{{ $data->id }}" 
-                                        id="select-item-{{ $data->id }}">
+                                        <input class="form-check-input" type="checkbox" value="{{ $bimbingan->id }}" id="select-item-{{ $bimbingan->id }}">
                                         <label class="form-check-label" for="selectitem"></label>
                                     </div>
                                 </td>
-                                <td>{{ $data->nama_perusahaan }}</td>
-                                <td>{{ $data->deskripsi }}</td>
-                                <td>{{ $data->posisi }}</td>
-                                <td>{{ $jurusanMapping[$data->jurusan] }}</td>
-                                <td>{{ $data->persyaratan }}</td>
-                                <td>{{ $data->email }}</td>
-                                <td>{{ $data->telp }}</td>
-                                <td>{{ $data->alamat }}</td>
+                                <td>{{ $bimbingan->guru->name }}</td>
+                                <td>{{ isset($bimbingan->guru->jurusan) ? $jurusanGuruMapping[$bimbingan->guru->jurusan] : '' }}</td>
+                                <td>{{ $bimbingan->siswa->name }}</td>
+                                <td>{{ $bimbingan->NIS }}</td>
+                                <td>{{ $bimbingan->status }}</td>
+                                <td>{{ $bimbingan->nilai }}</td>
                                 <td style="display: flex; justify-content: center; align-item:center;">
                                     <div class="restore">
-                                        <form method="POST" action="{{ route('admin.restoreinfoprak', $data->id) }}">
+                                        <form method="POST" action="{{ route('admin.restoredatabimbingan', $bimbingan->id) }}">
                                             @csrf
                                             <button id="restore" type="submit" class="btn restore-button" style="color: #FEC048;">
                                                 <i class="fas fa-undo-alt"></i>
@@ -272,11 +267,11 @@
 
                                     <div class="hapuspermanen">
                                         <button id="delete" type="button" class="btn delete-button" style="color: #EF4F4F" data-toggle="modal"
-                                            data-target="#modalHapuspermanen{{ $data->id }}">
+                                            data-target="#modalHapuspermanen{{ $bimbingan->id }}">
                                             <i class="far fa-trash-alt"></i>
                                         </button>
 
-                                        <div class="modal fade" id="modalHapuspermanen{{ $data->id }}" role="dialog" tabindex="-1"
+                                        <div class="modal fade" id="modalHapuspermanen{{ $bimbingan->id }}" role="dialog" tabindex="-1"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
@@ -291,7 +286,7 @@
                                                                 d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
                                                         </svg>
                                                     </div>
-                                                    <form method="POST" action="{{ route('admin.infoprakdelete', $data->id) }}">
+                                                    <form method="POST" action="{{ route('admin.datapembagianbimbingandelete', $bimbingan->id) }}">
                                                         @csrf
                                                         @method('DELETE')
                                                     <p
@@ -317,21 +312,21 @@
                     </table>
                 </div>
                 <div class="terpilih">
-                    <form id="restoreForm" method="POST" action="{{ route('admin.handleSelectedInfoprak') }}">
+                    <form id="restoreForm" method="POST" action="{{ route('admin.handleSelectedBimbingan') }}">
                         @csrf
                         <input type="hidden" name="action" value="restore">
-                        @foreach($deletedinfoprak as $data)
-                            <input type="hidden" name="selectedIds[]" class="selected-item" value="{{ $data->id }}">
+                        @foreach($deleteddataBimbingan as $bimbingan)
+                            <input type="hidden" name="selectedIds[]" class="selected-item" value="{{ $bimbingan->id }}">
                         @endforeach
                         <button id="restoreButton" type="submit" class="btn mt-3" style="background-color: #FEC048; 
                         color: #ffffff; font-size: 16px;" disabled>Restore Item</button>
                     </form>
                 
-                    <form id="deleteForm" method="POST" action="{{ route('admin.handleSelectedInfoprak') }}">
+                    <form id="deleteForm" method="POST" action="{{ route('admin.handleSelectedBimbingan') }}">
                         @csrf
                         <input type="hidden" name="action" value="delete">
-                        @foreach($deletedinfoprak as $siswa)
-                            <input type="hidden" name="selectedIds[]" class="selected-item" value="{{ $data->id }}">
+                        @foreach($deleteddataBimbingan as $bimbingan)
+                            <input type="hidden" name="selectedIds[]" class="selected-item" value="{{ $bimbingan->id }}">
                         @endforeach
                         <button id="deleteButton" type="submit" class="btn mt-3 ml-2" style="background-color: #EF4F4F; 
                         color: #ffffff; font-size: 16px;" disabled>Delete Item</button>
@@ -347,7 +342,7 @@
         $('#dataTable').DataTable({
             "columnDefs": [{
                 "orderable": false,
-                "targets": [0, 9]
+                "targets": [0, 7]
             }]
         });
     </script>

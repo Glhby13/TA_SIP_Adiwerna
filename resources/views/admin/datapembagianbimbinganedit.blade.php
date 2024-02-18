@@ -10,6 +10,7 @@
             /* Biarkan lebar menyesuaikan isi notifikasi */
             top: 11vh;
             right: 7vh;
+            z-index: 1050;
         }
     </style>
     <script>
@@ -38,7 +39,7 @@
             // Tambahkan event listener ke tombol "Reset"
             resetButton2.addEventListener("click", function() {
                 // Reset nilai semua input fields
-                nilaiInput.value = "{{ $dataBimbingan->nilai }}";
+                nilaiInput.value = "{{ $dataBimbingan['siswa']->nilai }}";
             });
         });
     </script>
@@ -92,9 +93,13 @@
                             </div>
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">Nilai</label>
-                                <input type="text" class="form-control" pattern="[0-9]+" name="nilai" id="nilai"
-                                    value="{{ $dataBimbingan->nilai }}">
+                                @if ($dataBimbingan->status == 'ACC')
+                                    <input type="text" class="form-control" pattern="[0-9]+" name="nilai" id="nilai" value="{{ $dataBimbingan['siswa']->nilai }}">
+                                @else
+                                    <input type="text" class="form-control" name="nilai" id="nilai" value="{{ $dataBimbingan['siswa']->nilai }}" readonly>
+                                @endif
                             </div>
+                            
                         </div>
                         <div class="col-6" style="padding-left:100px">
                             <div class="row mb-4">

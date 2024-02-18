@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
 
 class GuruController extends Controller
 {
@@ -39,10 +40,22 @@ class GuruController extends Controller
                 'bimbingan' => $bimbingan,
             ];
         }
+
+        // Mapping jurusan
+        $jurusanMapping = [
+            'DPIB' => 'Desain Pemodelan dan Informasi Bangunan',
+            'TE' => 'Teknik Elektronika',
+            'TJKT' => 'Teknik Jaringan Komputer dan Telekomunikasi',
+            'TK' => 'Teknik Ketenagalistrikan',
+            'TM' => 'Teknik Mesin',
+            'TKRO' => 'Teknik Kendaraan Ringan dan Otomotif',
+            'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
+        ];
     
         return view('guru.dashboard', [
             'guru' => $guru,
             'dataBimbingans' => $dataBimbingans,
+            'jurusanmapping' => $jurusanMapping,
         ]);
     }
 
@@ -206,21 +219,45 @@ class GuruController extends Controller
     public function statuslaporan(Request $request, $id)
     {
         $bimbingan = Bimbingan::find($id);
-
-        
-
+    
+        // Validasi form jika tombol Revisi ditekan
         if ($request->has('btnRevisi')) {
+            $request->validate([
+                'catatan_revisi' => 'required', // Catatan revisi harus diisi
+            ], [
+                'catatan_revisi.required' => 'Catatan revisi wajib diisi.', // Pesan error jika catatan revisi kosong
+            ]);
+    
+            // Cek apakah nilai siswa sudah terisi
+            $siswa = $bimbingan->siswa;
+    
+            if ($siswa && $siswa->nilai !== null) {
+                // Jika nilai siswa sudah terisi, tampilkan pesan error
+                return redirect()->back()->withErrors(['catatan_revisi' => 'Siswa sudah diinilai, tidak dapat mengubah status laporan.']);
+            }
+    
+            // Jika validasi berhasil, maka lakukan perubahan status dan data lainnya
             $bimbingan->status = 'Revisi';
+            $bimbingan->jumlah_revisi = $request->input('jumlah_revisi');
+            $bimbingan->catatan_revisi = $request->input('catatan_revisi');
+    
+            $successMessage = 'Status laporan berhasil diubah menjadi Revisi.';
         } elseif ($request->has('btnACC')) {
+            // Jika tombol ACC ditekan
+            if ($request->filled('catatan_revisi')) {
+                // Jika ada input pada catatan_revisi, tampilkan pesan error
+                return redirect()->back()->withErrors(['catatan_revisi' => 'Catatan revisi harus kosong saat menekan tombol ACC.']);
+            }
+    
             $bimbingan->status = 'ACC';
+            $successMessage = 'Status laporan berhasil diubah menjadi ACC.';
         }
     
         $bimbingan->save();
     
-        // dd($bimbingan);
-        return redirect()->back()->with('success', 'Status permohonan berhasil diubah.');
-        // Redirect atau kembali ke halaman yang sesuai
+        return redirect()->back()->with('success', $successMessage);
     }
+    
     
     public function nilailaporan()
     {
@@ -271,19 +308,20 @@ class GuruController extends Controller
             return redirect()->back()->with('error', 'Data tidak ditemukan');
         }
     
-        // Update nilai hanya jika ada perubahan
-        if ($dataBimbingan->nilai != $request->nilai) {
-            $dataBimbingan->nilai = $request->nilai;
-            $dataBimbingan->save();
+        // Update nilai pada tabel user
+        $siswa = $dataBimbingan->siswa;
+    
+        // Cek apakah data siswa ditemukan
+        if ($siswa && $siswa->nilai != $request->nilai) {
+            // Update nilai pada tabel user
+            $siswa->nilai = $request->nilai;
+            $siswa->save();
     
             // Ubah status pada tabel User
-            $siswa = $dataBimbingan->siswa;
-            if ($siswa) {
-                $siswa->status = 'Selesai Prakerin';
-                $siswa->save();
-            }
+            $siswa->status = 'Selesai Prakerin';
+            $siswa->save();
     
-            session()->flash('success', 'Nilai dan status berhasil diperbarui.');
+            session()->flash('success', 'Nilai berhasil diperbarui.');
         } else {
             session()->flash('info', 'Tidak ada perubahan nilai.');
         }

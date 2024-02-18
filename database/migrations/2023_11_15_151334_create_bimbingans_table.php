@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('NIP');//guru
             $table->string('NIS')->unique(); //siswa
             $table->string('laporan')->nullable();//siswa
-            $table->integer('nilai')->nullable();
-            $table->enum('status',['Belum Mengumpulkan', 'Sudah Mengumpulkan', 'Revisi', 'Sudah Revisi', 'ACC'])->nullable();
+            $table->enum('status',['Belum Mengumpulkan', 'Sudah Mengumpulkan', 'Revisi', 'ACC'])->nullable();
+            $table->integer('jumlah_revisi')->default(0)->nullable();
+            $table->string('catatan_revisi')->nullable(); //guru
             $table->softDeletes();
             $table->timestamps();
         });

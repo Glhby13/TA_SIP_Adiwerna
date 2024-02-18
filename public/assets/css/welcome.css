@@ -12,7 +12,6 @@
     background-color: #2a356c;
 }
 
-
 .navbar-brand {
     font-family: Poppins;
     font-size: 14px;
@@ -183,7 +182,38 @@
     max-height: 20px;
 }
 
-@media (max-width: 767px) {
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl {
+    width: 100%;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+
+@media (min-width: 576px) {
+    .container,
+    .container-sm {
+        max-width: 540px;
+    }
+}
+
+@media (max-width: 768px) {
     .jumbotron {
         padding: 40px 24px;
         background-position-x: 60%;
@@ -265,6 +295,31 @@
     .maps-image-size {
         max-width: 90px;
         max-height: 70px;
+    }
+
+    .container,
+    .container-sm,
+    .container-md {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg,
+    .container-xl {
+        max-width: 1140px;
     }
 }
 .nav-item-divider {

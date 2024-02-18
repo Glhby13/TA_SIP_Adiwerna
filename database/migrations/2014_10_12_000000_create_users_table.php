@@ -21,10 +21,11 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('password')->default(bcrypt('password'));
             $table->enum('role', ['admin', 'guru', 'siswa'])->default('siswa');
-            $table->enum('jurusan',['DPIB', 'TE', 'TJKT', 'TK', 'TM', 'TO', 'TPFL'])->nullable();
+            $table->enum('jurusan',['DPIB', 'TE', 'TJKT', 'TK', 'TM', 'TKRO', 'TPFL'])->nullable();
             $table->string('kelas')->nullable();//siswa
             $table->string('telp')->nullable();
             $table->integer('kuota_bimbingan')->nullable();
+            $table->integer('nilai')->nullable();
             $table->enum('status',['Belum Mendaftar', 'Sudah Mendaftar', 'Sedang Prakerin', 'Selesai Prakerin'])
                   ->default(null)
                   ->nullable();
