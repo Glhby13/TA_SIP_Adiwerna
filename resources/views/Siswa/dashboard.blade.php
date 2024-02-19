@@ -181,7 +181,19 @@
                                     Status Permohonan: <br>
                                     <b>{{ $permohonan ? $permohonan->status : 'Belum mengajukan' }}</b> <br> <br>
                                     Status Laporan: <br>
-                                    <b>{{ $bimbingan ? $bimbingan->status : 'Belum ada laporan' }}</b> <br>
+                                    <b>
+                                        @if ($bimbingan)
+                                            @if ($bimbingan->status == 'Revisi')
+                                                Perlu Revisi
+                                            @elseif ($bimbingan->status == 'ACC')
+                                                Telah Disetujui
+                                            @else
+                                                {{ $bimbingan->status }}
+                                            @endif
+                                        @else
+                                            Belum ada laporan
+                                        @endif
+                                    </b> <br>
                                 </div>
                             </div>
                         </div>

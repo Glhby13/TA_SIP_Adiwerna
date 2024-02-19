@@ -159,23 +159,26 @@
                         <label for="date" class="form-label">Tanggal</label>
                         <div class="field">
                             <input class="form-control" id="date" name="date" type="date"
-                                style="font-size: 14px; background-color:unset;" placeholder="dd-mm-yyyy"
-                                value="{{ old('date') }}">
+                                style="font-size: 14px; background-color: unset;" placeholder="dd-mm-yyyy"
+                                value="{{ old('date') }}"
+                                {{ $siswa->status === 'Selesai Prakerin' ? 'disabled' : '' }}>
                         </div>
-
                     </div>
 
                     <div class="row mb-4">
                         <label for="deskripsi" class="form-label">Keterangan Kegiatan</label>
                         <div class="text-field">
-                            <textarea class="form-control" style="font-size: 14px;" type="text" id="deskripsi" name="deskripsi" required>{{ old('deskripsi') }}</textarea>
+                            <textarea class="form-control" style="font-size: 14px;" type="text" id="deskripsi" name="deskripsi" 
+                                      required {{ $siswa->status === 'Selesai Prakerin' ? 'readonly' : '' }}>{{ old('deskripsi') }}</textarea>
                         </div>
                     </div>
                     <div class="btnjurnal" style="justify-content: end; display: flex">
-                        <button type="button" class="btn" id="resetButton"
-                            style="background-color: #EF4F4F; color: #ffffff">Reset</button>
-                        <button type="submit" class="btn"
-                            style="background-color: #44B158; color: #ffffff; margin-left: 16px;">Submit</button>
+                        <button type="button" class="btn" id="resetButton" 
+                                style="background-color: #EF4F4F; color: #ffffff" 
+                                {{ $siswa->status === 'Selesai Prakerin' ? 'disabled' : '' }}>Reset</button>
+                        <button type="submit" class="btn" 
+                                style="background-color: #44B158; color: #ffffff; margin-left: 16px;" 
+                                {{ $siswa->status === 'Selesai Prakerin' ? 'disabled' : '' }}>Submit</button>
                     </div>
                     <div class="btnshowjurnal" style="justify-content: end; display: flex; margin-top: 3vh;">
                         <a href="{{ route('siswa.jurnaldata') }}"><button type="button" class="btn"

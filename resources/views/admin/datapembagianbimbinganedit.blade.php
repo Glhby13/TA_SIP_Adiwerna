@@ -94,9 +94,9 @@
                             <div class="row mb-4">
                                 <label class="form-label" style="color: #000000;">Nilai</label>
                                 @if ($dataBimbingan->status == 'ACC')
-                                    <input type="text" class="form-control" pattern="[0-9]+" name="nilai" id="nilai" value="{{ $dataBimbingan['siswa']->nilai }}">
+                                    <input type="number" class="form-control" pattern="[0-9]+" name="nilai" id="nilai" value="{{ $dataBimbingan['siswa']->nilai }}" max="100">
                                 @else
-                                    <input type="text" class="form-control" name="nilai" id="nilai" value="{{ $dataBimbingan['siswa']->nilai }}" readonly>
+                                    <input type="number" class="form-control" name="nilai" id="nilai" value="{{ $dataBimbingan['siswa']->nilai }}" readonly>
                                 @endif
                             </div>
                             

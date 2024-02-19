@@ -63,49 +63,51 @@
     </script>
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Temukan elemen input tanggal
-            var mulaiInput = document.getElementById("tanggal_mulai");
-            var selesaiInput = document.getElementById("tanggal_selesai");
-            var durasiSelect = document.getElementById("durasi");
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Temukan elemen input tanggal
+        var mulaiInput = document.getElementById("tanggal_mulai");
+        var selesaiInput = document.getElementById("tanggal_selesai");
+        var durasiSelect = document.getElementById("durasi");
 
-            // Inisialisasi Flatpickr untuk input tanggal mulai
-            var mulaiPicker = flatpickr(mulaiInput, {
-                dateFormat: "d-m-Y",
-                placeholder: "dd-mm-yyyy",
-                onClose: function(selectedDates, dateStr, instance) {
-                    // Setelah memilih tanggal mulai, batasi tanggal selesai
-                    if (selectedDates.length > 0) {
-                        var durasi = durasiSelect.value;
-                        if (durasi) {
-                            var tanggalMulai = selectedDates[0];
-                            var tanggalSelesai = new Date(tanggalMulai);
-                            tanggalSelesai.setMonth(tanggalMulai.getMonth() + parseInt(durasi));
-                            selesaiPicker.setDate(tanggalSelesai);
-                        }
+        // Inisialisasi Flatpickr untuk input tanggal mulai
+        var mulaiPicker = flatpickr(mulaiInput, {
+            dateFormat: "d-m-Y",
+            placeholder: "dd-mm-yyyy",
+            onClose: function(selectedDates, dateStr, instance) {
+                // Setelah memilih tanggal mulai, batasi tanggal selesai
+                if (selectedDates.length > 0) {
+                    var durasi = durasiSelect.value;
+                    if (durasi) {
+                        var tanggalMulai = selectedDates[0];
+                        var jumlahHari = durasi * 30; // Mengonversi durasi bulan ke jumlah hari
+                        var tanggalSelesai = new Date(tanggalMulai.getTime() + jumlahHari * 24 * 60 * 60 * 1000);
+                        selesaiPicker.setDate(tanggalSelesai);
                     }
-                },
-            });
-
-            // Inisialisasi Flatpickr untuk input tanggal selesai
-            var selesaiPicker = flatpickr(selesaiInput, {
-                dateFormat: "d-m-Y",
-                placeholder: "dd-mm-yyyy",
-            });
-
-            // Tambahkan event listener untuk mengubah tanggal selesai saat durasi berubah
-            durasiSelect.addEventListener("change", function() {
-                var durasi = this.value;
-                if (durasi && mulaiPicker.selectedDates.length > 0) {
-                    var tanggalMulai = mulaiPicker.selectedDates[0];
-                    var tanggalSelesai = new Date(tanggalMulai);
-                    tanggalSelesai.setMonth(tanggalMulai.getMonth() + parseInt(durasi));
-                    selesaiPicker.setDate(tanggalSelesai);
                 }
-            });
+            },
         });
-    </script>
+
+        // Inisialisasi Flatpickr untuk input tanggal selesai
+        var selesaiPicker = flatpickr(selesaiInput, {
+            dateFormat: "d-m-Y",
+            placeholder: "dd-mm-yyyy",
+        });
+
+        // Tambahkan event listener untuk mengubah tanggal selesai saat durasi berubah
+        durasiSelect.addEventListener("change", function() {
+            var durasi = this.value;
+            if (durasi && mulaiPicker.selectedDates.length > 0) {
+                var tanggalMulai = mulaiPicker.selectedDates[0];
+                var jumlahHari = durasi * 30; // Mengonversi durasi bulan ke jumlah hari
+                var tanggalSelesai = new Date(tanggalMulai.getTime() + jumlahHari * 24 * 60 * 60 * 1000);
+                selesaiPicker.setDate(tanggalSelesai);
+            }
+        });
+    });
+</script>
+
+    
 
 
     <body>
@@ -176,17 +178,19 @@
                             </div>
                             <div class="row mb-4">
                                 <label for="durasi" class="form-label">Durasi</label>
-                                <select class="form-select form-control" style="font-size: 14px;" id="durasi"
-                                    name="durasi">
+                                <select class="form-select form-control" style="font-size: 14px;" id="durasi" name="durasi">
                                     <option value="" disabled selected>- Pilih Durasi -</option>
-                                    @for ($i = 1; $i <= 6; $i++)
-                                        <option value="{{ $i }}"
-                                            @if ($dataPermohonan->durasi == $i) selected @endif>
-                                            {{ $i }} bulan
+                                    @php
+                                        $options = [1, 1.5, 2, 2.5, 3, 4, 5, 6];
+                                    @endphp
+                                    @foreach ($options as $option)
+                                        <option value="{{ $option }}" @if ($dataPermohonan->durasi == $option) selected @endif>
+                                            {{ $option }} bulan
                                         </option>
-                                    @endfor
+                                    @endforeach
                                 </select>
                             </div>
+                            
                             <div class="row mb-4">
                                 <label for="date" class="form-label">Tanggal Mulai</label>
                                 <input class="form-control" id="tanggal_mulai" name="tanggal_mulai" type="text"

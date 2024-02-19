@@ -27,8 +27,8 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/login', [LoginController::class, 'authenticate']);
 });
 
-Route::middleware(['auth', 'useraccess:siswa', 'preventBackButton', 'disableCaching'])->group(function () {
-    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.dashboard');
+Route::middleware(['auth', 'useraccess:siswa', 'preventBackButton', 'disableCaching'])->prefix('/siswa')->group(function () {
+    Route::get('/dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
     Route::get('/permohonan-prakerin', [SiswaController::class, 'permohonan'])->name('siswa.permohonan');
     Route::post('/permohonan-prakerin', [SiswaController::class, 'submitPermohonan'])->name('submit.permohonan');
     Route::post('/permohonan-balasan', [SiswaController::class, 'balasanPermohonan'])->name('balasan.permohonan');
@@ -46,8 +46,8 @@ Route::middleware(['auth', 'useraccess:siswa', 'preventBackButton', 'disableCach
     Route::post('/edit-password', [SiswaController::class, 'changepassword'])->name('change.password');
 });
 
-Route::middleware(['auth', 'useraccess:guru', 'preventBackButton', 'disableCaching'])->group(function () {
-    Route::get('/guru', [GuruController::class, 'index'])->name('guru.dashboard');
+Route::middleware(['auth', 'useraccess:guru', 'preventBackButton', 'disableCaching'])->prefix('/guru')->group(function () {
+    Route::get('/dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
     Route::get('/siswa-bimbingan', [GuruController::class, 'siswabimbingan'])->name('guru.siswabimbingan');
     Route::get('/jurnal-siswa/{NIS}', [GuruController::class, 'jurnaldata'])->name('guru.jurnaldata');
     Route::get('/penarikan', [GuruController::class, 'penarikan'])->name('guru.penarikan');
@@ -58,8 +58,8 @@ Route::middleware(['auth', 'useraccess:guru', 'preventBackButton', 'disableCachi
     Route::post('/nilai/{id}', [GuruController::class, 'setnilailaporan'])->name('nilai.laporan');
 });
 
-Route::middleware(['auth', 'useraccess:admin', 'preventBackButton', 'disableCaching'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::middleware(['auth', 'useraccess:admin', 'preventBackButton', 'disableCaching'])->prefix('/admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/permohonan', [AdminController::class, 'permohonan'])->name('admin.permohonan');
     Route::get('/permohonan/edit/{id}', [AdminController::class, 'permohonaneditview'])->name('admin.permohonaneditview');
     Route::post('/permohonan/edit/{id}', [AdminController::class, 'permohonanedit'])->name('admin.permohonanedit');

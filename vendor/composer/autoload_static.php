@@ -585,6 +585,7 @@ class ComposerStaticInit6fc474bcfb9f4990195c5dbbd117dba7
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Helpers\\MyHelpers' => __DIR__ . '/../..' . '/app/Helpers/MyHelpers.php',
         'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
@@ -611,6 +612,7 @@ class ComposerStaticInit6fc474bcfb9f4990195c5dbbd117dba7
         'App\\Models\\Bimbingan' => __DIR__ . '/../..' . '/app/Models/Bimbingan.php',
         'App\\Models\\InformasiTempatPrakerin' => __DIR__ . '/../..' . '/app/Models/InformasiTempatPrakerin.php',
         'App\\Models\\Jurnalharian' => __DIR__ . '/../..' . '/app/Models/Jurnalharian.php',
+        'App\\Models\\Kegiatanprakerin' => __DIR__ . '/../..' . '/app/Models/Kegiatanprakerin.php',
         'App\\Models\\Permohonan' => __DIR__ . '/../..' . '/app/Models/Permohonan.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -747,6 +749,7 @@ class ComposerStaticInit6fc474bcfb9f4990195c5dbbd117dba7
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\DummyInformasiTempatPrakerinSeeder' => __DIR__ . '/../..' . '/database/seeders/DummyInformasiTempatPrakerinSeeder.php',
+        'Database\\Seeders\\DummyKegiatanPrakerinSeeder' => __DIR__ . '/../..' . '/database/seeders/DummyKegiatanPrakerinSeeder.php',
         'Database\\Seeders\\DummyUsersSeeder' => __DIR__ . '/../..' . '/database/seeders/DummyUsersSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',

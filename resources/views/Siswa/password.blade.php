@@ -24,6 +24,26 @@
             }
         </style>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Temukan tombol "Reset" berdasarkan ID
+            var resetButton = document.getElementById("resetButton");
+
+            // Temukan semua input fields berdasarkan ID
+            var currentpasswordPrakerinInput = document.getElementById("current_password");
+            var newpasswordInput = document.getElementById("password");
+            var newpasswordconrifmationInput = document.getElementById("password_confirmation");
+
+            // Tambahkan event listener ke tombol "Reset"
+            resetButton.addEventListener("click", function() {
+                // Reset nilai semua input fields
+                currentpasswordPrakerinInput.value = "";
+                newpasswordInput.value = "";
+                newpasswordconrifmationInput.value = "";
+            });
+        });
+    </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Temukan notifikasi
@@ -59,7 +79,7 @@
                     <div class="row mb-4">
                         <label for="current_password" class="form-label">Current Password</label>
                         <div class="text-field">
-                            <input name="current_password" class="form-control" style="font-size: 14px" type="text"
+                            <input name="current_password" class="form-control" style="font-size: 14px" type="password"
                                 id="current_password" placeholder="Masukkan password saat ini">
                             @error('current_password')
                                 <div style="color: red; font-size: 12px">{{ $message }}</div>
@@ -69,7 +89,7 @@
                     <div class="row mb-4">
                         <label for="password" class="form-label">New Password</label>
                         <div class="text-field">
-                            <input name="password" class="form-control" style="font-size: 14px" type="text"
+                            <input name="password" class="form-control" style="font-size: 14px" type="password"
                                 id="password" placeholder="Masukkan password baru">
                             @error('password')
                                 <div style="color: red; font-size: 12px">{{ $message }}</div>
@@ -80,7 +100,7 @@
                         <label for="password_confirmation" class="form-label">Confirm New
                             Password</label>
                         <div class="text-field">
-                            <input name="password_confirmation" class="form-control" style="font-size: 14px" type="text"
+                            <input name="password_confirmation" class="form-control" style="font-size: 14px" type="password"
                                 id="password_confirmation" placeholder="Konfirmasi password baru">
                             @error('password_confirmation')
                                 <div style="color: red; font-size: 12px">{{ $message }}</div>
@@ -89,6 +109,8 @@
                     </div>
                     <div class="row mb-4">
                     <div class="modal-footer" style="border-top: 0">
+                        <button type="button" class="btn" id="resetButton"
+                            style="background-color: #EF4F4F; color: #ffffff">Reset</button>
                         <button type="submit" class="btn"
                             style="background-color: #44B158; color: #ffffff; font-size: 16px; font-family: Poppins;">Save Change</button>
                     </div>

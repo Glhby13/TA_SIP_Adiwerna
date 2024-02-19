@@ -420,7 +420,7 @@
                         <th style="width: 200px;">Jurusan Guru</th>
                         <th style="width: 300px;">Siswa</th>
                         <th>NIS</th>
-                        <th style="width: 200px;">Status</th>
+                        <th style="width: 200px;">Status Laporan Prakerin</th>
                         <th>Nilai</th>
                         <th style="min-width: 100px;">Action</th>
                     </tr>
@@ -437,7 +437,19 @@
                         <td>{{ isset($bimbingan->guru->jurusan) ? $jurusanGuruMapping[$bimbingan->guru->jurusan] : '' }}</td>
                         <td>{{ $bimbingan->siswa->name }}</td>
                         <td>{{ $bimbingan->NIS }}</td>
-                        <td>{{ $bimbingan->status }}</td>
+                        <td>
+                            @if ($bimbingan->status === 'Belum Mengumpulkan')
+                                Siswa belum mengumpulkan
+                            @elseif ($bimbingan->status === 'Sudah Mengumpulkan')
+                                Siswa sudah mengumpulkan
+                            @elseif ($bimbingan->status === 'Revisi')
+                                Perlu Revisi
+                            @elseif ($bimbingan->status === 'ACC')
+                                Telah disetujui guru
+                            @else
+                                {{ $bimbingan->status }}
+                            @endif
+                        </td>                        
                         <td>{{ $bimbingan->siswa->nilai }}</td>
                         <td style="width: 90px;">
                             <div class="editdata">

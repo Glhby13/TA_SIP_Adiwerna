@@ -241,16 +241,16 @@ class GuruController extends Controller
             $bimbingan->jumlah_revisi = $request->input('jumlah_revisi');
             $bimbingan->catatan_revisi = $request->input('catatan_revisi');
     
-            $successMessage = 'Status laporan berhasil diubah menjadi Revisi.';
+            $successMessage = 'Status laporan berhasil diubah menjadi Perlu Revisi.';
         } elseif ($request->has('btnACC')) {
             // Jika tombol ACC ditekan
             if ($request->filled('catatan_revisi')) {
                 // Jika ada input pada catatan_revisi, tampilkan pesan error
-                return redirect()->back()->withErrors(['catatan_revisi' => 'Catatan revisi harus kosong saat menekan tombol ACC.']);
+                return redirect()->back()->withErrors(['catatan_revisi' => 'Catatan revisi harus kosong saat menekan tombol Setujui.']);
             }
     
             $bimbingan->status = 'ACC';
-            $successMessage = 'Status laporan berhasil diubah menjadi ACC.';
+            $successMessage = 'Status laporan berhasil diubah menjadi Telah Disetujui.';
         }
     
         $bimbingan->save();

@@ -59,6 +59,8 @@ class SiswaController extends Controller
 
         $permohonan = $siswa->permohonan;
 
+        // dd($permohonan);
+
         return view('siswa.permohonan', [
             'siswa' => $siswa,
             'permohonan' => $permohonan,
@@ -74,7 +76,7 @@ class SiswaController extends Controller
             'alamatPrakerin' => 'required|string',
             'emailPrakerin' => 'required|email',
             'noTelpPrakerin' => 'required|string',
-            'durasi' => 'required|integer|min:1|max:6', // Menambahkan validasi untuk durasi
+            'durasi' => 'required|numeric|min:0.1|max:6', // Menambahkan validasi untuk durasi
         ], [
             'tempatPrakerin.required' => '*Nama Tempat Prakerin wajib diisi',
             'alamatPrakerin.required' => '*Alamat Tempat Prakerin wajib diisi',

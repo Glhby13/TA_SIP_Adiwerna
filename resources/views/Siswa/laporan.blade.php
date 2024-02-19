@@ -67,10 +67,12 @@
                         <label for="status" class="form-label">Status Laporan</label>
                         <div class="text-field">
                             <input class="form-control" style="font-size: 14px;" type="text" placeholder=""
-                                aria-label="readonly input example" value="{{ $bimbinganSiswa->status }}" readonly>
-                            {{-- <p style="font-size: 10px; color: gray;">*Status setelah laporan diperiksa guru pembimbing</p> --}}
+                                aria-label="readonly input example"
+                                value="{{ $bimbinganSiswa->status == 'Revisi' ? 'Perlu Revisi' : ($bimbinganSiswa->status == 'ACC' ? 'Telah Disetujui' : $bimbinganSiswa->status) }}"
+                                readonly>
                         </div>
                     </div>
+                    
                     <div class="btnlaporan mb-5" style="justify-content: start; display: flex; ">
                         @if ($bimbinganSiswa->status == 'Belum Mengumpulkan')
                             <!-- Tombol Submit -->

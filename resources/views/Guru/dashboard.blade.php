@@ -37,20 +37,6 @@
         });
     </script>
 
-    {{-- <div class="alert alert-success d-flex align-items-center" role="alert" id="notification">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="ms-2 bi bi-check-circle"
-            viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-            <path
-                d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-        </svg>
-        <div style="margin-left: 20px">
-            Selamat datang, {{ isset($guru->name) ? $guru->name : '' }} di Sistem Informasi Prakerin!
-        </div>
-
-        <button class="btn btn-close" aria-label="Close" data-dismis="alert" style="margin-left: auto;"></button>
-    </div> --}}
-
     <div class="card shadow mb-4 " style="background-color: #EEF5FF">
         <div class="card-body mb-1">
             <p style="line-height: 1"><b>SELAMAT DATANG, {{ isset($guru->name) ? $guru->name : '' }}!</b></p>
@@ -88,86 +74,62 @@
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card2 shadow">
-                <div class="card-body">
-                    {{-- <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                            </div>
-                        </div> --}}
-                    <p class="keterangan">Laporan Belum Diperiksa</p>
-                    <div class="circle2">
-                        <p class="data">
-                            {{ count(
-                                array_filter($dataBimbingans, function ($data) {
-                                    return $data['bimbingan']['status'] === 'Sudah Mengumpulkan';
-                                }),
-                            ) }}
-                        </p>
+            <a href="{{ route('guru.pengumpulanlaporan', ['tab' => 'belumdiperiksa']) }}" class="card-link">
+                <div class="card2 shadow">
+                    <div class="card-body">
+                        <p class="keterangan">Laporan Belum Diperiksa</p>
+                        <div class="circle2">
+                            <p class="data">
+                                {{ count(
+                                    array_filter($dataBimbingans, function ($data) {
+                                        return $data['bimbingan']['status'] === 'Sudah Mengumpulkan';
+                                    }),
+                                ) }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card3 shadow">
-                <div class="card-body">
-                    {{-- <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                            </div>
-                        </div> --}}
-                    <p class="keterangan">Laporan Revisi</p>
-                    <div class="circle3">
-                        <p class="data">
-                            {{ count(
-                                array_filter($dataBimbingans, function ($data) {
-                                    return $data['bimbingan']['status'] === 'Revisi';
-                                }),
-                            ) }}
-                        </p>
+            <a href="{{ route('guru.pengumpulanlaporan', ['tab' => 'revisi']) }}" class="card-link">
+                <div class="card3 shadow">
+                    <div class="card-body">
+                        <p class="keterangan">Laporan Perlu Revisi</p>
+                        <div class="circle3">
+                            <p class="data">
+                                {{ count(
+                                    array_filter($dataBimbingans, function ($data) {
+                                        return $data['bimbingan']['status'] === 'Revisi';
+                                    }),
+                                ) }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Pending Requests Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card4 shadow">
-                <div class="card-body">
-                    {{-- <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                            </div>
-                        </div> --}}
-                    <p class="keterangan">Laporan ACC</p>
-                    <div class="circle4">
-                        <p class="data">
-                            {{ count(
-                                array_filter($dataBimbingans, function ($data) {
-                                    return $data['bimbingan']['status'] === 'ACC';
-                                }),
-                            ) }}
-                        </p>
+            <a href="{{ route('guru.pengumpulanlaporan', ['tab' => 'acc']) }}" class="card-link">
+                <div class="card4 shadow">
+                    <div class="card-body">
+                        <p class="keterangan">Laporan Telah Disetujui</p>
+                        <div class="circle4">
+                            <p class="data">
+                                {{ count(
+                                    array_filter($dataBimbingans, function ($data) {
+                                        return $data['bimbingan']['status'] === 'ACC';
+                                    }),
+                                ) }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -209,6 +171,10 @@
                                         Belum Diperiksa
                                     @elseif ($data['bimbingan']->status === 'Belum Mengumpulkan')
                                         Siswa belum mengumpulkan
+                                    @elseif ($data['bimbingan']->status === 'Revisi')
+                                        Perlu Revisi
+                                    @elseif ($data['bimbingan']->status === 'ACC')
+                                        Telah Disetujui
                                     @else
                                         {{ $data['bimbingan']->status }}
                                     @endif

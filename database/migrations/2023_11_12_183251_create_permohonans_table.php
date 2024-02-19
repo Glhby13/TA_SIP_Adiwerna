@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('alamat_tempat_prakerin')->nullable(); //siswa
             $table->string('email_tempat_prakerin')->nullable(); //siswa
             $table->string('telp_tempat_prakerin')->nullable(); //siswa
-            $table->integer('durasi')->nullable(); //siswa
+            $table->float('durasi')->nullable(); //siswa
             $table->string('balasan')->nullable();
             $table->enum('status', ['Mengajukan', 'Diterima', 'Ditolak'])->nullable();
             $table->date('tanggal_mulai')->nullable(); //siswa

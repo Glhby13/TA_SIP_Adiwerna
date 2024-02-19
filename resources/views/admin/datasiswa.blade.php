@@ -307,7 +307,7 @@
                                 <input type="text" class="form-control" name="email" id="email" required>
                             </div>
                             <div class="mb-3" style="color: #000000;">
-                                <label class="form-label">Status</label>
+                                <label class="form-label">Status Prakerin</label>
                                 <input class="form-control" name="status" id="status" type="text"
                                     value="Belum Mendaftar" readonly>
                             </div>
@@ -383,7 +383,7 @@
                                 <th>Kelas</th>
                                 <th>No. Telp</th>
                                 <th>Email</th>
-                                <th>Status</th>
+                                <th>Status Prakerin</th>
                                 <th>Nilai</th>
                                 <th>Action</th>
                             </tr>

@@ -15,6 +15,7 @@ use App\Imports\SiswaImport;
 use App\Imports\GuruImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 
 
@@ -244,6 +245,11 @@ class AdminController extends Controller
             'TPFL' => 'Teknik Pengelasan dan Fabrikasi Logam',
         ];
 
+        // Pengecekan status permohonan
+        if ($dataPermohonan && $dataPermohonan->status === 'Diterima') {
+            return redirect()->back()->with('error', 'Status permohonan sudah Diterima. Tidak dapat mengubah data.');
+        }
+
         return view('admin.permohonanedit', [
             'dataPermohonan' => $dataPermohonan,
             'jurusanMapping' => $jurusanMapping,
@@ -258,7 +264,7 @@ class AdminController extends Controller
             'alamat_tempat_prakerin' => 'string|nullable',
             'email_tempat_prakerin' => 'string|nullable',
             'telp_tempat_prakerin' => 'string|nullable',
-            'durasi' => 'integer|nullable',
+            'durasi' => 'nullable|numeric|min:0.1|max:6',
             'tanggal_mulai' => 'nullable|date_format:d-m-Y',
             'tanggal_selesai' => 'nullable|date_format:d-m-Y',
         ]);
@@ -362,6 +368,7 @@ class AdminController extends Controller
     public function tambahdatasiswa(Request $request)
     {
         try {
+            // Validasi input form
             $validatedData = $request->validate([
                 'NIS' => 'string|nullable',
                 'name' => 'string|nullable',
@@ -371,10 +378,21 @@ class AdminController extends Controller
                 'email' => 'email|nullable',
                 'status' => 'string|nullable',
             ]);
-
+    
+            // Cek duplikasi data berdasarkan NIS, NIP, dan no_admin
+            $duplicateCheck = User::where('NIS', $request->NIS)
+                ->orWhere('NIP', $request->NIP)
+                ->orWhere('no_admin', $request->no_admin)
+                ->exists();
+    
+            // Jika terdapat duplikasi data, tampilkan pesan error
+            if ($duplicateCheck) {
+                return redirect()->back()->with('error', 'Data dengan NIS yang sama sudah ada.');
+            }
+    
             // Buat objek user baru (siswa)
             $siswa = new User;
-
+    
             // Set nilai atribut user (siswa) sesuai dengan data yang diterima dari formulir
             $siswa->NIS = $request->NIS;
             $siswa->name = $request->name;
@@ -383,15 +401,15 @@ class AdminController extends Controller
             $siswa->telp = $request->telp;
             $siswa->email = $request->email;
             $siswa->status = $request->status;
-
+    
             // Simpan data user (siswa) ke dalam database
             $siswa->save();
-
+    
             // Set pesan flash 'success' untuk memberi tahu admin bahwa data berhasil disimpan
             session()->flash('success', 'Data siswa berhasil ditambahkan.');
-
+    
             // Redirect ke halaman yang sesuai, misalnya index siswa
-            return redirect()->route('admin.datasiswa'); // Sesuaikan dengan nama route yang Anda gunakan untuk menampilkan daftar siswa
+            return redirect()->route('admin.datasiswa');
         } catch (QueryException $e) {
             // Tangani kesalahan query jika terjadi, misalnya duplikasi data
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -764,6 +782,17 @@ class AdminController extends Controller
                 'email' => 'email|nullable',
             ]);
 
+            // Cek duplikasi data berdasarkan NIS, NIP, dan no_admin
+            $duplicateCheck = User::where('NIS', $request->NIS)
+                ->orWhere('NIP', $request->NIP)
+                ->orWhere('no_admin', $request->no_admin)
+                ->exists();
+    
+            // Jika terdapat duplikasi data, tampilkan pesan error
+            if ($duplicateCheck) {
+                return redirect()->back()->with('error', 'Data dengan NIP yang sama sudah ada.');
+            }
+            
             // Buat objek user baru (guru)
             $guru = new User;
 
@@ -848,19 +877,19 @@ class AdminController extends Controller
             'telp' => 'string|nullable',
             'email' => 'email|nullable',
         ]);
-
+    
         // Temukan guru berdasarkan ID
         $guru = User::find($id);
-
+    
         // Cek apakah guru ditemukan
         if (!$guru) {
             // Handle jika guru tidak ditemukan, misalnya redirect atau tampilkan pesan error
             return redirect()->back()->with('error', 'Guru tidak ditemukan');
         }
-
+    
         // Cek field yang diubah
         $updatedFields = [];
-
+    
         // Iterasi melalui properti yang validasi lulus
         foreach ($validatedData as $field => $value) {
             if ($request->has($field) && $request->$field != $guru->$field) {
@@ -868,16 +897,32 @@ class AdminController extends Controller
                 $updatedFields[] = $field;
             }
         }
-
+    
+        // Validasi kuota_bimbingan
+        if ($request->has('kuota_bimbingan')) {
+            $kuotaBimbingan = $request->input('kuota_bimbingan');
+    
+            // Hitung jumlah data guru pada tabel bimbingan
+            $jumlahGuruBimbingan = Bimbingan::where('NIP', $guru->NIP)->count();
+    
+            // Validasi kuota_bimbingan
+            if ($kuotaBimbingan < $jumlahGuruBimbingan) {
+                // Handle kesalahan jika kuota_bimbingan kurang dari jumlah guru pada tabel bimbingan
+                $errorMessage = "Kuota bimbingan harus setidaknya $jumlahGuruBimbingan.";
+                return redirect()->back()->with('error', $errorMessage);
+            }
+        }
+    
         // Simpan perubahan
         $guru->save();
-
+    
         if (!empty($updatedFields)) {
             session()->flash('success', 'Data guru pembimbing berhasil diperbarui.');
         }
-
+    
         return redirect()->back();
     }
+
 
     public function datagurusoftdelete($id)
     {
@@ -1339,9 +1384,29 @@ class AdminController extends Controller
 
     public function datapembagianbimbingandelete($id)
     {
-        Bimbingan::where('id', $id)->forceDelete();
-
-        return redirect()->back()->with('success', 'Data pembagian bimbingan berhasil dihapus permanen.');
+        try {
+            // Temukan data bimbingan berdasarkan ID, termasuk yang telah di-soft delete
+            $bimbingan = Bimbingan::withTrashed()->findOrFail($id);
+    
+            // Periksa status siswa
+            $siswa = $bimbingan->siswa;
+    
+            if ($siswa && $siswa->status === 'Sedang Prakerin') {
+                // Jika status siswa "Sedang Prakerin", ubah status menjadi "Sudah Mendaftar"
+                $siswa->update(['status' => 'Sudah Mendaftar']);
+            }
+    
+            // Hapus data bimbingan secara permanen
+            $bimbingan->forceDelete();
+    
+            return redirect()->back()->with('success', 'Data pembagian bimbingan berhasil dihapus permanen.');
+        } catch (ModelNotFoundException $e) {
+            // Tangani jika data tidak ditemukan
+            return redirect()->back()->with('error', 'Data pembagian bimbingan tidak ditemukan.');
+        } catch (\Exception $e) {
+            // Tangani kesalahan umum jika terjadi
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     public function restoredatabimbingan (Request $request, $id)

@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Helpers\\MyHelpers' => $baseDir . '/app/Helpers/MyHelpers.php',
     'App\\Http\\Controllers\\AdminController' => $baseDir . '/app/Http/Controllers/AdminController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DashboardController' => $baseDir . '/app/Http/Controllers/DashboardController.php',
@@ -34,6 +35,7 @@ return array(
     'App\\Models\\Bimbingan' => $baseDir . '/app/Models/Bimbingan.php',
     'App\\Models\\InformasiTempatPrakerin' => $baseDir . '/app/Models/InformasiTempatPrakerin.php',
     'App\\Models\\Jurnalharian' => $baseDir . '/app/Models/Jurnalharian.php',
+    'App\\Models\\Kegiatanprakerin' => $baseDir . '/app/Models/Kegiatanprakerin.php',
     'App\\Models\\Permohonan' => $baseDir . '/app/Models/Permohonan.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
@@ -170,6 +172,7 @@ return array(
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\DummyInformasiTempatPrakerinSeeder' => $baseDir . '/database/seeders/DummyInformasiTempatPrakerinSeeder.php',
+    'Database\\Seeders\\DummyKegiatanPrakerinSeeder' => $baseDir . '/database/seeders/DummyKegiatanPrakerinSeeder.php',
     'Database\\Seeders\\DummyUsersSeeder' => $baseDir . '/database/seeders/DummyUsersSeeder.php',
     'DateError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
     'DateException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateException.php',

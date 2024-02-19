@@ -70,13 +70,13 @@ class LoginController extends Controller
         // Cek hasil otentikasi
         if ($user) {
             if (Auth::user()->role == 'guru') {
-                return redirect('guru');
+                return redirect('guru/dashboard');
             } elseif (Auth::user()->role == 'siswa') {
                 // Jika role siswa
-                return redirect('siswa');
+                return redirect('siswa/dashboard');
             } elseif (Auth::user()->role == 'admin') {
                 // Jika role admin
-                return redirect('admin');
+                return redirect('admin/dashboard');
             }
         } else {
             return redirect('/login')->withErrors(['login' => '*NIS/NIP dan password yang dimasukkan tidak sesuai'])->withInput();

@@ -226,7 +226,7 @@
                                     value="{{ $siswa->email }}">
                             </div>
                             <div class="row mb-4">
-                                <label class="form-label">Status</label>
+                                <label class="form-label">Status Prakerin</label>
                                 <input class="form-control" name="status" id="status2" type="text" value="{{ $siswa->status }}" readonly>
                             </div>
                             <div class="row mb-4">

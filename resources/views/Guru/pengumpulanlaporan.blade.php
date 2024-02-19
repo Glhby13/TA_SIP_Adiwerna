@@ -86,10 +86,10 @@
                     Diperiksa</a>
             </li>
             <li class="nav-item">
-                <a href="#revisi" data-target="#revisi" data-toggle="tab" class="nav-link ">Revisi</a>
+                <a href="#revisi" data-target="#revisi" data-toggle="tab" class="nav-link ">Perlu Revisi</a>
             </li>
             <li class="nav-item">
-                <a href="#acc" data-target="#acc" data-toggle="tab" class="nav-link ">ACC</a>
+                <a href="#acc" data-target="#acc" data-toggle="tab" class="nav-link ">Telah Disetujui</a>
             </li>
         </ul>
         <div id="tabscontent" class="tab-content tab-border rounded">
@@ -168,7 +168,7 @@
                                                                         font-family: Poppins;">Revisi</button>
                                                                     <button type="submit" class="btn ml-2" name="btnACC"
                                                                         style="background-color: #44B158; color: #ffffff; font-size: 16px; 
-                                                                        font-family: Poppins;">ACC</button>
+                                                                        font-family: Poppins;">Setujui</button>
                                                                     </div>
                                                                     </form>
                                                                 </div>
@@ -189,7 +189,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <p class="sub-judul m-0">
-                            Laporan Revisi
+                            Laporan Perlu Revisi
                         </p>
                     </div>
                     <div class="card-body">
@@ -234,7 +234,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <p class="sub-judul m-0">
-                            Laporan ACC
+                            Laporan Telah Disetujui
                         </p>
                     </div>
                     <div class="card-body">
@@ -305,7 +305,7 @@
                                                                         font-family: Poppins;">Revisi</button>
                                                                     <button type="submit" class="btn ml-2" name="btnACC"
                                                                         style="background-color: #44B158; color: #ffffff; font-size: 16px; 
-                                                                        font-family: Poppins;">ACC</button>
+                                                                        font-family: Poppins;">Setujui</button>
                                                                     </div>
                                                                     </form>
                                                                 </div>
@@ -356,5 +356,18 @@
             initializeDataTable(initialTab);
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+        // Mendapatkan nilai parameter 'tab' dari URL
+        var tab = "{{ request()->query('tab', 'belumdiperiksa') }}";
+
+        // Menampilkan tab sesuai dengan nilai parameter 'tab'
+        $('#tabs a[href="#' + tab + '"]').tab('show');
+
+        // Mengubah URL tanpa menambahkan parameter 'tab'
+        history.replaceState(null, null, window.location.pathname);
+    });
+</script>
 @endsection
 

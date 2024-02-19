@@ -183,8 +183,8 @@
                                                                     </div>
                                                                     <div class="mb-3" style="color: #000000;">
                                                                         <label class="form-label">Nilai Laporan</label>
-                                                                        <input type="text" class="form-control" name="nilai" pattern="[0-9]+"  id="nilai" value="{{ $data['siswa']->nilai }}" required>
-                                                                    </div>
+                                                                        <input type="number" class="form-control" name="nilai" id="nilai" value="{{ $data['siswa']->nilai }}" required max="100">
+                                                                    </div>                                                                    
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn" id="resetButton"

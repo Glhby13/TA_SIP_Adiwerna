@@ -121,10 +121,10 @@
                                 id="tempatPrakerin" name="tempatPrakerin"
                                 {{ $siswa->status !== 'Belum Mendaftar' && $siswa->status !== null ? 'readonly' : '' }}>
                         </div>
+                        @error('tempatPrakerin')
+                            <div style="color: red; font-size: 12px">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('tempatPrakerin')
-                        <div style="color: red; font-size: 12px">{{ $message }}</div>
-                    @enderror
                     <div class="row mb-4">
                         <label for="Alamat" class="form-label">Alamat Tempat Prakerin</label>
                         <div class="text-field">
@@ -171,17 +171,21 @@
                             <select class="form-select" style="font-size: 14px;" id="durasi" name="durasi"
                                 @if ($siswa->status !== 'Belum Mendaftar') disabled @endif>
                                 <option value="" disabled selected>- Pilih Durasi -</option>
-                                @for ($i = 1; $i <= 6; $i++)
-                                    <option value="{{ $i }}" @if (old('durasi') == $i || ($siswa->status !== 'Belum Mendaftar' && $permohonan->durasi == $i)) selected @endif>
-                                        {{ $i }} bulan
+                                @php
+                                    $options = [1, 1.5, 2, 2.5, 3, 4, 5, 6];
+                                @endphp
+                                @foreach ($options as $option)
+                                    <option value="{{ $option }}" @if (old('durasi') == $option || ($siswa->status !== 'Belum Mendaftar' && $permohonan->durasi == $option)) selected @endif>
+                                        {{ $option }} bulan
                                     </option>
-                                @endfor
+                                @endforeach
                             </select>
                         </div>
                         @error('durasi')
                             <div style="color: red; font-size: 12px">{{ $message }}</div>
                         @enderror
                     </div>
+                    
 
 
 
@@ -194,26 +198,27 @@
                         @endif
                     </div>
         </form>
-        @if ($siswa->status !== 'Belum Mendaftar')
-            <form action="{{ route('balasan.permohonan') }}" method="POST">
-                @csrf
-                <div class="row mb-4">
-                    <label for="balasanPrakerin" class="form-label">Balasan Tempat Prakerin</label>
-                    <div class="text-field">
-                        <input class="form-control" style="font-size: 14px;" type="text"
-                            placeholder="{{ $permohonan->balasan ?? 'Masukkan link drive' }}" id="balasanPrakerin" name="balasanPrakerin"
-                            {{ $permohonan->balasan ? 'readonly' : '' }}>
-                    </div>
+        @if ($siswa->status !== 'Belum Mendaftar' && $permohonan->tanggal_mulai && $permohonan->tanggal_selesai)
+        <form action="{{ route('balasan.permohonan') }}" method="POST">
+            @csrf
+            <div class="row mb-4">
+                <label for="balasanPrakerin" class="form-label">Balasan Tempat Prakerin</label>
+                <div class="text-field">
+                    <input class="form-control" style="font-size: 14px;" type="text"
+                        placeholder="{{ $permohonan->balasan ?? 'Masukkan link drive' }}" id="balasanPrakerin" name="balasanPrakerin"
+                        {{ $permohonan->balasan ? 'readonly' : '' }}>
                 </div>
-
-                @if (!$permohonan->balasan)
-                    <div class="btnpermohonan" style="justify-content: end; display: flex">
-                        <button type="submit" class="btn"
-                            style="background-color: #44B158; color: #ffffff;">Submit</button>
-                    </div>
-                @endif
-            </form>
-        @endif
+            </div>
+    
+            @if (!$permohonan->balasan)
+                <div class="btnpermohonan" style="justify-content: end; display: flex">
+                    <button type="submit" class="btn"
+                        style="background-color: #44B158; color: #ffffff;">Submit</button>
+                </div>
+            @endif
+        </form>
+    @endif
+    
     </div>
     @if (session('success'))
         <div class="alert alert-success alert-floating">
